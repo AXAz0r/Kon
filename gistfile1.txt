@@ -65,7 +65,9 @@ async def delline(ctx, *, msg: str):
 
 @bot.command(pass_context=True)
 async def raidban(ctx, *, msg: str):
-    if ctx.message.author.id == '208974392644861952':
+    managers = ['208974392644861952', '160465236472758274', '138069053477617664',
+                '111000225266548736', '151427387509178369', '174990003443728384']
+    if ctx.message.author.id in managers:
         a = open('dir/raidbans.txt', 'a')
         a.write(msg + '\n')
         a.close()
@@ -89,7 +91,9 @@ async def raidbans():
 
 @bot.command(pass_context=True)
 async def unraidban(ctx, *, msg: str):
-    if ctx.message.author.id == '208974392644861952':
+    managers = ['208974392644861952', '160465236472758274', '138069053477617664',
+                '111000225266548736', '151427387509178369', '174990003443728384']
+    if ctx.message.author.id in managers:
         fn = 'dir/raidbans.txt'
         a = open(fn)
         output = []
@@ -114,6 +118,7 @@ async def help():
     embed = discord.Embed(title="❔ Hi! I can add your name to the Student Requests list!", color=0xA5FFF6)
     embed.description = 'Type `.apply YourIGN YourRegion` to be added to the list.\n' \
                         'Type `.requests` to get the current Student Requests list.\n' \
+                        'Type `.commands` to get a list of my commands and their uses.\n' \
                         'If you\'d like your name removed, please ping Shifty9#0995. 💕'
     await bot.say(embed=embed)
 
@@ -140,10 +145,10 @@ async def commands():
 
 
 @bot.command()
-async def sleep(message):
-        tmp = await bot.say("`(≧Д≦)` No!!!")
-        await asyncio.sleep(3)
-        await bot.edit_message(tmp, "Fine...")
+async def sleep():
+    tmp = await bot.say("`(≧Д≦)` No!!!")
+    await asyncio.sleep(3)
+    await bot.edit_message(tmp, "Fine...")
 
 
 bot.run("token_removed", bot=True)
