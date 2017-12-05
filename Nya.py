@@ -264,7 +264,7 @@ async def sleep():
 
 @bot.command()
 async def gist():
-    embed = discord.Embed(title=':information_source: GitHub for Nya:')
+    embed = discord.Embed(title=':information_source: GitHub for Nya:', color=0xA5FFF6)
     embed.description = 'https://gist.github.com/Shifty6/ab5ba64dae65b9e915203f225ee98f17'
     await bot.say(embed=embed)
 
