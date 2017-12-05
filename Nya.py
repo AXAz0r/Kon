@@ -242,14 +242,14 @@ async def purge(ctx, number):
             amount = number
         else:
             amount = number - 1
-        logmsg = discord.Embed(color=0xA5FFF6)
+        logmsg = discord.Embed(title='', color=0xA5FFF6)
         logmsg.add_field(name='🗑️ A channel was purged',
                          value=f'**Purge Details:**\n'
                                f'Channel: <#%s>\n'
                                f'User: <@%s>\n'
                                f'Amount: %s Messages' % (ctx.message.channel.id, ctx.message.author.id, amount),
                          inline=True)
-        logmsg.set_footer(text=f'ChannelID: %s' % ctx.message.channel.id,)
+        logmsg.set_footer(text=f'ChannelID: %s' % ctx.message.channel.id, )
         chn = bot.get_channel('302665883849850881')
         await ctx.bot.send_message(chn, embed=logmsg)
         response = discord.Embed(title=f'✅ {amount} Messages Gone!', color=0xA5FFF6)
@@ -268,7 +268,7 @@ async def sleep():
 @bot.command()
 async def gist():
     embed = discord.Embed(title=':information_source: GitHub for Nya:', color=0xA5FFF6)
-    embed.description = 'https://gist.github.com/Shifty6/ab5ba64dae65b9e915203f225ee98f17'
+    embed.description = 'https://github.com/Shifty6/Nya'
     await bot.say(embed=embed)
 
 
