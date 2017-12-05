@@ -242,7 +242,7 @@ async def purge(ctx, number):
             amount = number
         else:
             amount = number - 1
-        logmsg = discord.Embed(title='', color=0xA5FFF6)
+        logmsg = discord.Embed(color=0xA5FFF6)
         logmsg.add_field(name='🗑️ A channel was purged',
                          value=f'**Purge Details:**\n'
                                f'Channel: <#%s>\n'
