@@ -21,7 +21,7 @@ async def on_ready():
 @commands.cooldown(1, 10, commands.BucketType.user)
 async def apply(ctx, *, msg: str):
     if ctx.message.channel.id == '376194194001100811':
-        a = open('dir/lists/requests.txt', 'a')
+        a = open('lists/requests.txt', 'a')
         a.write(msg + '\n')
         a.close()
         embed = discord.Embed(title="✅ I put you on the 'Student Requests' list!", color=0xA5FFF6)
@@ -33,7 +33,7 @@ async def apply(ctx, *, msg: str):
 @bot.command(pass_context=True)
 async def requests(ctx):
     if ctx.message.channel.id == '376194194001100811':
-        with open('dir/lists/requests.txt', 'r') as file:
+        with open('lists/requests.txt', 'r') as file:
             a = file.read()
         embed = discord.Embed(title="**Student Requests:**", color=0xA5FFF6)
         embed.description = ('%s' % a)
@@ -50,7 +50,7 @@ async def requests(ctx):
 @bot.command(pass_context=True)
 async def delline(ctx, *, msg: str):
     if ctx.message.author.id == '208974392644861952':
-        fn = 'dir/lists/requests.txt'
+        fn = 'lists/requests.txt'
         a = open(fn)
         output = []
         for line in a:
@@ -89,7 +89,7 @@ async def raidban(ctx, *, msg: str):
 
 @bot.command()
 async def raidbans():
-    with open('dir/lists/raidbans.txt', 'r') as myfile:
+    with open('lists/raidbans.txt', 'r') as myfile:
         a = myfile.read()
     embed = discord.Embed(title="**Raid Bans:**", color=0xA5FFF6)
     embed.description = ('%s' % a)
@@ -107,7 +107,7 @@ async def unraidban(ctx, *, msg: str):
     if not allow:
         response = discord.Embed(title='⛔ Access Denied. Administrator needed.', color=0xBE1931)
     else:
-        fn = 'dir/lists/raidbans.txt'
+        fn = 'lists/raidbans.txt'
         a = open(fn)
         output = []
         for line in a:
@@ -126,7 +126,7 @@ async def unraidban(ctx, *, msg: str):
 @bot.command(pass_context=True)
 async def addmentor(ctx, *, msg: str):
     if ctx.message.author.id == '208974392644861952':
-        a = open('dir/lists/mentors.txt', 'a')
+        a = open('lists/mentors.txt', 'a')
         a.write(msg + '\n')
         a.close()
         mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
@@ -139,14 +139,14 @@ async def addmentor(ctx, *, msg: str):
 
 @bot.command()
 async def mentors():
-    with open('dir/lists/mentors.txt', 'r') as myfile:
+    with open('lists/mentors.txt', 'r') as myfile:
         a = myfile.read()
     embed = discord.Embed(title="**Mentors:**", color=0xA5FFF6)
     embed.description = ('%s' % a)
     embed1 = discord.Embed(description="```Mentors are there to help\n"
                                        "anyone who needs it. Check\n"
                                        "to see if any of the following\n"
-                                       "mentors are online to assist```", color=0xA5FFF6)
+                                       "mentors are online to assist.```", color=0xA5FFF6)
     await bot.say(embed=embed1)
     await bot.say(embed=embed)
 
@@ -154,7 +154,7 @@ async def mentors():
 @bot.command(pass_context=True)
 async def delmentor(ctx, *, msg: str):
     if ctx.message.author.id == '208974392644861952':
-        fn = 'dir/lists/mentors.txt'
+        fn = 'lists/mentors.txt'
         a = open(fn)
         output = []
         for line in a:
