@@ -12,7 +12,8 @@ bot.remove_command('help')
 @bot.event
 async def on_ready():
     embed = discord.Embed(title="I'm awake! I'm Nya 💕", color=0xA5FFF6)
-    await bot.send_message(discord.Object(id='376194194001100811'), embed=embed)
+    chn = bot.get_channel('376194194001100811')
+    await bot.send_message(chn, embed=embed)
     await bot.change_presence(game=discord.Game(name='^help for help'))
 
 
@@ -80,8 +81,8 @@ async def raidban(ctx, *, msg: str):
         a = open('dir/lists/raidbans.txt', 'a')
         a.write(msg + '\n')
         a.close()
-        raidban = discord.utils.get(ctx.message.server.roles, name='Raid Banned')
-        await ctx.bot.add_roles(ctx.message.mentions[0], raidban)
+        raidban_role = discord.utils.get(ctx.message.server.roles, name='Raid Banned')
+        await ctx.bot.add_roles(ctx.message.mentions[0], raidban_role)
         response = discord.Embed(title="✅ Raid Banned!", color=0xA5FFF6)
         await ctx.bot.say(embed=response)
 
@@ -116,8 +117,8 @@ async def unraidban(ctx, *, msg: str):
         a = open(fn, 'w')
         a.writelines(output)
         a.close()
-        raidban = discord.utils.get(ctx.message.server.roles, name='Raid Banned')
-        await ctx.bot.remove_roles(ctx.message.mentions[0], raidban)
+        raidban_role = discord.utils.get(ctx.message.server.roles, name='Raid Banned')
+        await ctx.bot.remove_roles(ctx.message.mentions[0], raidban_role)
         response = discord.Embed(title="📝 Updated!", color=0xA5FFF6)
     await ctx.bot.say(embed=response)
 
@@ -128,8 +129,8 @@ async def addmentor(ctx, *, msg: str):
         a = open('dir/lists/mentors.txt', 'a')
         a.write(msg + '\n')
         a.close()
-        mentors = discord.utils.get(ctx.message.server.roles, name='Mentors')
-        await bot.add_roles(ctx.message.mentions[0], mentors)
+        mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
+        await bot.add_roles(ctx.message.mentions[0], mentor_role)
         embed = discord.Embed(title="✅ I put them on the 'Mentors' list!", color=0xA5FFF6)
     else:
         embed = discord.Embed(title="⛔ Sorry! I can\'t let you do that.", color=0xA5FFF6)
@@ -163,8 +164,8 @@ async def delmentor(ctx, *, msg: str):
         a = open(fn, 'w')
         a.writelines(output)
         a.close()
-        mentors = discord.utils.get(ctx.message.server.roles, name='Mentors')
-        await bot.remove_roles(ctx.message.mentions[0], mentors)
+        mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
+        await bot.remove_roles(ctx.message.mentions[0], mentor_role)
         embed = discord.Embed(title="📝 Updated!", color=0xA5FFF6)
     else:
         embed = discord.Embed(title="⛔ Sorry! I can\'t let you do that.", color=0xA5FFF6)
