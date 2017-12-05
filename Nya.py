@@ -248,7 +248,8 @@ async def purge(ctx, number):
                                f'Amount: %s Messages' % (ctx.message.channel.id, ctx.message.author.id, amount),
                          inline=True)
         logmsg.set_footer(text=f'ChannelID: %s' % ctx.message.channel.id,)
-        await ctx.bot.send_message(discord.Object(id='302665883849850881'), embed=logmsg)
+        chn = bot.get_channel('302665883849850881')
+        await ctx.bot.send_message(chn, embed=logmsg)
         response = discord.Embed(title=f'✅ {amount} Messages Gone!', color=0xA5FFF6)
         del_response = await ctx.bot.say(embed=response)
         await asyncio.sleep(3)
