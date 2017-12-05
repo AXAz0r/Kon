@@ -33,17 +33,18 @@ async def apply(ctx, *, msg: str):
 @bot.command(pass_context=True)
 async def requests(ctx):
     if ctx.message.channel.id == '376194194001100811':
+        allow = True
+    elif ctx.message.author.id == '208974392644861952':
+        allow = True
+    else:
+        allow = False
+    if not allow:
+        embed = discord.Embed(title="⛔ Sorry! Please use the mentor-chat channel for that command.", color=0xA5FFF6)
+    else:
         with open('lists/requests.txt', 'r') as file:
             a = file.read()
         embed = discord.Embed(title="**Student Requests:**", color=0xA5FFF6)
         embed.description = ('%s' % a)
-    elif ctx.message.author.id == '208974392644861952':
-        with open('dir/lists/requests.txt', 'r') as file:
-            a = file.read()
-        embed = discord.Embed(title="**Student Requests:**", color=0xA5FFF6)
-        embed.description = ('%s' % a)
-    else:
-        embed = discord.Embed(title="⛔ Sorry! Please use the mentor-chat channel for that command.", color=0xA5FFF6)
     await bot.say(embed=embed)
 
 
