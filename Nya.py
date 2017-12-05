@@ -64,7 +64,7 @@ async def delline(ctx, *, msg: str):
         a.close()
         embed = discord.Embed(title="📝 Updated!", color=0xA5FFF6)
     else:
-        embed = discord.Embed(title="⛔ Sorry! I can\'t let you do that.", color=0xA5FFF6)
+        embed = discord.Embed(title="⛔ Access Denied. Head Mentor required.", color=0xA5FFF6)
     await bot.say(embed=embed)
 
 
@@ -77,7 +77,7 @@ async def raidban(ctx, *, msg: str):
     else:
         allow = False
     if not allow:
-        response = discord.Embed(title='⛔ Access Denied. Administrator needed.', color=0xBE1931)
+        response = discord.Embed(title='⛔ Access Denied. Administrator required.', color=0xBE1931)
         await ctx.bot.say(embed=response)
     else:
         a = open('dir/lists/raidbans.txt', 'a')
@@ -107,7 +107,7 @@ async def unraidban(ctx, *, msg: str):
     else:
         allow = False
     if not allow:
-        response = discord.Embed(title='⛔ Access Denied. Administrator needed.', color=0xBE1931)
+        response = discord.Embed(title='⛔ Access Denied. Administrator required.', color=0xBE1931)
     else:
         fn = 'lists/raidbans.txt'
         a = open(fn)
@@ -127,7 +127,8 @@ async def unraidban(ctx, *, msg: str):
 
 @bot.command(pass_context=True)
 async def addmentor(ctx, *, msg: str):
-    if ctx.message.author.id == '208974392644861952':
+    headmentor = ['208974392644861952', '134767479435034624']
+    if ctx.message.author.id in headmentor:
         a = open('lists/mentors.txt', 'a')
         a.write(msg + '\n')
         a.close()
@@ -135,7 +136,7 @@ async def addmentor(ctx, *, msg: str):
         await bot.add_roles(ctx.message.mentions[0], mentor_role)
         embed = discord.Embed(title="✅ I put them on the 'Mentors' list!", color=0xA5FFF6)
     else:
-        embed = discord.Embed(title="⛔ Sorry! I can\'t let you do that.", color=0xA5FFF6)
+        embed = discord.Embed(title="⛔ Access Denied. Head Mentor required.", color=0xA5FFF6)
     await bot.say(embed=embed)
 
 
@@ -155,7 +156,8 @@ async def mentors():
 
 @bot.command(pass_context=True)
 async def delmentor(ctx, *, msg: str):
-    if ctx.message.author.id == '208974392644861952':
+    headmentor = ['208974392644861952', '134767479435034624']
+    if ctx.message.author.id in headmentor:
         fn = 'lists/mentors.txt'
         a = open(fn)
         output = []
@@ -170,7 +172,7 @@ async def delmentor(ctx, *, msg: str):
         await bot.remove_roles(ctx.message.mentions[0], mentor_role)
         embed = discord.Embed(title="📝 Updated!", color=0xA5FFF6)
     else:
-        embed = discord.Embed(title="⛔ Sorry! I can\'t let you do that.", color=0xA5FFF6)
+        embed = discord.Embed(title="⛔ Access Denied. Head Mentor required.", color=0xA5FFF6)
     await bot.say(embed=embed)
 
 
@@ -228,7 +230,7 @@ async def purge(ctx, number):
     else:
         allow = False
     if not allow:
-        response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xA5FFF6)
+        response = discord.Embed(title='⛔ Access Denied. Manage Messages required.', color=0xA5FFF6)
         await ctx.bot.say(embed=response)
     else:
         mgs = []
