@@ -224,7 +224,7 @@ async def purge(ctx, number):
     else:
         allow = False
     if not allow:
-        response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
+        response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xA5FFF6)
         await ctx.bot.say(embed=response)
     else:
         mgs = []
