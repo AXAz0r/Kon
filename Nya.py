@@ -1,7 +1,6 @@
 import discord
 import asyncio
 import logging
-import secrets
 from discord.ext import commands
 
 logging.basicConfig(level=logging.INFO)
@@ -14,7 +13,7 @@ bot.remove_command('help')
 async def on_ready():
     embed = discord.Embed(title="I'm awake! I'm Nya 💕", color=0xA5FFF6)
     await bot.send_message(discord.Object(id='376194194001100811'), embed=embed)
-    await bot.change_presence(game=discord.Game(name='.help for help'))
+    await bot.change_presence(game=discord.Game(name='^help for help'))
 
 
 @bot.command(pass_context=True)
@@ -33,6 +32,11 @@ async def apply(ctx, *, msg: str):
 @bot.command(pass_context=True)
 async def requests(ctx):
     if ctx.message.channel.id == '376194194001100811':
+        with open('dir/lists/requests.txt', 'r') as file:
+            a = file.read()
+        embed = discord.Embed(title="**Student Requests:**", color=0xA5FFF6)
+        embed.description = ('%s' % a)
+    elif ctx.message.author.id == '208974392644861952':
         with open('dir/lists/requests.txt', 'r') as file:
             a = file.read()
         embed = discord.Embed(title="**Student Requests:**", color=0xA5FFF6)
@@ -63,18 +67,23 @@ async def delline(ctx, *, msg: str):
 
 @bot.command(pass_context=True)
 async def raidban(ctx, *, msg: str):
-    managers = ['208974392644861952', '160465236472758274', '138069053477617664',
-                '111000225266548736', '151427387509178369', '174990003443728384']
-    if ctx.message.author.id in managers:
+    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        allow = True
+    elif ctx.message.author.id == '208974392644861952':
+        allow = True
+    else:
+        allow = False
+    if not allow:
+        response = discord.Embed(title='⛔ Access Denied. Administrator needed.', color=0xBE1931)
+        await ctx.bot.say(embed=response)
+    else:
         a = open('dir/lists/raidbans.txt', 'a')
         a.write(msg + '\n')
         a.close()
         raidban = discord.utils.get(ctx.message.server.roles, name='Raid Banned')
-        await bot.add_roles(ctx.message.mentions[0], raidban)
-        embed = discord.Embed(title="✅ Raid Banned!", color=0xA5FFF6)
-    else:
-        embed = discord.Embed(title="⛔ Sorry! I can\'t let you do that.", color=0xA5FFF6)
-    await bot.say(embed=embed)
+        await ctx.bot.add_roles(ctx.message.mentions[0], raidban)
+        response = discord.Embed(title="✅ Raid Banned!", color=0xA5FFF6)
+        await ctx.bot.say(embed=response)
 
 
 @bot.command()
@@ -88,9 +97,15 @@ async def raidbans():
 
 @bot.command(pass_context=True)
 async def unraidban(ctx, *, msg: str):
-    managers = ['208974392644861952', '160465236472758274', '138069053477617664',
-                '111000225266548736', '151427387509178369', '174990003443728384']
-    if ctx.message.author.id in managers:
+    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        allow = True
+    elif ctx.message.author.id == '208974392644861952':
+        allow = True
+    else:
+        allow = False
+    if not allow:
+        response = discord.Embed(title='⛔ Access Denied. Administrator needed.', color=0xBE1931)
+    else:
         fn = 'dir/lists/raidbans.txt'
         a = open(fn)
         output = []
@@ -102,11 +117,9 @@ async def unraidban(ctx, *, msg: str):
         a.writelines(output)
         a.close()
         raidban = discord.utils.get(ctx.message.server.roles, name='Raid Banned')
-        await bot.remove_roles(ctx.message.mentions[0], raidban)
-        embed = discord.Embed(title="📝 Updated!", color=0xA5FFF6)
-    else:
-        embed = discord.Embed(title="⛔ Sorry! I can\'t let you do that.", color=0xA5FFF6)
-    await bot.say(embed=embed)
+        await ctx.bot.remove_roles(ctx.message.mentions[0], raidban)
+        response = discord.Embed(title="📝 Updated!", color=0xA5FFF6)
+    await ctx.bot.say(embed=response)
 
 
 @bot.command(pass_context=True)
@@ -204,7 +217,16 @@ async def prefix():
 
 @bot.command(pass_context=True)
 async def purge(ctx, number):
-    if ctx.message.author.id == '208974392644861952':
+    if ctx.message.author.permissions_in(ctx.message.channel).manage_messages:
+        allow = True
+    elif ctx.message.author.id == '208974392644861952':
+        allow = True
+    else:
+        allow = False
+    if not allow:
+        response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
+        await ctx.bot.say(embed=response)
+    else:
         mgs = []
         number = int(number) + 1
         if number > 100:
@@ -216,13 +238,19 @@ async def purge(ctx, number):
             amount = number
         else:
             amount = number - 1
+        logmsg = discord.Embed(title='', color=0xA5FFF6)
+        logmsg.add_field(name='🗑️ A channel was purged',
+                         value=f'**Purge Details:**\n'
+                               f'Channel: <#%s>\n'
+                               f'User: <@%s>\n'
+                               f'Amount: %s Messages' % (ctx.message.channel.id, ctx.message.author.id, amount),
+                         inline=True)
+        logmsg.set_footer(text=f'ChannelID: %s' % ctx.message.channel.id,)
+        await ctx.bot.send_message(discord.Object(id='302665883849850881'), embed=logmsg)
         response = discord.Embed(title=f'✅ {amount} Messages Gone!', color=0xA5FFF6)
-        del_response = await bot.say(embed=response)
+        del_response = await ctx.bot.say(embed=response)
         await asyncio.sleep(3)
-        await bot.delete_message(del_response)
-    else:
-        embed = discord.Embed(title="⛔ Sorry! I can\'t let you do that.", color=0xA5FFF6)
-        await bot.say(embed=embed)
+        await ctx.bot.delete_message(del_response)
 
 
 @bot.command()
