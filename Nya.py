@@ -49,7 +49,8 @@ async def requests(ctx):
 
 @bot.command(pass_context=True)
 async def delline(ctx, *, msg: str):
-    if ctx.message.author.id == '208974392644861952':
+    headmentor = ['208974392644861952', '134767479435034624']
+    if ctx.message.author.id in headmentor:
         fn = 'lists/requests.txt'
         a = open(fn)
         output = []
