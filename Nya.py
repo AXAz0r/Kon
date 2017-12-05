@@ -203,6 +203,7 @@ async def commands():
                                       "- commands - View a list of the commands.\n"
                                       "- prefix - View the current command prefix.\n"
                                       "- purge - Delete a specified number of messages.**\n"
+                                      "- gist - View the GitHub link for Nya's source code\n"
                                       "- sleep - Tell Nya to go to sleep.\n\n"
                                       "[*] = Admins only.\n"
                                       "[**] = Shifty9 only.```", color=0xA5FFF6)
@@ -258,6 +259,13 @@ async def sleep():
     tmp = await bot.say("`(≧Д≦)` No!!!")
     await asyncio.sleep(3)
     await bot.edit_message(tmp, "Fine...")
+
+
+@bot.command()
+async def gist():
+    embed = discord.Embed(title=':information_source: GitHub for Nya:')
+    embed.description = 'https://gist.github.com/Shifty6/ab5ba64dae65b9e915203f225ee98f17'
+    await bot.say(embed=embed)
 
 
 bot.run("token_removed", bot=True)
