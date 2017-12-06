@@ -289,12 +289,12 @@ async def vote(ctx, msg: str):
             allow = False
         if allow:
             chnlist = ['368859804476768257', '368859607042621440', '368859963503804426',
-                       '363428989165109248', '368860251199635456', '368860128952188928', '387784554162946058']
+                       '363428989165109248', '368860251199635456', '368860128952188928']
             if ctx.message.channel.id in chnlist:
-                allw = True
+                allow = True
             else:
-                allw = False
-            if allw:
+                allow = False
+            if allow:
                 with open('lists/voters.txt', 'r') as file:
                     a = file.read()
                 if not '%s' % ctx.message.author.id in a:
@@ -404,10 +404,10 @@ async def vote2(ctx, msg: str):
             allow = False
         if allow:
             if ctx.message.channel.id == '366417753399230485':
-                allw = True
+                allow = True
             else:
-                allw = False
-            if allw:
+                allow = False
+            if allow:
                 with open('lists/voters.txt', 'r') as file:
                     a = file.read()
                 if not '%s' % ctx.message.author.id in a:
