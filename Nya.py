@@ -11,6 +11,9 @@ bot.remove_command('help')
 
 @bot.event
 async def on_ready():
+    embed = discord.Embed(title="I'm awake! I'm Nya 💕", color=0xA5FFF6)
+    chn = bot.get_channel('376194194001100811')
+    await bot.send_message(chn, embed=embed)
     await bot.change_presence(game=discord.Game(name='^help for help'))
 
 
@@ -213,18 +216,11 @@ async def commands():
                                       "#Other commands\n"
                                       "- help - View help for the Mentor commands.\n"
                                       "- commands - View a list of the commands.\n"
-                                      "- prefix - View the current command prefix.\n"
                                       "- purge - Delete a specified number of messages.\n"
-                                      "- github - View the GitHub link for Nya's source code\n"
+                                      "- github - View the GitHub link for Nya's source code.\n"
                                       "- sleep - Tell Nya to go to sleep.\n\n"
                                       "[*] = Admins only.\n"
                                       "[**] = Shifty9 only.```", color=0xA5FFF6)
-    await bot.say(embed=embed)
-
-
-@bot.command()
-async def prefix():
-    embed = discord.Embed(title='Prefix: `^`', color=0xA5FFF6)
     await bot.say(embed=embed)
 
 
