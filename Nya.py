@@ -181,7 +181,8 @@ async def help():
     embed = discord.Embed(title="❔ Hi! I can add your name to the Student Requests list!", color=0xA5FFF6)
     embed.description = 'Type `^apply YourIGN YourRegion` to be added to the list.\n' \
                         'Type `^requests` to get the current Student Requests list.\n' \
-                        'Type `^commands` to get a list of my commands and their uses.\n' \
+                        'Type `^mentors` to get a list of the current Mentors.\n' \
+                        'Type `^commands` to get a list of my commands and their uses.' \
                         'If you\'d like your name removed, please ping Shifty9#0995. 💕'
     await bot.say(embed=embed)
 
@@ -326,7 +327,7 @@ async def vote(ctx, msg: str):
 
 
 @bot.command(pass_context=True)
-async def changerole2(ctx, msg: str):
+async def changerole(ctx, msg: str):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
         a = open('lists/roles.txt', 'w')
         a.write(msg)
@@ -436,19 +437,7 @@ async def vote2(ctx, msg: str):
         else:
             response = discord.Embed(title='⛔ Access Denied: You do not have the required roles.', color=0xBE1931)
         await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def changerole(ctx, msg: str):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        a = open('lists/roles.txt', 'w')
-        a.write(msg)
-        a.close()
-        response = discord.Embed(title='📝 Role changed!', color=0xA5FFF6)
-    else:
-        response = discord.Embed(title='⛔ Access Denied: Administrator required.', color=0xBE1931)
-    await ctx.bot.say(embed=response)
-
+        
 
 @bot.command(pass_context=True)
 async def votes2(ctx):
