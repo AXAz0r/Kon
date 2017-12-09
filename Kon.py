@@ -894,38 +894,44 @@ async def unpermitu2(ctx):
     await bot.say(embed=response)
 
 
-@bot.command()
-async def perms():
-    with open('permissions/channels.txt', 'r') as file:
-        a = file.read()
-    with open('permissions/roles.txt', 'r') as file:
-        b = file.read()
-    with open('permissions/users.txt', 'r') as file:
-        c = file.read()
-    embed = discord.Embed(title='📊 **Poll permissions:**\n', description='**Channels:**\n'
-                                                                          '%s'
-                                                                          '**Roles:**\n' 
-                                                                          '%s'
-                                                                          '**Users:**\n'
-                                                                          '%s' % (a, b, c), color=0xA5FFF6)
-    await bot.say(embed=embed)
+@bot.command(pass_context=True)
+async def perms(ctx):
+    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        with open('permissions/channels.txt', 'r') as file:
+            a = file.read()
+        with open('permissions/roles.txt', 'r') as file:
+            b = file.read()
+        with open('permissions/users.txt', 'r') as file:
+            c = file.read()
+        response = discord.Embed(title='📊 **Poll permissions:**\n', description='**Channels:**\n'
+                                                                              '%s'
+                                                                              '**Roles:**\n' 
+                                                                              '%s'
+                                                                              '**Users:**\n'
+                                                                              '%s' % (a, b, c), color=0xA5FFF6)
+    else:
+        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+    await bot.say(embed=response)
 
 
-@bot.command()
-async def perms2():
-    with open('permissions/channels2.txt', 'r') as file:
-        a = file.read()
-    with open('permissions/roles2.txt', 'r') as file:
-        b = file.read()
-    with open('permissions/users2.txt', 'r') as file:
-        c = file.read()
-    embed = discord.Embed(title='📊 **Poll permissions:**\n', description='**Channels:**\n'
-                                                                          '%s'
-                                                                          '**Roles:**\n' 
-                                                                          '%s'
-                                                                          '**Users:**\n'
-                                                                          '%s' % (a, b, c), color=0xA5FFF6)
-    await bot.say(embed=embed)
+@bot.command(pass_context=True)
+async def perms2(ctx):
+    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        with open('permissions/channels2.txt', 'r') as file:
+            a = file.read()
+        with open('permissions/roles2.txt', 'r') as file:
+            b = file.read()
+        with open('permissions/users2.txt', 'r') as file:
+            c = file.read()
+        response = discord.Embed(title='📊 **Poll permissions:**\n', description='**Channels:**\n'
+                                                                              '%s'
+                                                                              '**Roles:**\n' 
+                                                                              '%s'
+                                                                              '**Users:**\n'
+                                                                              '%s' % (a, b, c), color=0xA5FFF6)
+    else:
+        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+    await bot.say(embed=response)
 
 
 @bot.command(pass_context=True)
