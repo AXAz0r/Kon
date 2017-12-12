@@ -225,33 +225,24 @@ async def commands(args):
         response = discord.Embed(title="Poll commands\n", description=
                                        "```md\n"
                                        "- vote - Vote 'yes' or 'no' on the current poll.\n"
-                                       "- votes - Returns the results of the current primary poll.*\n"
-                                       "- voters - Returns a list of users who voted on the current primary\npoll.*\n"
-                                       "- clrvotes - Deletes all data pertaining to the current primary poll.*\n"
-                                       "- changerole - Changes the role required to vote on the primary poll.*\n"
-                                       "- vote2 - Vote 'yes' or 'no' on the current secondary poll.\n"
-                                       "- votes2 - Returns the results of the current secondary poll.*\n"
-                                       "- voters2 - Returns a list of users who voted on the current\nsecondary poll.*\n"
-                                       "- clrvotes2 - Deletes all data pertaining to the current secondary\npoll.*\n"
-                                       "- register - Registers a permitted user to vote on the primary poll\nin a DM with Kon.\n"
-                                       "- register2 - Registers a permitted user to vote on the secondary\n poll in a DM with Kon.```",
-                                       color=0xA5FFF6)
-    elif module == 'pollperms':
-        response = discord.Embed(title="Poll permission commands\n", description=
-                                       "```md\n"
+                                       "- votes - Returns the results of the current poll.*\n"
+                                       "- voters - Returns a list of users who voted on the current poll.*\n"
+                                       "- clrvotes - Deletes all voting data pertaining to the current poll.*\n"
                                        "- permitc - Allows the primary poll to be voted on in the targeted\nchannel.*\n"
-                                       "- permitr - Permits the specified role name to vote on the primary\npoll.*\n"
-                                       "- permitu - Permits the targeted user to vote on the primary poll.*\n"
-                                       "- unpermitc - Disallows the primary poll to be voted on in the targeted "
+                                       "- permitr - Permits the specified role name to vote on the poll.*\n"
+                                       "- permitu - Permits the targeted user to vote on the poll.*\n"
+                                       "- unpermitc - Revokes permission for the poll to be voted on in the\n targeted "
                                        "channel.*\n"
                                        "- unpermitr - Revokes the specified role name's permission to vote\non the "
-                                       "primary poll.*\n"
-                                       "- unpermitu - Revokes the targeted user's permission to vote on the\nprimary "
                                        "poll.*\n"
-                                       "- perms - Returns the current permissions for the primary poll.*\n"
-                                       "- clrperms - Deletes all the data pertaining to the primary polls\npermissions.*"
-                                       "```",
-                                       color=0xA5FFF6)
+                                       "- unpermitu - Revokes the targeted user's permission to vote on the\npoll.*\n"
+                                       "- perms - Returns the current permissions for the poll.*\n"
+                                       "- register - Registers the message author to vote on the poll in a\n"
+                                       "DM with Kon. Author must be permitted to vote.\n"
+                                       "- clrperms - Deletes all the perms data pertaining to the poll. Also\n"
+                                       "deletes all registered user data\n"
+                                       "```", color=0xA5FFF6)
+        response.set_footer(text=f'all commands in this module have a (2) variant. E.g. ^vote2')
     elif module == 'other':
         response = discord.Embed(title="Other commands\n", description=
                                        "```md\n"
@@ -619,10 +610,9 @@ async def clrvotes(ctx):
         a.write('')
         a.close()
         response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
-        await bot.say(embed=response)
     else:
         response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
+    await bot.say(embed=response)
 
 
 @bot.command(pass_context=True)
@@ -638,10 +628,9 @@ async def clrvotes2(ctx):
         a.write('')
         a.close()
         response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
-        await bot.say(embed=response)
     else:
         response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
+    await bot.say(embed=response)
 
 
 @bot.command(pass_context=True)
@@ -991,6 +980,9 @@ async def perms2(ctx):
 @bot.command(pass_context=True)
 async def clrperms(ctx):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        a = open('permissions/registered.txt', 'w')
+        a.write('')
+        a.close()
         a = open('permissions/channels.txt', 'w')
         a.write('')
         a.close()
@@ -1001,15 +993,17 @@ async def clrperms(ctx):
         a.write('')
         a.close()
         response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
-        await bot.say(embed=response)
     else:
         response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
+    await bot.say(embed=response)
 
 
 @bot.command(pass_context=True)
 async def clrperms2(ctx):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        a = open('permissions/registered2.txt', 'w')
+        a.write('')
+        a.close()
         a = open('permissions/channels2.txt', 'w')
         a.write('')
         a.close()
@@ -1020,10 +1014,9 @@ async def clrperms2(ctx):
         a.write('')
         a.close()
         response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
-        await bot.say(embed=response)
     else:
         response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
+    await bot.say(embed=response)
 
 
 @bot.command(pass_context=True)
