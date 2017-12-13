@@ -189,12 +189,11 @@ async def help():
 
 @bot.command()
 async def modules():
-    embed = discord.Embed(description='**There are 5 modules**\n'
+    embed = discord.Embed(description='**There are 4 modules**\n'
                                       '```yml\n'
                                       '- MENTOR\n'
                                       '- RAIDBAN\n'
                                       '- POLL\n'
-                                      '- POLLPERMS\n'
                                       '- OTHER```', color=0xA5FFF6)
     embed.set_footer(text=f'^commands module_name')
     await bot.say(embed=embed)
@@ -219,7 +218,7 @@ async def commands(args):
                                        "- raidban - Add the targeted user to the 'Raid Banned' list and\nassigns the"
                                        " 'Raid Banned' role to them.*\n"
                                        "- raidbans - Returns the 'Raid Banned' list.\n"
-                                       "- unraidban - Remove the targeted user from the 'Raid Banned' list"
+                                       "- unraidban - Remove the targeted user from the 'Raid Banned' list\n"
                                        "and removes the 'Raid Banned' role from them.*```", color=0xA5FFF6)
     elif module == 'poll':
         response = discord.Embed(title="Poll commands\n", description=
@@ -228,21 +227,20 @@ async def commands(args):
                                        "- votes - Returns the results of the current poll.*\n"
                                        "- voters - Returns a list of users who voted on the current poll.*\n"
                                        "- clrvotes - Deletes all voting data pertaining to the current poll.*\n"
-                                       "- permitc - Allows the primary poll to be voted on in the targeted\nchannel.*\n"
-                                       "- permitr - Permits the specified role name to vote on the poll.*\n"
-                                       "- permitu - Permits the targeted user to vote on the poll.*\n"
-                                       "- unpermitc - Revokes permission for the poll to be voted on in the\n targeted "
-                                       "channel.*\n"
-                                       "- unpermitr - Revokes the specified role name's permission to vote\non the "
-                                       "poll.*\n"
-                                       "- unpermitu - Revokes the targeted user's permission to vote on the\npoll.*\n"
+                                       "- permit c/u - c: permits users to vote in the targeted channel.\nu: permits "
+                                       "the targeted user to vote on the poll.*\n"
+                                       "- permitr r/dm - r: permits the specified role to vote on the poll.*\ndm: "
+                                       "permits the targeted role to vote on the poll via DMs.\n"
+                                       "- unpermit c/u - c: unpermits users to vote in the targeted channel.\nu: "
+                                       "unpermits targeted user to vote on the poll.*\n"
+                                       "- unpermitr r/dm - r: unpermits the specified role to vote on the poll.*\ndm: "
+                                       "unpermits the targeted role to vote on the poll via DMs.\n"
                                        "- perms - Returns the current permissions for the poll.*\n"
                                        "- register - Registers the message author to vote on the poll in a\n"
                                        "DM with Kon. Author must be permitted to vote.\n"
                                        "- clrperms - Deletes all the perms data pertaining to the poll. Also\n"
                                        "deletes all registered user data\n"
                                        "```", color=0xA5FFF6)
-        response.set_footer(text=f'all commands in this module have a (2) variant. E.g. ^vote2')
     elif module == 'other':
         response = discord.Embed(title="Other commands\n", description=
                                        "```md\n"
@@ -317,7 +315,19 @@ async def vote(ctx, msg):
     if ctx.message.channel.is_private:
         with open('permissions/registered.txt', 'r') as file:
             a = file.read()
+        with open('permissions/officers.txt', 'r') as file:
+            b = file.read()
+        with open('permissions/generalsp.txt', 'r') as file:
+            c = file.read()
         if ctx.message.author.id in a:
+            auth = True
+        elif ctx.message.author.id in b:
+            auth = True
+        elif ctx.message.author.id in c:
+            auth = True
+        else:
+            auth = False
+        if auth:
             with open('lists/voters.txt', 'r') as file:
                 a = file.read()
             if ctx.message.author.id not in a:
@@ -396,92 +406,6 @@ async def vote(ctx, msg):
 
 
 @bot.command(pass_context=True)
-async def vote2(ctx, msg):
-    if not ctx.message.channel.is_private:
-        async for x in bot.logs_from(ctx.message.channel, limit=1):
-            await bot.delete_message(x)
-    if ctx.message.channel.is_private:
-        with open('permissions/registered2.txt', 'r') as file:
-            a = file.read()
-        if ctx.message.author.id in a:
-            with open('lists/voters2.txt', 'r') as file:
-                a = file.read()
-            if ctx.message.author.id not in a:
-                if 'yes' in msg:
-                    a = open('lists/yvote2.txt', 'a')
-                    a.write('yes' + '\n')
-                    a.close()
-                    a = open('lists/voters.txt', 'a')
-                    a.write(f'<@{ctx.message.author.id}>' + '\n')
-                    a.close()
-                    response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
-                elif 'no' in msg:
-                    a = open('lists/nvote2.txt', 'a')
-                    a.write('no' + '\n')
-                    a.close()
-                    a = open('lists/voters2.txt', 'a')
-                    a.write(f'<@{ctx.message.author.id}>' + '\n')
-                    a.close()
-                    response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
-                else:
-                    response = discord.Embed(title="❗ Vote must contain 'yes' or 'no'", color=0xBE1931)
-            else:
-                response = discord.Embed(title='⛔ Sorry! You already voted', color=0xBE1931)
-        else:
-            response = discord.Embed(title='⛔ You must register on the server to vote in a DM', color=0xBE1931)
-    else:
-        with open('permissions/channels2.txt', 'r') as file:
-            a = file.read()
-        if ctx.message.channel.id in a:
-            channel = True
-        else:
-            channel = False
-        with open('permissions/users2.txt', 'r') as file:
-            a = file.read()
-        if ctx.message.author.id in a:
-            user = True
-        else:
-            user = False
-        with open('permissions/roles2.txt') as file:
-            a = file.read()
-        tmp = [y.id for y in ctx.message.author.roles]
-        for line in tmp:
-            if line in a:
-                role = True
-        if channel:
-            try:
-                if user or role:
-                    with open('lists/voters2.txt', 'r') as file:
-                        a = file.read()
-                    if ctx.message.author.id not in a:
-                        if 'yes' in msg:
-                            a = open('lists/yvote2.txt', 'a')
-                            a.write('yes' + '\n')
-                            a.close()
-                            a = open('lists/voters2.txt', 'a')
-                            a.write(f'<@{ctx.message.author.id}>' + '\n')
-                            a.close()
-                            response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
-                        elif 'no' in msg:
-                            a = open('lists/nvote2.txt', 'a')
-                            a.write('no' + '\n')
-                            a.close()
-                            a = open('lists/voters2.txt', 'a')
-                            a.write(f'<@{ctx.message.author.id}>' + '\n')
-                            a.close()
-                            response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
-                        else:
-                            response = discord.Embed(title="❗ Vote must contain 'yes' or 'no'", color=0xBE1931)
-                    else:
-                        response = discord.Embed(title='⛔ Sorry! You already voted', color=0xBE1931)
-            except UnboundLocalError:
-                response = discord.Embed(title='🔒 You do not have the required roles', color=0xFFCC4d)
-        else:
-            response = discord.Embed(title='🔒 You can\'t use that command in this channel', color=0xFFCC4d)
-        await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
 async def votes(ctx):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
         a = open('lists/yvote.txt', 'r')
@@ -528,67 +452,9 @@ async def votes(ctx):
 
 
 @bot.command(pass_context=True)
-async def votes2(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        a = open('lists/yvote2.txt', 'r')
-        yvotes = 0
-        for line in a:
-            if 'yes' in line:
-                x = int(yvotes) + 1
-                yvotes = 0 + x
-        a.close()
-        a = open('lists/nvote2.txt', 'r')
-        nvotes = 0
-        for line in a:
-            if 'no' in line:
-                x = int(nvotes) + 1
-                nvotes = 0 + x
-        a.close()
-        tvotes = yvotes + nvotes
-        try:
-            nftmp = (nvotes / tvotes) * 10
-            netmp = 10 - nftmp
-            nfill = int(round(nftmp))
-            nempty = int(round(netmp))
-            nbar = f'[{nfill * "▣"}{nempty * "▢"}]'
-        except ZeroDivisionError:
-            nstat_line = "[▢▢▢▢▢▢▢▢▢▢] 0% - No"
-        try:
-            yftmp = (yvotes / tvotes) * 10
-            yetmp = 10 - yftmp
-            yfill = int(round(yftmp))
-            yempty = int(round(yetmp))
-            ybar = f'[{yfill * "▣"}{yempty * "▢"}]'
-        except ZeroDivisionError:
-            ystat_line = "[▢▢▢▢▢▢▢▢▢▢] 0% - Yes"
-        else:
-            ystat_line = f'{yvotes} {ybar} {int((yvotes / tvotes) * 100)}% - Yes'
-            nstat_line = f'{nvotes} {nbar} {int((nvotes / tvotes) * 100)}% - No'
-        response = discord.Embed(title=f'📊 Poll Statistics.', color=0xA5FFF6)
-        output = f'{ystat_line}\n' \
-                 f'{nstat_line}'
-        response.description = f'```{output}```'
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
 async def voters(ctx):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
         with open('lists/voters.txt', 'r') as file:
-            a = file.read()
-        response = discord.Embed(title="**Voters:**", color=0xA5FFF6)
-        response.description = ('%s' % a)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def voters2(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        with open('lists/voters2.txt', 'r') as file:
             a = file.read()
         response = discord.Embed(title="**Voters:**", color=0xA5FFF6)
         response.description = ('%s' % a)
@@ -616,328 +482,6 @@ async def clrvotes(ctx):
 
 
 @bot.command(pass_context=True)
-async def clrvotes2(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        a = open('lists/yvote2.txt', 'w')
-        a.write('')
-        a.close()
-        a = open('lists/nvote2.txt', 'w')
-        a.write('')
-        a.close()
-        a = open('lists/voters2.txt', 'w')
-        a.write('')
-        a.close()
-        response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def permitc(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if ctx.message.channel_mentions:
-            with open('permissions/channels.txt', 'r') as file:
-                a = file.read()
-                for line in ctx.message.channel_mentions:
-                    if line.id not in a:
-                        perm = True
-                    else:
-                        perm = False
-                    if perm:
-                        a = open('permissions/channels.txt', 'a')
-                        a.write('<#%s>\n' % line.id)
-                        a.close()
-                        response = discord.Embed(title="🔓 Channel permitted", color=0xFFCC4d)
-                    else:
-                        response = discord.Embed(title="❗ Channel already permitted", color=0xBE1931)
-                    await bot.say(embed=response)
-        else:
-            response = discord.Embed(title='❗ Input must be a channel', color=0xBE1931)
-            await bot.say(embed=response)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def permitc2(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if ctx.message.channel_mentions:
-            with open('permissions/channels2.txt', 'r') as file:
-                a = file.read()
-                for line in ctx.message.channel_mentions:
-                    if line.id not in a:
-                        perm = True
-                    else:
-                        perm = False
-                    if perm:
-                        a = open('permissions/channels2.txt', 'a')
-                        a.write('<#%s>\n' % line.id)
-                        a.close()
-                        response = discord.Embed(title="🔓 Channel permitted", color=0xFFCC4d)
-                    else:
-                        response = discord.Embed(title="❗ Channel already permitted", color=0xBE1931)
-                    await bot.say(embed=response)
-        else:
-            response = discord.Embed(title='❗ Input must be a channel', color=0xBE1931)
-            await bot.say(embed=response)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def permitu(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if ctx.message.mentions:
-            with open('permissions/users.txt', 'r') as file:
-                a = file.read()
-                for line in ctx.message.mentions:
-                    if line.id not in a:
-                        perm = True
-                    else:
-                        perm = False
-                    if perm:
-                        a = open('permissions/users.txt', 'a')
-                        a.write('<@%s>\n' % line.id)
-                        a.close()
-                        response = discord.Embed(title="🔓 User permitted", color=0xFFCC4d)
-                    else:
-                        response = discord.Embed(title="❗ User already permitted", color=0xBE1931)
-                    await bot.say(embed=response)
-        else:
-            response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
-            await bot.say(embed=response)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def permitu2(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if ctx.message.mentions:
-            with open('permissions/users2.txt', 'r') as file:
-                a = file.read()
-                for line in ctx.message.mentions:
-                    if line.id not in a:
-                        perm = True
-                    else:
-                        perm = False
-                    if perm:
-                        a = open('permissions/users2.txt', 'a')
-                        a.write('<@%s>\n' % line.id)
-                        a.close()
-                        response = discord.Embed(title="🔓 User permitted", color=0xFFCC4d)
-                    else:
-                        response = discord.Embed(title="❗ User already permitted", color=0xBE1931)
-                    await bot.say(embed=response)
-        else:
-            response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
-            await bot.say(embed=response)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def permitr(ctx, *, msg):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        lookup = msg.lower()
-        target = discord.utils.find(lambda x: x.name.lower() == lookup, ctx.message.server.roles)
-        if target is not None:
-            with open('permissions/roles.txt', 'r') as file:
-                a = file.read()
-                if target.id not in a:
-                    perm = True
-                else:
-                    perm = False
-                if perm:
-                    a = open('permissions/roles.txt', 'a')
-                    a.write('<@&%s>\n' % target.id)
-                    a.close()
-                    response = discord.Embed(title="🔓 Role permitted", color=0xFFCC4d)
-                else:
-                    response = discord.Embed(title="❗ Role already permitted", color=0xBE1931)
-                await bot.say(embed=response)
-        else:
-            response = discord.Embed(title='❗ Input must be a role', color=0xBE1931)
-            await bot.say(embed=response)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def permitr2(ctx, *, msg):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        lookup = msg.lower()
-        target = discord.utils.find(lambda x: x.name.lower() == lookup, ctx.message.server.roles)
-        if target is not None:
-            with open('permissions/roles2.txt', 'r') as file:
-                a = file.read()
-                if target.id not in a:
-                    perm = True
-                else:
-                    perm = False
-                if perm:
-                    a = open('permissions/roles2.txt', 'a')
-                    a.write('<@&%s>\n' % target.id)
-                    a.close()
-                    response = discord.Embed(title="🔓 Role permitted", color=0xFFCC4d)
-                else:
-                    response = discord.Embed(title="❗ Role already permitted", color=0xBE1931)
-                await bot.say(embed=response)
-        else:
-            response = discord.Embed(title='❗ Input must be a role', color=0xBE1931)
-            await bot.say(embed=response)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def unpermitc(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if ctx.message.channel_mentions:
-            target = ctx.message.channel_mentions[0].id
-            fn = 'permissions/channels.txt'
-            a = open(fn)
-            output = []
-            for line in a:
-                if target not in line:
-                    output.append(line)
-            a.close()
-            a = open(fn, 'w')
-            a.writelines(output)
-            a.close()
-            response = discord.Embed(title="🔒 Channel unpermitted", color=0xFFCC4d)
-        else:
-            response = discord.Embed(title='❗ Input must be a channel', color=0xBE1931)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def unpermitc2(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if ctx.message.channel_mentions:
-            target = ctx.message.channel_mentions[0].id
-            fn = 'permissions/channels.txt'
-            a = open(fn)
-            output = []
-            for line in a:
-                if target not in line:
-                    output.append(line)
-            a.close()
-            a = open(fn, 'w')
-            a.writelines(output)
-            a.close()
-            response = discord.Embed(title="🔒 Channel unpermitted", color=0xFFCC4d)
-        else:
-            response = discord.Embed(title='❗ Input must be a channel', color=0xBE1931)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def unpermitr(ctx, *, msg):
-    lookup = msg.lower()
-    target = discord.utils.find(lambda x: x.name.lower() == lookup, ctx.message.server.roles)
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if target is not None:
-            fn = 'permissions/roles.txt'
-            a = open(fn)
-            output = []
-            for line in a:
-                if target.id not in line:
-                    output.append(line)
-            a.close()
-            a = open(fn, 'w')
-            a.writelines(output)
-            a.close()
-            response = discord.Embed(title="🔒 Role unpermitted", color=0xFFCC4d)
-        else:
-            response = discord.Embed(title='❗ Input must be a role', color=0xBE1931)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def unpermitr2(ctx, *, msg):
-    lookup = msg.lower()
-    target = discord.utils.find(lambda x: x.name.lower() == lookup, ctx.message.server.roles)
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if target is not None:
-            fn = 'permissions/roles2.txt'
-            a = open(fn)
-            output = []
-            for line in a:
-                if target.id not in line:
-                    output.append(line)
-            a.close()
-            a = open(fn, 'w')
-            a.writelines(output)
-            a.close()
-            response = discord.Embed(title="🔒 Role unpermitted", color=0xFFCC4d)
-        else:
-            response = discord.Embed(title='❗ Input must be a role', color=0xBE1931)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def unpermitu(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if ctx.message.mentions:
-            target = ctx.message.mentions[0].id
-            fn = 'permissions/users.txt'
-            a = open(fn)
-            output = []
-            for line in a:
-                if target not in line:
-                    output.append(line)
-            a.close()
-            a = open(fn, 'w')
-            a.writelines(output)
-            a.close()
-            response = discord.Embed(title="🔒 User unpermitted", color=0xFFCC4d)
-        else:
-            response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def unpermitu2(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if ctx.message.mentions:
-            target = ctx.message.mentions[0].id
-            fn = 'permissions/users2.txt'
-            a = open(fn)
-            output = []
-            for line in a:
-                if target not in line:
-                    output.append(line)
-            a.close()
-            a = open(fn, 'w')
-            a.writelines(output)
-            a.close()
-            response = discord.Embed(title="🔒 User unpermitted", color=0xFFCC4d)
-        else:
-            response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
 async def perms(ctx):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
         with open('permissions/channels.txt', 'r') as file:
@@ -945,26 +489,6 @@ async def perms(ctx):
         with open('permissions/roles.txt', 'r') as file:
             b = file.read()
         with open('permissions/users.txt', 'r') as file:
-            c = file.read()
-        response = discord.Embed(title='📊 **Poll permissions:**\n', description='**Channels:**\n'
-                                                                              '%s'
-                                                                              '**Roles:**\n' 
-                                                                              '%s'
-                                                                              '**Users:**\n'
-                                                                              '%s' % (a, b, c), color=0xA5FFF6)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def perms2(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        with open('permissions/channels2.txt', 'r') as file:
-            a = file.read()
-        with open('permissions/roles2.txt', 'r') as file:
-            b = file.read()
-        with open('permissions/users2.txt', 'r') as file:
             c = file.read()
         response = discord.Embed(title='📊 **Poll permissions:**\n', description='**Channels:**\n'
                                                                               '%s'
@@ -990,27 +514,6 @@ async def clrperms(ctx):
         a.write('')
         a.close()
         a = open('permissions/users.txt', 'w')
-        a.write('')
-        a.close()
-        response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
-    else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-    await bot.say(embed=response)
-
-
-@bot.command(pass_context=True)
-async def clrperms2(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        a = open('permissions/registered2.txt', 'w')
-        a.write('')
-        a.close()
-        a = open('permissions/channels2.txt', 'w')
-        a.write('')
-        a.close()
-        a = open('permissions/roles2.txt', 'w')
-        a.write('')
-        a.close()
-        a = open('permissions/users2.txt', 'w')
         a.write('')
         a.close()
         response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
@@ -1049,7 +552,7 @@ async def register(ctx):
                             a = open('permissions/registered.txt', 'a')
                             a.write('<@&%s>\n' % target)
                             a.close()
-                            response = discord.Embed(title="✅ Registered", color=0xA5FFF6)
+                            response = discord.Embed(title="✅ Registered", description=" DM me with '^vote yes/no' to vote", color=0xA5FFF6)
                         else:
                             response = discord.Embed(title="❗ You already resgistered", color=0xBE1931)
         except UnboundLocalError:
@@ -1058,40 +561,182 @@ async def register(ctx):
 
 
 @bot.command(pass_context=True)
-async def register2(ctx):
-    if ctx.message.channel.is_private:
-        response = discord.Embed(title="⛔ You cannot register in a DM", color=0xBE1931)
-    else:
-        with open('permissions/users2.txt', 'r') as file:
-            a = file.read()
-        if ctx.message.author.id in a:
-            user = True
-        else:
-            user = False
-        with open('permissions/roles2.txt') as file:
-            a = file.read()
-        tmp = [y.id for y in ctx.message.author.roles]
-        for line in tmp:
-            if line in a:
-                role = True
-        try:
-            if user or role:
-                    with open('permissions/registered2.txt', 'r') as file:
-                        a = file.read()
-                        target = ctx.message.author.id
-                        if target not in a:
+async def permit(ctx, args):
+    mode = args
+    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        if mode == 'c':
+            if ctx.message.channel_mentions:
+                with open('permissions/channels.txt', 'r') as file:
+                    a = file.read()
+                    for line in ctx.message.channel_mentions:
+                        if line.id not in a:
                             perm = True
                         else:
                             perm = False
                         if perm:
-                            a = open('permissions/registered2.txt', 'a')
-                            a.write('<@&%s>\n' % target)
+                            a = open('permissions/channels.txt', 'a')
+                            a.write('<#%s>\n' % line.id)
                             a.close()
-                            response = discord.Embed(title="✅ Registered", color=0xA5FFF6)
+                            response = discord.Embed(title="🔓 Channel permitted", color=0xFFCC4d)
                         else:
-                            response = discord.Embed(title="❗ You already resgistered", color=0xBE1931)
-        except UnboundLocalError:
-            response = discord.Embed(title='🔒 You do not have the required roles', color=0xFFCC4d)
+                            response = discord.Embed(title="❗ Channel already permitted", color=0xBE1931)
+            else:
+                response = discord.Embed(title='❗ Input must be a channel', color=0xBE1931)
+        elif mode == 'u':
+            if ctx.message.mentions:
+                with open('permissions/users.txt', 'r') as file:
+                    a = file.read()
+                    for line in ctx.message.mentions:
+                        if line.id not in a:
+                            perm = True
+                        else:
+                            perm = False
+                        if perm:
+                            a = open('permissions/users.txt', 'a')
+                            a.write('<@%s>\n' % line.id)
+                            a.close()
+                            response = discord.Embed(title="🔓 User permitted", color=0xFFCC4d)
+                        else:
+                            response = discord.Embed(title="❗ User already permitted", color=0xBE1931)
+            else:
+                response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
+    else:
+        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+    await bot.say(embed=response)
+
+
+@bot.command(pass_context=True)
+async def permitr(ctx, args, msg):
+    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        mode = args
+        if mode == 'r':
+            lookup = msg.lower()
+            target = discord.utils.find(lambda x: x.name.lower() == lookup, ctx.message.server.roles)
+            if target is not None:
+                with open('permissions/roles.txt', 'r') as file:
+                    a = file.read()
+                    if target.id not in a:
+                        perm = True
+                    else:
+                        perm = False
+                    if perm:
+                        a = open('permissions/roles.txt', 'a')
+                        a.write('<@&%s>\n' % target.id)
+                        a.close()
+                        response = discord.Embed(title="🔓 Role permitted", color=0xFFCC4d)
+                    else:
+                        response = discord.Embed(title="❗ Role already permitted", color=0xBE1931)
+            else:
+                response = discord.Embed(title='❗ Input must be a role', color=0xBE1931)
+        elif mode == 'dm':
+            if msg == 'generals':
+                with open('lists/generalstmp.txt', 'r') as file:
+                    b = file.readlines()
+                    a = open('permissions/generalsp.txt', 'w')
+                    for line in b:
+                        a.write(line)
+                    a.close()
+                    response = discord.Embed(title="🔓 Generals permitted", color=0xFFCC4d)
+            elif msg == 'officers':
+                with open('lists/officerstmp.txt', 'r') as file:
+                    b = file.readlines()
+                    a = open('permissions/officers.txt', 'w')
+                    for line in b:
+                        a.write(line)
+                    a.close()
+                    response = discord.Embed(title="🔓 Officers permitted", color=0xFFCC4d)
+            else:
+                response = discord.Embed(title="❗ Input must 'generals' or 'officers'", color=0xBE1931)
+        else:
+            response = discord.Embed(title='❗ Invalid input', color=0xBE1931)
+    else:
+        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+    await bot.say(embed=response)
+
+
+@bot.command(pass_context=True)
+async def unpermit(ctx, args):
+    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        mode = args
+        if mode == 'c':
+            if ctx.message.channel_mentions:
+                target = ctx.message.channel_mentions[0].id
+                fn = 'permissions/channels.txt'
+                a = open(fn)
+                output = []
+                for line in a:
+                    if target not in line:
+                        output.append(line)
+                a.close()
+                a = open(fn, 'w')
+                a.writelines(output)
+                a.close()
+                response = discord.Embed(title="🔒 Channel unpermitted", color=0xFFCC4d)
+            else:
+                response = discord.Embed(title='❗ Input must be a channel', color=0xBE1931)
+        elif mode == 'u':
+            if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+                if ctx.message.mentions:
+                    target = ctx.message.mentions[0].id
+                    fn = 'permissions/users.txt'
+                    a = open(fn)
+                    output = []
+                    for line in a:
+                        if target not in line:
+                            output.append(line)
+                    a.close()
+                    a = open(fn, 'w')
+                    a.writelines(output)
+                    a.close()
+                    response = discord.Embed(title="🔒 User unpermitted", color=0xFFCC4d)
+                else:
+                    response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
+        else:
+            response = discord.Embed(title='❗ No input', color=0xBE1931)
+    else:
+        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+    await bot.say(embed=response)
+
+
+@bot.command(pass_context=True)
+async def unpermitr(ctx, args, msg):
+    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        mode = args
+        if mode == 'r':
+            lookup = msg.lower()
+            target = discord.utils.find(lambda x: x.name.lower() == lookup, ctx.message.server.roles)
+            if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+                if target is not None:
+                    fn = 'permissions/roles.txt'
+                    a = open(fn)
+                    output = []
+                    for line in a:
+                        if target.id not in line:
+                            output.append(line)
+                    a.close()
+                    a = open(fn, 'w')
+                    a.writelines(output)
+                    a.close()
+                    response = discord.Embed(title="🔒 Role unpermitted", color=0xFFCC4d)
+                else:
+                    response = discord.Embed(title='❗ Input must be a role', color=0xBE1931)
+        elif mode == 'dm':
+            if msg == 'generals':
+                a = open('permissions/generalsp.txt', 'w')
+                a.write('')
+                a.close()
+                response = discord.Embed(title="🔒 Generals unpermitted", color=0xFFCC4d)
+            elif msg == 'officers':
+                a = open('permissions/officers.txt', 'w')
+                a.write('')
+                a.close()
+                response = discord.Embed(title="🔒 Officers unpermitted", color=0xFFCC4d)
+            else:
+                response = discord.Embed(title="❗ Input must 'generals' or 'officers'", color=0xBE1931)
+        else:
+            response = discord.Embed(title='❗ Invalid input', color=0xBE1931)
+    else:
+        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     await bot.say(embed=response)
 
 
