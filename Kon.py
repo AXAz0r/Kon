@@ -312,7 +312,7 @@ async def github():
 
 
 def dump_vote(vote_data, vote_key, voter):
-    voter_list = vote_data.get(voters)
+    voter_list = vote_data.get('voters')
     if voter_list is None:
         voter_list = []
     voter_list.append(voter.id)
