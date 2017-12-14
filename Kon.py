@@ -1,6 +1,9 @@
-import discord
 import asyncio
+import json
 import logging
+import os
+
+import discord
 from discord.ext import commands
 
 logging.basicConfig(level=logging.INFO)
@@ -11,6 +14,7 @@ bot.remove_command('help')
 
 @bot.event
 async def on_ready():
+    print('Bot ready.')
     await bot.change_presence(game=discord.Game(name='^help for help'))
 
 
@@ -204,51 +208,51 @@ async def commands(args):
     module = args
     if module == 'mentor':
         response = discord.Embed(title="Mentor commands", description=
-                                       "```md\n"
-                                       "- apply - Apply to the 'Students Requests' list.\n"
-                                       "- requests - Returns the 'Student Requests' list.\n"
-                                       "- delline - Remove a line from the 'Student Requests' list.**\n"
-                                       "- addmentor - Adds the targeted user to the 'Mentors' list.**\n"
-                                       "- mentors - Returns the 'Mentors' list.\n"
-                                       "- delmentor - Removes the targeted user from the 'Mentors' list.**```",
-                                       color=0xA5FFF6)
+        "```md\n"
+        "- apply - Apply to the 'Students Requests' list.\n"
+        "- requests - Returns the 'Student Requests' list.\n"
+        "- delline - Remove a line from the 'Student Requests' list.**\n"
+        "- addmentor - Adds the targeted user to the 'Mentors' list.**\n"
+        "- mentors - Returns the 'Mentors' list.\n"
+        "- delmentor - Removes the targeted user from the 'Mentors' list.**```",
+                                 color=0xA5FFF6)
     elif module == 'raidban':
         response = discord.Embed(title="Raid ban commands\n", description=
-                                       "```md\n"
-                                       "- raidban - Add the targeted user to the 'Raid Banned' list and\nassigns the"
-                                       " 'Raid Banned' role to them.*\n"
-                                       "- raidbans - Returns the 'Raid Banned' list.\n"
-                                       "- unraidban - Remove the targeted user from the 'Raid Banned' list\n"
-                                       "and removes the 'Raid Banned' role from them.*```", color=0xA5FFF6)
+        "```md\n"
+        "- raidban - Add the targeted user to the 'Raid Banned' list and\nassigns the"
+        " 'Raid Banned' role to them.*\n"
+        "- raidbans - Returns the 'Raid Banned' list.\n"
+        "- unraidban - Remove the targeted user from the 'Raid Banned' list\n"
+        "and removes the 'Raid Banned' role from them.*```", color=0xA5FFF6)
     elif module == 'poll':
         response = discord.Embed(title="Poll commands\n", description=
-                                       "```md\n"
-                                       "- vote - Vote 'yes' or 'no' on the current poll.\n"
-                                       "- votes - Returns the results of the current poll.*\n"
-                                       "- voters - Returns a list of users who voted on the current poll.*\n"
-                                       "- clrvotes - Deletes all voting data pertaining to the current poll.*\n"
-                                       "- permit c/u - c: permits users to vote in the targeted channel.\nu: permits "
-                                       "the targeted user to vote on the poll.*\n"
-                                       "- permitr r/dm - r: permits the specified role to vote on the poll.*\ndm: "
-                                       "permits the targeted role to vote on the poll via DMs.\n"
-                                       "- unpermit c/u - c: unpermits users to vote in the targeted channel.\nu: "
-                                       "unpermits targeted user to vote on the poll.*\n"
-                                       "- unpermitr r/dm - r: unpermits the specified role to vote on the poll.*\ndm: "
-                                       "unpermits the targeted role to vote on the poll via DMs.\n"
-                                       "- perms - Returns the current permissions for the poll.*\n"
-                                       "- register - Registers the message author to vote on the poll in a\n"
-                                       "DM with Kon. Author must be permitted to vote.\n"
-                                       "- clrperms - Deletes all the perms data pertaining to the poll. Also\n"
-                                       "deletes all registered user data\n"
-                                       "```", color=0xA5FFF6)
+        "```md\n"
+        "- vote - Vote 'yes' or 'no' on the current poll.\n"
+        "- votes - Returns the results of the current poll.*\n"
+        "- voters - Returns a list of users who voted on the current poll.*\n"
+        "- clrvotes - Deletes all voting data pertaining to the current poll.*\n"
+        "- permit c/u - c: permits users to vote in the targeted channel.\nu: permits "
+        "the targeted user to vote on the poll.*\n"
+        "- permitr r/dm - r: permits the specified role to vote on the poll.*\ndm: "
+        "permits the targeted role to vote on the poll via DMs.\n"
+        "- unpermit c/u - c: unpermits users to vote in the targeted channel.\nu: "
+        "unpermits targeted user to vote on the poll.*\n"
+        "- unpermitr r/dm - r: unpermits the specified role to vote on the poll.*\ndm: "
+        "unpermits the targeted role to vote on the poll via DMs.\n"
+        "- perms - Returns the current permissions for the poll.*\n"
+        "- register - Registers the message author to vote on the poll in a\n"
+        "DM with Kon. Author must be permitted to vote.\n"
+        "- clrperms - Deletes all the perms data pertaining to the poll. Also\n"
+        "deletes all registered user data\n"
+        "```", color=0xA5FFF6)
     elif module == 'other':
         response = discord.Embed(title="Other commands\n", description=
-                                       "```md\n"
-                                       "- help - View help for the Mentor commands.\n"
-                                       "- commands - View a list of the commands.\n"
-                                       "- purge - Delete a specified number of messages.\n"
-                                       "- github - View the GitHub link for Kon's source code.\n"
-                                       "- sleep - Tell Kon to go to sleep.```", color=0xA5FFF6)
+        "```md\n"
+        "- help - View help for the Mentor commands.\n"
+        "- commands - View a list of the commands.\n"
+        "- purge - Delete a specified number of messages.\n"
+        "- github - View the GitHub link for Kon's source code.\n"
+        "- sleep - Tell Kon to go to sleep.```", color=0xA5FFF6)
     else:
         response = discord.Embed(title='❗ Module not found', color=0xBE1931)
     await bot.say(embed=response)
@@ -307,11 +311,25 @@ async def github():
     await bot.say(embed=embed)
 
 
+def dump_vote(vote_data, vote_key, voter):
+    voter_list = vote_data.get(voters)
+    if voter_list is None:
+        voter_list = []
+    voter_list.append(voter.id)
+    vote_count = vote_data.get(vote_key)
+    if vote_count is None:
+        vote_count = 0
+    vote_count += 1
+    vote_data.update({vote_key: vote_count})
+    vote_data.update({'voters': voter_list})
+    with open('lists/vote_data.json', 'w', encoding='utf-8') as vote_data_file:
+        json.dump(vote_data, vote_data_file)
+
+
 @bot.command(pass_context=True)
 async def vote(ctx, msg):
-    if not ctx.message.channel.is_private:
-        async for x in bot.logs_from(ctx.message.channel, limit=1):
-            await bot.delete_message(x)
+    if ctx.message.server:
+        await bot.delete_message(ctx.message)
     if ctx.message.channel.is_private:
         with open('permissions/registered.txt', 'r') as file:
             a = file.read()
@@ -328,24 +346,18 @@ async def vote(ctx, msg):
         else:
             auth = False
         if auth:
-            with open('lists/voters.txt', 'r') as file:
-                a = file.read()
-            if ctx.message.author.id not in a:
+            if os.path.exists('lists/vote_data.json'):
+                with open('lists/vote_data.json', encoding='utf-8') as vote_data_file:
+                    vote_data = json.loads(vote_data_file.read())
+            else:
+                vote_data = {}
+            voted = vote_data.get('voters') or []
+            if ctx.message.author.id not in voted:
                 if 'yes' in msg:
-                    a = open('lists/yvote.txt', 'a')
-                    a.write('yes' + '\n')
-                    a.close()
-                    a = open('lists/voters.txt', 'a')
-                    a.write(f'<@{ctx.message.author.id}>' + '\n')
-                    a.close()
+                    dump_vote(vote_data, 'yes', ctx.message.author)
                     response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                 elif 'no' in msg:
-                    a = open('lists/nvote.txt', 'a')
-                    a.write('no' + '\n')
-                    a.close()
-                    a = open('lists/voters.txt', 'a')
-                    a.write(f'<@{ctx.message.author.id}>' + '\n')
-                    a.close()
+                    dump_vote(vote_data, 'no', ctx.message.author)
                     response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                 else:
                     response = discord.Embed(title="❗ Vote must contain 'yes' or 'no'", color=0xBE1931)
@@ -375,24 +387,18 @@ async def vote(ctx, msg):
         if channel:
             try:
                 if user or role:
-                    with open('lists/voters.txt', 'r') as file:
-                        a = file.read()
-                    if ctx.message.author.id not in a:
+                    if os.path.exists('lists/vote_data.json'):
+                        with open('lists/vote_data.json', encoding='utf-8') as vote_data_file:
+                            vote_data = json.loads(vote_data_file.read())
+                    else:
+                        vote_data = {}
+                    voted = vote_data.get('voters') or []
+                    if ctx.message.author.id not in voted:
                         if 'yes' in msg:
-                            a = open('lists/yvote.txt', 'a')
-                            a.write('yes' + '\n')
-                            a.close()
-                            a = open('lists/voters.txt', 'a')
-                            a.write(f'<@{ctx.message.author.id}>' + '\n')
-                            a.close()
+                            dump_vote(vote_data, 'yes', ctx.message.author)
                             response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                         elif 'no' in msg:
-                            a = open('lists/nvote.txt', 'a')
-                            a.write('no' + '\n')
-                            a.close()
-                            a = open('lists/voters.txt', 'a')
-                            a.write(f'<@{ctx.message.author.id}>' + '\n')
-                            a.close()
+                            dump_vote(vote_data, 'no', ctx.message.author)
                             response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                         else:
                             response = discord.Embed(title="❗ Vote must contain 'yes' or 'no'", color=0xBE1931)
@@ -408,20 +414,13 @@ async def vote(ctx, msg):
 @bot.command(pass_context=True)
 async def votes(ctx):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        a = open('lists/yvote.txt', 'r')
-        yvotes = 0
-        for line in a:
-            if 'yes' in line:
-                x = int(yvotes) + 1
-                yvotes = 0 + x
-        a.close()
-        a = open('lists/nvote.txt', 'r')
-        nvotes = 0
-        for line in a:
-            if 'no' in line:
-                x = int(nvotes) + 1
-                nvotes = 0 + x
-        a.close()
+        if os.path.exists('lists/vote_data.json'):
+            with open('lists/vote_data.json', encoding='utf-8') as vote_data_file:
+                vote_data = json.loads(vote_data_file.read())
+        else:
+            vote_data = {}
+        yvotes = vote_data.get('yes') or 0
+        nvotes = vote_data.get('no') or 0
         tvotes = yvotes + nvotes
         try:
             nftmp = (nvotes / tvotes) * 10
@@ -454,8 +453,16 @@ async def votes(ctx):
 @bot.command(pass_context=True)
 async def voters(ctx):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        with open('lists/voters.txt', 'r') as file:
-            a = file.read()
+        if os.path.exists('lists/vote_data.json'):
+            with open('lists/vote_data.json', encoding='utf-8') as vote_data_file:
+                vote_data = json.loads(vote_data_file.read())
+        else:
+            vote_data = {}
+        voter_list = vote_data.get('voters') or []
+        line_list = []
+        for voter in voter_list:
+            line_list.append('<@' + voter + '>')
+        a = '\n'.join(line_list)
         response = discord.Embed(title="**Voters:**", color=0xA5FFF6)
         response.description = ('%s' % a)
     else:
@@ -491,11 +498,11 @@ async def perms(ctx):
         with open('permissions/users.txt', 'r') as file:
             c = file.read()
         response = discord.Embed(title='📊 **Poll permissions:**\n', description='**Channels:**\n'
-                                                                              '%s'
-                                                                              '**Roles:**\n' 
-                                                                              '%s'
-                                                                              '**Users:**\n'
-                                                                              '%s' % (a, b, c), color=0xA5FFF6)
+                                                                                 '%s'
+                                                                                 '**Roles:**\n'
+                                                                                 '%s'
+                                                                                 '**Users:**\n'
+                                                                                 '%s' % (a, b, c), color=0xA5FFF6)
     else:
         response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     await bot.say(embed=response)
@@ -541,20 +548,21 @@ async def register(ctx):
                 role = True
         try:
             if user or role:
-                    with open('permissions/registered.txt', 'r') as file:
-                        a = file.read()
-                        target = ctx.message.author.id
-                        if target not in a:
-                            perm = True
-                        else:
-                            perm = False
-                        if perm:
-                            a = open('permissions/registered.txt', 'a')
-                            a.write('<@&%s>\n' % target)
-                            a.close()
-                            response = discord.Embed(title="✅ Registered", description=" DM me with '^vote yes/no' to vote", color=0xA5FFF6)
-                        else:
-                            response = discord.Embed(title="❗ You already resgistered", color=0xBE1931)
+                with open('permissions/registered.txt', 'r') as file:
+                    a = file.read()
+                    target = ctx.message.author.id
+                    if target not in a:
+                        perm = True
+                    else:
+                        perm = False
+                    if perm:
+                        a = open('permissions/registered.txt', 'a')
+                        a.write('<@&%s>\n' % target)
+                        a.close()
+                        response = discord.Embed(title="✅ Registered", description=" DM me with '^vote yes/no' to vote",
+                                                 color=0xA5FFF6)
+                    else:
+                        response = discord.Embed(title="❗ You already resgistered", color=0xBE1931)
         except UnboundLocalError:
             response = discord.Embed(title='🔒 You do not have the required roles', color=0xFFCC4d)
     await bot.say(embed=response)
@@ -740,4 +748,4 @@ async def unpermitr(ctx, args, msg):
     await bot.say(embed=response)
 
 
-bot.run("token_removed", bot=True)
+bot.run("Mzc0NjU3NjE5NTY0MTY3MTcx.DNldrQ.q-M0VIZDPDKKAn2EcNxE9cHe5l0", bot=True)
