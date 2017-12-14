@@ -473,15 +473,8 @@ async def voters(ctx):
 @bot.command(pass_context=True)
 async def clrvotes(ctx):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        a = open('lists/yvote.txt', 'w')
-        a.write('')
-        a.close()
-        a = open('lists/nvote.txt', 'w')
-        a.write('')
-        a.close()
-        a = open('lists/voters.txt', 'w')
-        a.write('')
-        a.close()
+        if os.path.exists('lists/vote_data.json'):
+            os.remove('lists/vote_data.json')
         response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
     else:
         response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
