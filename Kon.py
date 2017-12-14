@@ -748,4 +748,4 @@ async def unpermitr(ctx, args, msg):
     await bot.say(embed=response)
 
 
-bot.run("Mzc0NjU3NjE5NTY0MTY3MTcx.DNldrQ.q-M0VIZDPDKKAn2EcNxE9cHe5l0", bot=True)
+bot.run("token", bot=True)
