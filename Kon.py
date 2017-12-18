@@ -181,7 +181,7 @@ async def votes(ctx, args):
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -210,7 +210,7 @@ async def voters(ctx, args):
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -239,27 +239,30 @@ def get_pswd():
 
 @bot.command(pass_context=True)
 async def setpassword(ctx):
-    if ctx.message.author.permissions_in(ctx.message.channel).administrator:
-        if os.path.exists('lists/pswd_data.json'):
-            with open('lists/pswd_data.json', encoding='utf-8') as pswd_data_file:
-                pswd_data = json.loads(pswd_data_file.read())
+    if ctx.message.server.id == '138067606119645184':
+        if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+            if os.path.exists('lists/pswd_data.json'):
+                with open('lists/pswd_data.json', encoding='utf-8') as pswd_data_file:
+                    pswd_data = json.loads(pswd_data_file.read())
+            else:
+                pswd_data = {}
+            set_pswd(pswd_data, 'pswd', id_generator())
+            response = discord.Embed(title='🔐 Password reset. It will be DM\'d to you in 24h', color=0xFFCC4d)
+            await bot.say(embed=response)
+            if ctx.message.mentions:
+                target = ctx.message.mentions[0]
+            else:
+                target = ctx.message.author
+            target_reply = discord.Embed(description=f'🔑 **Here is the password** `{get_pswd()}`', color=0xc1694f)
+            target_reply.set_footer(text=f'^votes/voters password')
+            await asyncio.sleep(86400)
+            await bot.send_message(target, embed=target_reply)
+            return pswd_data
         else:
-            pswd_data = {}
-        set_pswd(pswd_data, 'pswd', id_generator())
-        response = discord.Embed(title='🔐 Password reset. It will be DM\'d to you in 24h', color=0xFFCC4d)
-        await bot.say(embed=response)
-        if ctx.message.mentions:
-            target = ctx.message.mentions[0]
-        else:
-            target = ctx.message.author
-        target_reply = discord.Embed(description=f'🔑 **Here is the password** `{get_pswd()}`', color=0xc1694f)
-        target_reply.set_footer(text=f'^votes/voters password')
-        await asyncio.sleep(86400)
-        await bot.send_message(target, embed=target_reply)
-        return pswd_data
+            response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
-        await bot.say(embed=response)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
+    await bot.say(embed=response)
 
 
 @bot.command(pass_context=True)
@@ -318,7 +321,7 @@ async def raidban(ctx, message: str):
         target = ctx.message.mentions[0]
         raidban_role = discord.utils.get(ctx.message.server.roles, name='Raid Banned')
         await ctx.bot.add_roles(ctx.message.mentions[0], raidban_role)
-        response = discord.Embed(title=f"🔒 {target} is now Raid Banned", color=0xFFCC4d)
+        response = discord.Embed(title=f"🔒 {target.display_name} is now Raid Banned", color=0xFFCC4d)
     await ctx.bot.say(embed=response)
 
 
@@ -355,7 +358,7 @@ async def unraidban(ctx):
         a.close()
         raidban_role = discord.utils.get(ctx.message.server.roles, name='Raid Banned')
         await ctx.bot.remove_roles(ctx.message.mentions[0], raidban_role)
-        response = discord.Embed(title=f"🔓 {target} is no longer Raid Banned", color=0xFFCC4d)
+        response = discord.Embed(title=f"🔓 {target.display_name} is no longer Raid Banned", color=0xFFCC4d)
     await ctx.bot.say(embed=response)
 
 
@@ -369,7 +372,7 @@ async def addmentor(ctx):
         a.close()
         mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
         await bot.add_roles(ctx.message.mentions[0], mentor_role)
-        embed = discord.Embed(title=f"✅ I put {target} on the 'Mentors' list", color=0xA5FFF6)
+        embed = discord.Embed(title=f"✅ I put {target.display_name} on the 'Mentors' list", color=0xA5FFF6)
     else:
         embed = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
     await bot.say(embed=embed)
@@ -406,7 +409,7 @@ async def delmentor(ctx):
         a.close()
         mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
         await bot.remove_roles(ctx.message.mentions[0], mentor_role)
-        embed = discord.Embed(title=f"✅ I removed {target} from the 'Mentors' list", color=0xA5FFF6)
+        embed = discord.Embed(title=f"✅ I removed {target.display_name} from the 'Mentors' list", color=0xA5FFF6)
     else:
         embed = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
     await bot.say(embed=embed)
@@ -540,7 +543,7 @@ async def clrvotes(ctx):
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -563,7 +566,7 @@ async def perms(ctx):
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -583,7 +586,7 @@ async def clrperms(ctx):
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -624,7 +627,7 @@ async def register(ctx):
             except UnboundLocalError:
                 response = discord.Embed(title='🔒 You do not have the required roles', color=0xFFCC4d)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -664,15 +667,15 @@ async def permit(ctx, args):
                                 user = ctx.message.mentions[0]
                                 with open('permissions/users.txt', 'a') as a:
                                     a.write('<@%s>\n' % line.id)
-                                response = discord.Embed(title=f"🔓 {user} permitted", color=0xFFCC4d)
+                                response = discord.Embed(title=f"🔓 {user.display_name} permitted", color=0xFFCC4d)
                             else:
-                                response = discord.Embed(title=f"❗ {user} already permitted", color=0xBE1931)
+                                response = discord.Embed(title=f"❗ {user.display_name} already permitted", color=0xBE1931)
                 else:
                     response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -721,7 +724,7 @@ async def permitr(ctx, args, msg):
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -762,7 +765,7 @@ async def unpermit(ctx, args):
                         a.writelines(output)
                         a.close()
                         user = ctx.message.mentions[0]
-                        response = discord.Embed(title=f"🔒 {user} unpermitted", color=0xFFCC4d)
+                        response = discord.Embed(title=f"🔒 {user.display_name} unpermitted", color=0xFFCC4d)
                     else:
                         response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
             else:
@@ -770,7 +773,7 @@ async def unpermit(ctx, args):
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -813,7 +816,7 @@ async def unpermitr(ctx, args, msg):
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -870,6 +873,12 @@ async def on_message(message):
                  'ヘ(´° □°)ヘ┳━┳']
         table_resp = secrets.choice(table)
         await bot.send_message(message.channel, table_resp)
+    elif 'natsuki' in message.content.lower():
+        await bot.add_reaction(message, emoji='🔪')
+    elif 'sayori' in message.content.lower():
+        await bot.add_reaction(message, emoji='🔪')
+    elif 'yuri' in message.content.lower():
+        await bot.add_reaction(message, emoji='🔪')
 
 
 bot.run("token", bot=True)
