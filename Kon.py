@@ -879,6 +879,8 @@ async def on_message(message):
         await bot.add_reaction(message, emoji='🔪')
     elif 'yuri' in message.content.lower():
         await bot.add_reaction(message, emoji='🔪')
-
+    elif message.content.lower() == 'f':
+        await bot.add_reaction(message, emoji='🇫')
+        
 
 bot.run("token", bot=True)
