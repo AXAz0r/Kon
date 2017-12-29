@@ -76,10 +76,10 @@ async def vote(ctx, msg):
                 vote_data = {}
             voted = vote_data.get('voters') or []
             if ctx.message.author.id not in voted:
-                if 'yes' in msg:
+                if msg == 'yes':
                     dump_vote(vote_data, 'yes', ctx.message.author)
                     response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
-                elif 'no' in msg:
+                elif msg == 'no':
                     dump_vote(vote_data, 'no', ctx.message.author)
                     response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                 else:
@@ -118,10 +118,10 @@ async def vote(ctx, msg):
                             vote_data = {}
                         voted = vote_data.get('voters') or []
                         if ctx.message.author.id not in voted:
-                            if 'yes' in msg:
+                            if msg == 'yes':
                                 dump_vote(vote_data, 'yes', ctx.message.author)
                                 response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
-                            elif 'no' in msg:
+                            elif msg == 'no':
                                 dump_vote(vote_data, 'no', ctx.message.author)
                                 response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                             else:
@@ -253,7 +253,7 @@ async def setpassword(ctx):
                 target = ctx.message.mentions[0]
             else:
                 target = ctx.message.author
-            target_reply = discord.Embed(description=f'🔑 **Here is the password** `{get_pswd()}`', color=0xc1694f)
+            target_reply = discord.Embed(title=f'🔑 Here is the password `{get_pswd()}`', color=0xc1694f)
             target_reply.set_footer(text=f'^votes/voters password')
             await asyncio.sleep(86400)
             await bot.send_message(target, embed=target_reply)
@@ -261,7 +261,7 @@ async def setpassword(ctx):
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
     await bot.say(embed=response)
 
 
@@ -517,16 +517,17 @@ async def purge(ctx, number):
             amount = number
         else:
             amount = number - 1
-        logmsg = discord.Embed(title='', color=0xA5FFF6)
-        logmsg.add_field(name='🗑️ A channel was purged',
-                         value=f'**Purge Details:**\n'
-                               f'Channel: <#%s>\n'
-                               f'User: <@%s>\n'
-                               f'Amount: %s Messages' % (ctx.message.channel.id, ctx.message.author.id, amount),
-                         inline=True)
-        logmsg.set_footer(text=f'ChannelID: %s' % ctx.message.channel.id, )
-        chn = bot.get_channel('302665883849850881')
-        await ctx.bot.send_message(chn, embed=logmsg)
+        if ctx.message.server.id == '138067606119645184':
+            logmsg = discord.Embed(title='', color=0xA5FFF6)
+            logmsg.add_field(name='🗑️ A channel was purged',
+                             value=f'**Purge Details:**\n'
+                                   f'Channel: <#%s>\n'
+                                   f'User: <@%s>\n'
+                                   f'Amount: %s Messages' % (ctx.message.channel.id, ctx.message.author.id, amount),
+                             inline=True)
+            logmsg.set_footer(text=f'ChannelID: %s' % ctx.message.channel.id, )
+            chn = bot.get_channel('302665883849850881')
+            await ctx.bot.send_message(chn, embed=logmsg)
         response = discord.Embed(title=f'✅ {amount} Messages Gone', color=0xA5FFF6)
         del_response = await ctx.bot.say(embed=response)
         await asyncio.sleep(3)
@@ -592,10 +593,8 @@ async def clrperms(ctx):
 
 @bot.command(pass_context=True)
 async def register(ctx):
-    if ctx.message.server.id == '138067606119645184':
-        if ctx.message.channel.is_private:
-            response = discord.Embed(title="⛔ You cannot register in a DM", color=0xBE1931)
-        else:
+    if not ctx.message.channel.is_private:
+        if ctx.message.server.id == '138067606119645184':
             with open('permissions/users.txt', 'r') as file:
                 a = file.read()
             if ctx.message.author.id in a:
@@ -626,8 +625,10 @@ async def register(ctx):
                             response = discord.Embed(title="❗ You already resgistered", color=0xBE1931)
             except UnboundLocalError:
                 response = discord.Embed(title='🔒 You do not have the required roles', color=0xFFCC4d)
+        else:
+            response = discord.Embed(title='🔒 You can\'t use that command on this server.', color=0xFFCC4d)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
+        response = discord.Embed(title="⛔ You cannot register in a DM", color=0xBE1931)
     await bot.say(embed=response)
 
 
@@ -874,13 +875,17 @@ async def on_message(message):
         table_resp = secrets.choice(table)
         await bot.send_message(message.channel, table_resp)
     elif 'natsuki' in message.content.lower():
-        await bot.add_reaction(message, emoji='🔪')
+        await bot.add_reaction(message, emoji='monika:375824498882117635')
     elif 'sayori' in message.content.lower():
-        await bot.add_reaction(message, emoji='🔪')
+        await bot.add_reaction(message, emoji='monika:375824498882117635')
     elif 'yuri' in message.content.lower():
-        await bot.add_reaction(message, emoji='🔪')
+        await bot.add_reaction(message, emoji='monika:375824498882117635')
     elif message.content.lower() == 'f':
         await bot.add_reaction(message, emoji='🇫')
-        
+    elif message.author.id == '150060705662500864':
+        react = secrets.randbelow(5)
+        if react == 0:
+            await bot.add_reaction(message, emoji='🍛')
+
 
 bot.run("token", bot=True)
