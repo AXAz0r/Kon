@@ -76,10 +76,10 @@ async def vote(ctx, msg):
                 vote_data = {}
             voted = vote_data.get('voters') or []
             if ctx.message.author.id not in voted:
-                if msg == 'yes':
+                if msg.lower() == 'yes':
                     dump_vote(vote_data, 'yes', ctx.message.author)
                     response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
-                elif msg == 'no':
+                elif msg.lower() == 'no':
                     dump_vote(vote_data, 'no', ctx.message.author)
                     response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                 else:
@@ -118,10 +118,10 @@ async def vote(ctx, msg):
                             vote_data = {}
                         voted = vote_data.get('voters') or []
                         if ctx.message.author.id not in voted:
-                            if msg == 'yes':
+                            if msg.lower() == 'yes':
                                 dump_vote(vote_data, 'yes', ctx.message.author)
                                 response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
-                            elif msg == 'no':
+                            elif msg.lower() == 'no':
                                 dump_vote(vote_data, 'no', ctx.message.author)
                                 response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                             else:
@@ -551,19 +551,43 @@ async def clrvotes(ctx):
 @bot.command(pass_context=True)
 async def perms(ctx):
     if ctx.message.server.id == '138067606119645184':
-        if ctx.message.author.permissions_in(ctx.message.channel).administrator:
+        if ctx.message.author.permissions_in(ctx.message.channel).manage_server:
             with open('permissions/channels.txt', 'r') as file:
                 a = file.read()
             with open('permissions/roles.txt', 'r') as file:
                 b = file.read()
             with open('permissions/users.txt', 'r') as file:
                 c = file.read()
-            response = discord.Embed(title='📊 **Poll permissions:**\n', description='**Channels:**\n'
-                                                                                     '%s'
-                                                                                     '**Roles:**\n'
-                                                                                     '%s'
-                                                                                     '**Users:**\n'
-                                                                                     '%s' % (a, b, c), color=0xA5FFF6)
+            with open('permissions/generalsp.txt', 'r') as file:
+                d = file.read()
+                if "warlords:" in d.lower():
+                    gen = True
+                else:
+                    gen = False
+                if gen:
+                    dmg = "Generals+"
+                else:
+                    dmg = ""
+            with open('permissions/officers.txt', 'r') as file:
+                e = file.read()
+                if "officers:" in e.lower():
+                    offi = True
+                else:
+                    offi = False
+                if offi:
+                    dmo = "Officers"
+                else:
+                    dmo = ""
+            response = discord.Embed(title='📊 **Poll permissions:**\n',
+                                     description='**Channels:**\n'
+                                     '%s'
+                                     '**Roles:**\n'
+                                     '%s'
+                                     '**Users:**\n'
+                                     '%s'
+                                     '**DMs:**\n'
+                                     '%s'
+                                     '\n%s' % (a, b, c, dmg, dmo), color=0xA5FFF6)
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
@@ -704,14 +728,14 @@ async def permitr(ctx, args, msg):
                 else:
                     response = discord.Embed(title='❗ Input must be a role', color=0xBE1931)
             elif mode == 'dm':
-                if msg == 'generals':
+                if msg.lower() == 'generals':
                     with open('lists/generalstmp.txt', 'r') as file:
                         b = file.readlines()
                         with open('permissions/generalsp.txt', 'w') as a:
                             for line in b:
                                 a.write(line)
                         response = discord.Embed(title="🔓 Generals permitted", color=0xFFCC4d)
-                elif msg == 'officers':
+                elif msg.lower() == 'officers':
                     with open('lists/officerstmp.txt', 'r') as file:
                         b = file.readlines()
                         with open('permissions/officers.txt', 'w') as a:
@@ -802,11 +826,11 @@ async def unpermitr(ctx, args, msg):
                     else:
                         response = discord.Embed(title='❗ Input must be a role', color=0xBE1931)
             elif mode == 'dm':
-                if msg == 'generals':
+                if msg.lower() == 'generals':
                     with open('permissions/generalsp.txt', 'w') as a:
                         a.write('')
                     response = discord.Embed(title="🔒 Generals unpermitted", color=0xFFCC4d)
-                elif msg == 'officers':
+                elif msg.lower() == 'officers':
                     with open('permissions/officers.txt', 'w') as a:
                         a.write('')
                     response = discord.Embed(title="🔒 Officers unpermitted", color=0xFFCC4d)
