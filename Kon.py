@@ -291,7 +291,7 @@ async def delline(ctx, *, msg: str):
         a = open(fn)
         output = []
         for line in a:
-            if msg not in line:
+            if msg.lower() not in line.lower():
                 output.append(line)
         a.close()
         a = open(fn, 'w')
@@ -364,18 +364,21 @@ async def unraidban(ctx):
 
 @bot.command(pass_context=True)
 async def addmentor(ctx):
-    headmentor = ['208974392644861952', '134767479435034624']
-    if ctx.message.author.id in headmentor:
-        target = ctx.message.mentions[0]
-        a = open('lists/mentors.txt', 'a')
-        a.write('<@%s>' % target.id + '\n')
-        a.close()
-        mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
-        await bot.add_roles(ctx.message.mentions[0], mentor_role)
-        embed = discord.Embed(title=f"✅ I put {target.display_name} on the 'Mentors' list", color=0xA5FFF6)
-    else:
-        embed = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
-    await bot.say(embed=embed)
+    target = discord.utils.find(lambda x: x.name.lower() == 'head mentors', ctx.message.server.roles)
+    try:
+        if target.id in [y.id for y in ctx.message.author.roles]:
+            target = ctx.message.mentions[0]
+            a = open('lists/mentors.txt', 'a')
+            a.write('<@%s>' % target.id + '\n')
+            a.close()
+            mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
+            await bot.add_roles(ctx.message.mentions[0], mentor_role)
+            response = discord.Embed(title=f"✅ {target.display_name} is now a Mentor", color=0xA5FFF6)
+        else:
+            response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
+    except AttributeError:
+        response = discord.Embed(title="I couldn\'t find the role 'Head Mentors'")
+    await bot.say(embed=response)
 
 
 @bot.command()
@@ -394,25 +397,28 @@ async def mentors():
 
 @bot.command(pass_context=True)
 async def delmentor(ctx):
-    headmentor = ['208974392644861952', '134767479435034624']
-    if ctx.message.author.id in headmentor:
-        fn = 'lists/mentors.txt'
-        target = ctx.message.mentions[0]
-        a = open(fn)
-        output = []
-        for line in a:
-            if target.id not in line:
-                output.append(line)
-        a.close()
-        a = open(fn, 'w')
-        a.writelines(output)
-        a.close()
-        mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
-        await bot.remove_roles(ctx.message.mentions[0], mentor_role)
-        embed = discord.Embed(title=f"✅ I removed {target.display_name} from the 'Mentors' list", color=0xA5FFF6)
-    else:
-        embed = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
-    await bot.say(embed=embed)
+    target = discord.utils.find(lambda x: x.name.lower() == 'head mentors', ctx.message.server.roles)
+    try:
+        if target.id in [y.id for y in ctx.message.author.roles]:
+            fn = 'lists/mentors.txt'
+            target = ctx.message.mentions[0]
+            a = open(fn)
+            output = []
+            for line in a:
+                if target.id not in line:
+                    output.append(line)
+            a.close()
+            a = open(fn, 'w')
+            a.writelines(output)
+            a.close()
+            mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
+            await bot.remove_roles(ctx.message.mentions[0], mentor_role)
+            response = discord.Embed(title=f"✅ {target.display_name} is no longer a Mentor", color=0xA5FFF6)
+        else:
+            response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
+    except AttributeError:
+        response = discord.Embed(title="I couldn\'t find the role 'Head Mentors'")
+    await bot.say(embed=response)
 
 
 @bot.command()
@@ -421,7 +427,7 @@ async def help():
     embed.description = 'Type `^apply YourIGN YourRegion` to be added to the list.\n' \
                         'Type `^requests` to get the current Student Requests list.\n' \
                         'Type `^mentors` to get a list of the current Mentors.\n' \
-                        'Type `^modules` to get a list of my modules and their commands.' \
+                        'Type `^modules` to get a list of my modules and their commands.\n' \
                         'If you\'d like your name removed, please ping Shifty9#0995. 💕'
     await bot.say(embed=embed)
 
@@ -446,39 +452,39 @@ async def commands(args):
         "```md\n"
         "- apply - Apply to the 'Students Requests' list.\n"
         "- requests - Returns the 'Student Requests' list.\n"
-        "- delline - Remove a line from the 'Student Requests' list.**\n"
-        "- addmentor - Adds the targeted user to the 'Mentors' list.**\n"
+        "- delline - Remove a line from the 'Student Requests' list.\n"
+        "- addmentor - Adds the targeted user to the 'Mentors' list.\n"
         "- mentors - Returns the 'Mentors' list.\n"
-        "- delmentor - Removes the targeted user from the 'Mentors' list.**```",
+        "- delmentor - Removes the targeted user from the 'Mentors' list.```",
                                  color=0xA5FFF6)
     elif module == 'raidban':
         response = discord.Embed(title="Raid ban commands\n", description=
         "```md\n"
         "- raidban - Add the targeted user to the 'Raid Banned' list and\nassigns the"
-        " 'Raid Banned' role to them.*\n"
+        " 'Raid Banned' role to them.\n"
         "- raidbans - Returns the 'Raid Banned' list.\n"
         "- unraidban - Remove the targeted user from the 'Raid Banned' list\n"
-        "and removes the 'Raid Banned' role from them.*```", color=0xA5FFF6)
+        "and removes the 'Raid Banned' role from them.```", color=0xA5FFF6)
     elif module == 'poll':
         response = discord.Embed(title="Poll commands\n", description=
         "```md\n"
         "- vote - Vote 'yes' or 'no' on the current poll.\n"
-        "- votes - Returns the results of the current poll.*\n"
-        "- voters - Returns a list of users who voted on the current poll.*\n"
-        "- clrvotes - Deletes all voting data pertaining to the current poll.*\n"
-        "- permit c/u - Permits the target to vote or be voted in. c: channel, u: user.*\n"
+        "- votes - Returns the results of the current poll.\n"
+        "- voters - Returns a list of users who voted on the current poll.\n"
+        "- clrvotes - Deletes all voting data pertaining to the current poll.\n"
+        "- permit c/u - Permits the target to vote or be voted in. c: channel, u: user.\n"
         "- permitr r/dm - r: permits the specified role to vote on the poll. dm: "
-        "permits the targeted role to vote on the poll via DMs.*\n"
+        "permits the targeted role to vote on the poll via DMs.\n"
         "- unpermit c/u - c: unpermits users to vote in the targeted channel. u: "
-        "unpermits targeted user to vote on the poll.*\n"
+        "unpermits targeted user to vote on the poll.\n"
         "- unpermitr r/dm - r: unpermits the specified role to vote on the poll. dm: "
-        "unpermits the targeted role to vote on the poll via DMs.*\n"
-        "- perms - Returns the current permissions for the poll.*\n"
+        "unpermits the targeted role to vote on the poll via DMs.\n"
+        "- perms - Returns the current permissions for the poll.\n"
         "- register - Registers the message author to vote on the poll in a "
-        "DM with Kon. Author must be permitted to vote.*\n"
+        "DM with Kon. Author must be permitted to vote.\n"
         "- clrperms - Deletes all the perms data pertaining to the poll. Also "
-        "deletes all registered user data.*\n"
-        "- setpassword - Resets the password fore votes/voters and DM's it to the command caller after 24h.*"
+        "deletes all registered user data.\n"
+        "- setpassword - Resets the password fore votes/voters and DM's it to the command caller after 24h."
         "```", color=0xA5FFF6)
     elif module == 'other':
         response = discord.Embed(title="Other commands\n", description=
@@ -551,7 +557,7 @@ async def clrvotes(ctx):
 @bot.command(pass_context=True)
 async def perms(ctx):
     if ctx.message.server.id == '138067606119645184':
-        if ctx.message.author.permissions_in(ctx.message.channel).manage_server:
+        if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             with open('permissions/channels.txt', 'r') as file:
                 a = file.read()
             with open('permissions/roles.txt', 'r') as file:
@@ -907,7 +913,7 @@ async def on_message(message):
     elif message.content.lower() == 'f':
         await bot.add_reaction(message, emoji='🇫')
     elif message.author.id == '150060705662500864':
-        react = secrets.randbelow(5)
+        react = secrets.randbelow(9)
         if react == 0:
             await bot.add_reaction(message, emoji='🍛')
 
