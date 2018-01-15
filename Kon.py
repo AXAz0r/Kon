@@ -285,21 +285,24 @@ async def requests(ctx):
 
 @bot.command(pass_context=True)
 async def delline(ctx, *, msg: str):
-    headmentor = ['208974392644861952', '134767479435034624']
-    if ctx.message.author.id in headmentor:
-        fn = 'lists/requests.txt'
-        a = open(fn)
-        output = []
-        for line in a:
-            if msg.lower() not in line.lower():
-                output.append(line)
-        a.close()
-        a = open(fn, 'w')
-        a.writelines(output)
-        a.close()
-        response = discord.Embed(title="📝 Updated", color=0xA5FFF6)
-    else:
-        response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
+    target = discord.utils.find(lambda x: x.name.lower() == 'head mentors', ctx.message.server.roles)
+    try:
+        if target.id in [y.id for y in ctx.message.author.roles]:
+            fn = 'lists/requests.txt'
+            a = open(fn)
+            output = []
+            for line in a:
+                if msg.lower() not in line.lower():
+                    output.append(line)
+            a.close()
+            a = open(fn, 'w')
+            a.writelines(output)
+            a.close()
+            response = discord.Embed(title="📝 Updated", color=0xA5FFF6)
+        else:
+            response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
+    except AttributeError:
+        response = discord.Embed(title="I couldn\'t find the role 'Head Mentors'")
     await bot.say(embed=response)
 
 
