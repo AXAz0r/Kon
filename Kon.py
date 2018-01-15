@@ -431,7 +431,7 @@ async def help():
                         'Type `^requests` to get the current Student Requests list.\n' \
                         'Type `^mentors` to get a list of the current Mentors.\n' \
                         'Type `^modules` to get a list of my modules and their commands.\n' \
-                        'If you\'d like your name removed, please ping Shifty9#0995. 💕'
+                        'If you\'d like your name removed, please ping <@208974392644861952>. 💕'
     await bot.say(embed=embed)
 
 
