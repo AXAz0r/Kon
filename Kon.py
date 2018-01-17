@@ -915,10 +915,6 @@ async def on_message(message):
         await bot.add_reaction(message, emoji='monika:375824498882117635')
     elif message.content.lower() == 'f':
         await bot.add_reaction(message, emoji='🇫')
-    elif message.author.id == '150060705662500864':
-        react = secrets.randbelow(9)
-        if react == 0:
-            await bot.add_reaction(message, emoji='🍛')
 
 
 bot.run("token", bot=True)
