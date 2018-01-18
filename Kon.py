@@ -26,8 +26,7 @@ async def on_ready():
 async def apply(ctx, *, msg: str):
     if ctx.message.channel.id == '376194194001100811':
         a = open('lists/requests.txt', 'a')
-        target = ctx.message.author.id
-        a.write('<@%s> %s' % (target, msg) + '\n')
+        a.write('%s' % msg + '\n')
         a.close()
         embed = discord.Embed(title="✅ I put you on the 'Student Requests' list!", color=0xA5FFF6)
     else:
@@ -309,7 +308,7 @@ async def delline(ctx):
 
 
 @bot.command(pass_context=True)
-async def raidban(ctx, message: str):
+async def raidban(ctx, msg: str):
     if ctx.message.author.permissions_in(ctx.message.channel).administrator:
         allow = True
     elif ctx.message.author.id == '208974392644861952':
@@ -319,7 +318,6 @@ async def raidban(ctx, message: str):
     if not allow:
         response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
-        msg = message.replace("!", "")
         a = open('lists/raidbans.txt', 'a')
         a.write('%s' % msg + '\n')
         a.close()
@@ -429,7 +427,7 @@ async def delmentor(ctx):
 @bot.command()
 async def help():
     embed = discord.Embed(title="❔ Hi! I can add your name to the Student Requests list!", color=0xA5FFF6)
-    embed.description = 'Type `^apply YourTimeZone` to be added to the list.\n' \
+    embed.description = 'Type `^apply @username YourTimeZone` to be added to the list.\n' \
                         'Type `^requests` to get the current Student Requests list.\n' \
                         'Type `^mentors` to get a list of the current Mentors.\n' \
                         'Type `^modules` to get a list of my modules and their commands.\n' \
