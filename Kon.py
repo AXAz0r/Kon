@@ -290,11 +290,11 @@ async def delline(ctx):
     try:
         if role.id in [y.id for y in ctx.message.author.roles]:
             fn = 'lists/requests.txt'
-            target = ctx.message.author.id
+            target = ctx.message.mentions[0]
             a = open(fn)
             output = []
             for line in a:
-                if target not in line:
+                if target.id not in line:
                     output.append(line)
             a.close()
             a = open(fn, 'w')
