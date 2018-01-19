@@ -134,7 +134,9 @@ async def vote(ctx, msg):
                 response = discord.Embed(title='🔒 You can\'t use that command in this channel', color=0xFFCC4d)
         else:
             response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
-    await bot.say(embed=response)
+    del_response = await bot.say(embed=response)
+    await asyncio.sleep(4)
+    await ctx.bot.delete_message(del_response)
 
 
 @bot.command(pass_context=True)
