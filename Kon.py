@@ -89,7 +89,10 @@ async def vote(ctx, msg):
         else:
             response = discord.Embed(title='⛔ You must register on the server to vote in a DM', color=0xBE1931)
     else:
-        if ctx.message.server.id == '138067606119645184':
+        with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+            server_data = json.loads(server_data_file.read())
+        svr = server_data.get('servers')
+        if ctx.message.server.id in svr:
             with open('permissions/channels.txt', 'r') as file:
                 a = file.read()
             if ctx.message.channel.id in a:
@@ -141,7 +144,10 @@ async def vote(ctx, msg):
 
 @bot.command(pass_context=True)
 async def votes(ctx, args):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             with open('lists/pswd_data.json', encoding='utf-8') as pswd_data_file:
                 pswd_data = json.loads(pswd_data_file.read())
@@ -189,7 +195,10 @@ async def votes(ctx, args):
 
 @bot.command(pass_context=True)
 async def voters(ctx, args):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             with open('lists/pswd_data.json', encoding='utf-8') as pswd_data_file:
                 pswd_data = json.loads(pswd_data_file.read())
@@ -213,6 +222,40 @@ async def voters(ctx, args):
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
         response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
+    await bot.say(embed=response)
+
+
+def get_server():
+    with open('lists/pswd_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+        server_str = server_data.get('servers') or []
+    for server in server_str:
+        return server
+
+
+def add_server(server_data, server_str, server: str):
+    server_str = server_data.get('servers')
+    if server_str is None:
+        server_str = []
+    server_str.append(server)
+    server_data.update({'servers': server_str})
+    with open('lists/server_data.json', 'w', encoding='utf-8') as server_data_file:
+        json.dump(server_data, server_data_file)
+
+
+@bot.command(pass_context=True)
+async def addserver(ctx, server):
+    if ctx.message.author.id == '208974392644861952':
+        if os.path.exists('lists/server_data.json'):
+            with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+                server_data = json.loads(server_data_file.read())
+        else:
+            server_data = {}
+        add_server(server_data, 'servers', server)
+        response = discord.Embed(title='✅ Server added', color=0xA5FFF6)
+    else:
+        response = discord.Embed(title='⛔ Access denied: You don\'t have permission to use this command',
+                                 color=0xBE1931)
     await bot.say(embed=response)
 
 
@@ -241,7 +284,10 @@ def get_pswd():
 
 @bot.command(pass_context=True)
 async def setpassword(ctx):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             if os.path.exists('lists/pswd_data.json'):
                 with open('lists/pswd_data.json', encoding='utf-8') as pswd_data_file:
@@ -547,7 +593,10 @@ async def purge(ctx, number):
 
 @bot.command(pass_context=True)
 async def clrvotes(ctx):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             if os.path.exists('lists/vote_data.json'):
                 os.remove('lists/vote_data.json')
@@ -561,7 +610,10 @@ async def clrvotes(ctx):
 
 @bot.command(pass_context=True)
 async def perms(ctx):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             with open('permissions/channels.txt', 'r') as file:
                 a = file.read()
@@ -608,7 +660,10 @@ async def perms(ctx):
 
 @bot.command(pass_context=True)
 async def clrperms(ctx):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             with open('permissions/registered.txt', 'w') as a:
                 a.write('')
@@ -629,7 +684,10 @@ async def clrperms(ctx):
 @bot.command(pass_context=True)
 async def register(ctx):
     if not ctx.message.channel.is_private:
-        if ctx.message.server.id == '138067606119645184':
+        with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+            server_data = json.loads(server_data_file.read())
+        svr = server_data.get('servers')
+        if ctx.message.server.id in svr:
             with open('permissions/users.txt', 'r') as file:
                 a = file.read()
             if ctx.message.author.id in a:
@@ -669,7 +727,10 @@ async def register(ctx):
 
 @bot.command(pass_context=True)
 async def permit(ctx, args):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         mode = args
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             if mode == 'c':
@@ -717,7 +778,10 @@ async def permit(ctx, args):
 
 @bot.command(pass_context=True)
 async def permitr(ctx, args, msg):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             mode = args
             if mode == 'r':
@@ -766,7 +830,10 @@ async def permitr(ctx, args, msg):
 
 @bot.command(pass_context=True)
 async def unpermit(ctx, args):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             mode = args
             if mode == 'c':
@@ -815,7 +882,16 @@ async def unpermit(ctx, args):
 
 @bot.command(pass_context=True)
 async def unpermitr(ctx, args, msg):
-    if ctx.message.server.id == '138067606119645184':
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    with open('lists/server_data.json', encoding='utf-8') as server_data_file:
+        server_data = json.loads(server_data_file.read())
+    svr = server_data.get('servers')
+    if ctx.message.server.id in svr:
         if ctx.message.author.permissions_in(ctx.message.channel).administrator:
             mode = args
             if mode == 'r':
