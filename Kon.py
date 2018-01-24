@@ -225,14 +225,6 @@ async def voters(ctx, args):
     await bot.say(embed=response)
 
 
-def get_server():
-    with open('lists/pswd_data.json', encoding='utf-8') as server_data_file:
-        server_data = json.loads(server_data_file.read())
-        server_str = server_data.get('servers') or []
-    for server in server_str:
-        return server
-
-
 def add_server(server_data, server_str, server: str):
     server_str = server_data.get('servers')
     if server_str is None:
@@ -438,11 +430,6 @@ async def mentors():
         a = file.read()
     embed = discord.Embed(title="**Mentors:**", color=0xA5FFF6)
     embed.description = ('%s' % a)
-    embed1 = discord.Embed(description="```Mentors are there to help\n"
-                                       "anyone who needs it. Check\n"
-                                       "to see if any of the following\n"
-                                       "mentors are online to assist.```", color=0xA5FFF6)
-    await bot.say(embed=embed1)
     await bot.say(embed=embed)
 
 
@@ -937,6 +924,29 @@ async def sleep():
     tmp = await bot.say("`(≧Д≦)` No!!!")
     await asyncio.sleep(3)
     await bot.edit_message(tmp, "Fine...")
+
+
+@bot.command()
+async def dance():
+    tmp = await bot.say("`:D|-<`")
+    await asyncio.sleep(2)
+    await bot.edit_message(tmp, "`:D\-<`")
+    await asyncio.sleep(2)
+    await bot.edit_message(tmp, "`:D/-<`")
+    await asyncio.sleep(2)
+    await bot.edit_message(tmp, "`:D\-<`")
+    await asyncio.sleep(2)
+    await bot.edit_message(tmp, "`:D/-<`")
+    await asyncio.sleep(2)
+    await bot.edit_message(tmp, "`:D\-<`")
+    await asyncio.sleep(2)
+    await bot.edit_message(tmp, "`:D/-<`")
+    await asyncio.sleep(2)
+    await bot.edit_message(tmp, "`:D\-<`")
+    await asyncio.sleep(2)
+    await bot.edit_message(tmp, "`:D/-<`")
+    await asyncio.sleep(2)
+    await bot.edit_message(tmp, "`:D\-<`")
 
 
 @bot.command()
