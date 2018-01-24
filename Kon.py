@@ -324,16 +324,19 @@ async def requests(ctx):
 
 
 @bot.command(pass_context=True)
-async def delline(ctx):
+async def delline(ctx, msg: str):
     role = discord.utils.find(lambda x: x.name.lower() == 'head mentor', ctx.message.server.roles)
     try:
         if role.id in [y.id for y in ctx.message.author.roles]:
+            if ctx.message.mentions:
+                target = ctx.message.mentions[0].id
+            else:
+                target = msg.lower()
             fn = 'lists/requests.txt'
-            target = ctx.message.mentions[0]
             a = open(fn)
             output = []
             for line in a:
-                if target.id not in line:
+                if target not in line:
                     output.append(line)
             a.close()
             a = open(fn, 'w')
@@ -414,7 +417,7 @@ async def addmentor(ctx):
             a = open('lists/mentors.txt', 'a')
             a.write('<@%s>' % target.id + '\n')
             a.close()
-            mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
+            mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentor')
             await bot.add_roles(ctx.message.mentions[0], mentor_role)
             response = discord.Embed(title=f"✅ {target.display_name} is now a Mentor", color=0xA5FFF6)
         else:
@@ -449,7 +452,7 @@ async def delmentor(ctx):
             a = open(fn, 'w')
             a.writelines(output)
             a.close()
-            mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentors')
+            mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentor')
             await bot.remove_roles(ctx.message.mentions[0], mentor_role)
             response = discord.Embed(title=f"✅ {target.display_name} is no longer a Mentor", color=0xA5FFF6)
         else:
