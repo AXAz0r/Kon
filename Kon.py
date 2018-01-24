@@ -325,7 +325,7 @@ async def requests(ctx):
 
 @bot.command(pass_context=True)
 async def delline(ctx):
-    role = discord.utils.find(lambda x: x.name.lower() == 'head mentors', ctx.message.server.roles)
+    role = discord.utils.find(lambda x: x.name.lower() == 'head mentor', ctx.message.server.roles)
     try:
         if role.id in [y.id for y in ctx.message.author.roles]:
             fn = 'lists/requests.txt'
@@ -343,7 +343,7 @@ async def delline(ctx):
         else:
             response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
     except AttributeError:
-        response = discord.Embed(title="❗ I couldn\'t find the role 'Head Mentors'")
+        response = discord.Embed(title="❗ I couldn\'t find the role 'Head Mentor'")
     await bot.say(embed=response)
 
 
@@ -407,7 +407,7 @@ async def unraidban(ctx):
 
 @bot.command(pass_context=True)
 async def addmentor(ctx):
-    target = discord.utils.find(lambda x: x.name.lower() == 'head mentors', ctx.message.server.roles)
+    target = discord.utils.find(lambda x: x.name.lower() == 'head mentor', ctx.message.server.roles)
     try:
         if target.id in [y.id for y in ctx.message.author.roles]:
             target = ctx.message.mentions[0]
@@ -420,7 +420,7 @@ async def addmentor(ctx):
         else:
             response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
     except AttributeError:
-        response = discord.Embed(title="❗ I couldn\'t find the role 'Head Mentors'")
+        response = discord.Embed(title="❗ I couldn\'t find the role 'Head Mentor'")
     await bot.say(embed=response)
 
 
@@ -435,7 +435,7 @@ async def mentors():
 
 @bot.command(pass_context=True)
 async def delmentor(ctx):
-    target = discord.utils.find(lambda x: x.name.lower() == 'head mentors', ctx.message.server.roles)
+    target = discord.utils.find(lambda x: x.name.lower() == 'head mentor', ctx.message.server.roles)
     try:
         if target.id in [y.id for y in ctx.message.author.roles]:
             fn = 'lists/mentors.txt'
@@ -455,7 +455,7 @@ async def delmentor(ctx):
         else:
             response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
     except AttributeError:
-        response = discord.Embed(title="❗ I couldn\'t find the role 'Head Mentors'")
+        response = discord.Embed(title="❗ I couldn\'t find the role 'Head Mentor'")
     await bot.say(embed=response)
 
 
