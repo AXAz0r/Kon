@@ -409,13 +409,13 @@ async def unraidban(ctx):
 
 
 @bot.command(pass_context=True)
-async def addmentor(ctx):
+async def addmentor(ctx, *, msg: str):
     target = discord.utils.find(lambda x: x.name.lower() == 'head mentor', ctx.message.server.roles)
     try:
         if target.id in [y.id for y in ctx.message.author.roles]:
             target = ctx.message.mentions[0]
             a = open('lists/mentors.txt', 'a')
-            a.write('<@%s>' % target.id + '\n')
+            a.write('%s' % msg + '\n')
             a.close()
             mentor_role = discord.utils.get(ctx.message.server.roles, name='Mentor')
             await bot.add_roles(ctx.message.mentions[0], mentor_role)
