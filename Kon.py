@@ -11,7 +11,7 @@ from discord.ext import commands
 
 logging.basicConfig(level=logging.INFO)
 
-bot = commands.Bot(command_prefix="^")
+bot = commands.Bot(command_prefix=">")
 bot.remove_command('help')
 
 
@@ -1006,6 +1006,44 @@ async def on_message(message):
         await bot.add_reaction(message, emoji='monika:375824498882117635')
     elif message.content.lower() == 'f':
         await bot.add_reaction(message, emoji='🇫')
+
+
+@bot.command(pass_context=True)
+async def question(ctx, args, *, msg):
+        if args.lower() == 'rd':
+            chn = bot.get_channel('260249108311179264')
+            send = True
+        elif args.lower() == 'rda':
+            chn = bot.get_channel('342424884019855370')
+            send = True
+        elif args.lower() == 'rde':
+            chn = bot.get_channel('335853572358930433')
+            send = True
+        elif args.lower() == 'rdg':
+            chn = bot.get_channel('340176761851478017')
+            send = True
+        elif args.lower() == 'rds':
+            chn = bot.get_channel('355270939837071362')
+            send = True
+        elif args.lower() == 'rdu':
+            chn = bot.get_channel('340176663117824000')
+            send = True
+        else:
+            chn = ctx.message.channel
+            send = False
+        usr = ctx.message.author
+        a = open("interviews/%s.txt" % usr.display_name, "w+")
+        a.write('%s' % msg)
+        a.close()
+        await bot.delete_message(ctx.message)
+        if send:
+            await ctx.bot.send_file(chn, "interviews/%s.txt" % usr.display_name)
+            response = discord.Embed(title="✅ Your review has been submitted", color=0xA5FFF6)
+        else:
+            response = discord.Embed(title="❗ Clan must be one of the following", color=0xA5FFF6)
+            response.description = '`rd | rda | rde | rdg | rds | rde`'
+        await bot.say(embed=response)
+
 
 
 bot.run("token", bot=True)
