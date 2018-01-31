@@ -2,10 +2,12 @@ import logging
 import os
 import json
 import discord
-from modules.other import roll, sleep, ping, github, dance, help, modules, commands
-from modules.moderative import purge, raidban, unraidban, raidbans, reboot
-from modules.voting import voters, votes, vote, setpassword, permit, unpermit, register, perms, clrperms, clrvotes
-from modules.mentoring import apply, requests, addmentor, delmentor, mentors, delline
+import secrets
+from spreadsheet import ban_check
+from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
+from modules.moderative import purge, raidban, raidbans, reboot, unraidban
+from modules.other import commands, dance, github, help, modules, ping, roll, sleep
+from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
 
@@ -32,35 +34,35 @@ async def on_message(message):
 
 
 commands = {
-    "sleep": sleep,
-    "ping": ping,
-    "reboot": reboot,
-    "roll": roll,
-    "voters": voters,
-    "votes": votes,
-    "vote": vote,
-    "apply": apply,
-    "setpassword": setpassword,
-    "requests": requests,
-    "github": github,
-    "dance": dance,
-    "purge": purge,
-    "help": help,
     "addmentor": addmentor,
-    "delmentor": delmentor,
+    "apply": apply,
     "delline": delline,
+    "delmentor": delmentor,
     "mentors": mentors,
+    "requests": requests,
+    "purge": purge,
     "raidban": raidban,
     "raidbans": raidbans,
+    "reboot": reboot,
     "unraidban": unraidban,
-    "permit": permit,
-    "unpermit": unpermit,
-    "register": register,
-    "perms": perms,
+    "commands": commands,
+    "dance": dance,
+    "github": github,
+    "help": help,
+    "modules": modules,
+    "ping": ping,
+    "roll": roll,
+    "sleep": sleep,
     "clrperms": clrperms,
     "clrvotes": clrvotes,
-    "modules": modules,
-    "commands": commands,
+    "permit": permit,
+    "perms": perms,
+    "register": register,
+    "setpassword": setpassword,
+    "unpermit": unpermit,
+    "vote": vote,
+    "voters": voters,
+    "votes": votes,
 }
 
 
@@ -71,6 +73,32 @@ async def on_message(message):
         args = message.content.split(" ")[1:]
         if commands.__contains__(invoke):
             await commands.get(invoke).ex(args, message, bot, invoke)
+    flipped_table = '(╯°□°）╯︵ ┻━┻'
+    if flipped_table in message.content:
+        table = ['┬─┬ ノ( ^_^ノ)',
+                 '┬─┬ ﾉ(° -°ﾉ)',
+                 '┬─┬ ノ(゜-゜ノ)',
+                 '┬─┬ ノ(ಠ\_ಠノ)',
+                 '┻━┻~~~~  ╯(°□° ╯)',
+                 '┻━┻====  ╯(°□° ╯)',
+                 ' ┬──┬﻿ ¯\_(ツ)',
+                 '(ヘ･_･)ヘ┳━┳',
+                 'ヘ(´° □°)ヘ┳━┳']
+        table_resp = secrets.choice(table)
+        await message.channel.send(table_resp)
+    elif 'natsuki' in message.content.lower():
+        await message.add_reaction(message, emoji='🔪')
+    elif 'sayori' in message.content.lower():
+        await message.add_reaction(message, emoji='🔪')
+    elif 'yuri' in message.content.lower():
+        await message.add_reaction(message, emoji='🔪')
+    elif message.content.lower() == 'f':
+        await message.add_reaction(emoji='🇫')
+    channels = [xxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxx]
+    if message.channel.id in channels:
+        ban = ban_check(message)
+        if ban:
+            await message.add_reaction(emoji='⛔')
 
 
 bot.run(cfg["Token"], bot=True)
