@@ -1,12 +1,12 @@
 import logging
 import os
 import json
-from modules.other import roll, sleep, ping, github, dance, help, modules, commands
-from modules.moderative import purge, raidban, raidbans, reboot
-from modules.voting import voters, votes, vote, setpassword, permit, unpermit, register, perms, clrperms, clrvotes
-from modules.mentoring import apply, requests, addmentor, delmentor, mentors
-from discord.ext import commands
 import discord
+from modules.other import roll, sleep, ping, github, dance, help, modules, commands
+from modules.moderative import purge, raidban, unraidban, raidbans, reboot
+from modules.voting import voters, votes, vote, setpassword, permit, unpermit, register, perms, clrperms, clrvotes
+from modules.mentoring import apply, requests, addmentor, delmentor, mentors, delline
+from discord.ext import commands
 
 
 logging.basicConfig(level=logging.INFO)
@@ -48,9 +48,11 @@ commands = {
     "help": help,
     "addmentor": addmentor,
     "delmentor": delmentor,
+    "delline": delline,
     "mentors": mentors,
     "raidban": raidban,
     "raidbans": raidbans,
+    "unraidban": unraidban,
     "permit": permit,
     "unpermit": unpermit,
     "register": register,
