@@ -2,8 +2,8 @@ import discord
 
 
 async def ex(args, message, bot, invoke):
-    role = discord.utils.find(lambda x: x.name.lower() == 'head mentor', message.guild.roles)
     try:
+        role = discord.utils.find(lambda x: x.name.lower() == 'head mentor', message.guild.roles)
         if role.id in [y.id for y in message.author.roles]:
             if message.mentions:
                 target = message.mentions[0].id
