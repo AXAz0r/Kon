@@ -6,8 +6,9 @@ async def ex(args, message, bot, invoke):
         target = discord.utils.find(lambda x: x.name.lower() == 'head mentor', message.guild.roles)
         if target.id in [y.id for y in message.author.roles]:
             target = message.mentions[0]
+            msg = ' '.join(args)
             a = open('lists/mentors.txt', 'a')
-            a.write('%s' % args + '\n')
+            a.write('%s' % msg + '\n')
             a.close()
             mentor_role = discord.utils.get(message.guild.roles, name='Mentor')
             await target.add_roles(mentor_role)
