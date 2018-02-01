@@ -2,7 +2,7 @@ import discord
 
 
 async def ex(args, message, bot, invoke):
-    if message.channel.id == 404728021216526348:
+    if message.channel.id == 376194194001100811:
         with open('lists/requests.txt', 'a') as a:
             msg = ' '.join(args)
             a.write('%s' % msg + '\n')
