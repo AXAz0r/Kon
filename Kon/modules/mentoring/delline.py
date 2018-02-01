@@ -2,7 +2,7 @@ import discord
 
 
 async def ex(args, message, bot, invoke):
-    role = discord.utils.find(lambda x: x.name.lower() == 'head mentor', message.server.roles)
+    role = discord.utils.find(lambda x: x.name.lower() == 'head mentor', message.guild.roles)
     try:
         if role.id in [y.id for y in message.author.roles]:
             if message.mentions:
