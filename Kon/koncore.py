@@ -87,11 +87,11 @@ async def on_message(message):
         table_resp = secrets.choice(table)
         await message.channel.send(table_resp)
     elif 'natsuki' in message.content.lower():
-        await message.add_reaction(message, emoji='🔪')
+        await message.add_reaction(emoji='🔪')
     elif 'sayori' in message.content.lower():
-        await message.add_reaction(message, emoji='🔪')
+        await message.add_reaction(emoji='🔪')
     elif 'yuri' in message.content.lower():
-        await message.add_reaction(message, emoji='🔪')
+        await message.add_reaction(emoji='🔪')
     elif message.content.lower() == 'f':
         await message.add_reaction(emoji='🇫')
     channels = [xxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxx]
