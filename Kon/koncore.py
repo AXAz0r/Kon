@@ -6,7 +6,7 @@ import secrets
 from spreadsheet import ban_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.moderative import purge, raidban, raidbans, reboot, unraidban
-from modules.other import commands, dance, help, info, modules, ping, roll, sleep
+from modules.other import commands, dance, help, info, kon, modules, ping, roll, sleep
 from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
@@ -49,6 +49,7 @@ commands = {
     "dance": dance,
     "help": help,
     "info": info,
+    "kon": kon,
     "modules": modules,
     "ping": ping,
     "roll": roll,
@@ -94,7 +95,8 @@ async def on_message(message):
         await message.add_reaction(emoji='🔪')
     elif message.content.lower() == 'f':
         await message.add_reaction(emoji='🇫')
-    channels = [xxxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxxx]
+    channels = [260249108311179264, 342424884019855370, 335853572358930433, 340176761851478017,
+                355270939837071362, 340176663117824000, 403429852029517844]
     if message.channel.id in channels:
         ban = ban_check(message)
         if ban:
