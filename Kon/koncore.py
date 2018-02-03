@@ -6,7 +6,7 @@ import secrets
 from spreadsheet import ban_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.moderative import purge, raidban, raidbans, reboot, unraidban
-from modules.other import commands, dance, help, info, kon, modules, ping, roll, sleep
+from modules.other import command, dance, help, info, kon, modules, ping, roll, sleep
 from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
@@ -45,7 +45,7 @@ commands = {
     "raidbans": raidbans,
     "reboot": reboot,
     "unraidban": unraidban,
-    "commands": commands,
+    "commands": command,
     "dance": dance,
     "help": help,
     "info": info,
