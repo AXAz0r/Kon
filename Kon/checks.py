@@ -37,6 +37,9 @@ def ban_check(message):
     if message.mentions:
         mention_name = message.mentions[0].name
         mention_nick = message.mentions[0].display_name
-        return mention_name.lower() or mention_nick.lower() in sheet_lower
+        if mention_name.lower() in sheet_lower:
+            return True
+        elif mention_nick.lower() in sheet_lower:
+            return True
     name = message.content.partition(' ')[0]
     return name.lower() in sheet_lower
