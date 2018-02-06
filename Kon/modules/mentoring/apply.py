@@ -2,11 +2,23 @@ import discord
 
 
 async def ex(args, message, bot, invoke):
-    if message.channel.id == 376194194001100811:
-        with open('lists/requests.txt', 'a') as a:
-            msg = ' '.join(args)
-            a.write('%s' % msg + '\n')
-        embed = discord.Embed(title="✅ I put you on the 'Student Requests' list!", color=0xA5FFF6)
-    else:
-        embed = discord.Embed(title="⛔ Please use the mentor-chat channel for that command", color=0xBE1931)
-    await message.channel.send(embed=embed)
+        if args:
+            if len(args) >= 3:
+                user = args[0]
+                zone = args[1]
+                time = args[2]
+                with open('lists/requests.txt', 'a') as a:
+                    a.write('`%s %s`: %s' % (zone, time, user) + '\n')
+                response = discord.Embed(title="✅ I put you on the 'Student Requests' list", color=0xA5FFF6)
+            elif len(args) >= 2:
+                user = args[0]
+                zone = args[1]
+                with open('lists/requests.txt', 'a') as a:
+                    a.write('`%s`: %s' % (zone, user) + '\n')
+                response = discord.Embed(title="✅ I put you on the 'Student Requests' list", color=0xA5FFF6)
+            else:
+                response = discord.Embed(title='❗ Not enough inputs', color=0xBE1931)
+                response.set_footer(text='@Username UTC and the appropriate number')
+        else:
+            response = discord.Embed(title="❗ No input", color=0xBE1931)
+        await message.channel.send(embed=response)
