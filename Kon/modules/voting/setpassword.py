@@ -4,7 +4,7 @@ import random
 import asyncio
 import discord
 import string
-from checks import server_check
+from checks import server_check, private_check
 
 
 def set_pswd(pswd_data, pswd_str, password: str):
@@ -31,27 +31,30 @@ def get_pswd():
 
 
 async def ex(args, message, bot, invoke):
-    if server_check(message):
-        if message.author.permissions_in(message.channel).administrator:
-            if os.path.exists('lists/password_data.json'):
-                with open('lists/password_data.json', encoding='utf-8') as pswd_data_file:
-                    pswd_data = json.loads(pswd_data_file.read())
+    if private_check:
+        if server_check(message):
+            if message.author.permissions_in(message.channel).administrator:
+                if os.path.exists('lists/password_data.json'):
+                    with open('lists/password_data.json', encoding='utf-8') as pswd_data_file:
+                        pswd_data = json.loads(pswd_data_file.read())
+                else:
+                    pswd_data = {}
+                set_pswd(pswd_data, 'pswd', id_generator())
+                response = discord.Embed(title='🔐 Password reset. It will be DM\'d to you in 24h', color=0xFFCC4d)
+                await message.channel.send(embed=response)
+                if message.mentions:
+                    target = message.mentions[0]
+                else:
+                    target = message.author
+                target_reply = discord.Embed(title=f'🔑 Here is the password `{get_pswd()}`', color=0xc1694f)
+                target_reply.set_footer(text=f'^votes/voters password')
+                await asyncio.sleep(86400)
+                await bot.send_message(target, embed=target_reply)
+                return pswd_data
             else:
-                pswd_data = {}
-            set_pswd(pswd_data, 'pswd', id_generator())
-            response = discord.Embed(title='🔐 Password reset. It will be DM\'d to you in 24h', color=0xFFCC4d)
-            await message.channel.send(embed=response)
-            if message.mentions:
-                target = message.mentions[0]
-            else:
-                target = message.author
-            target_reply = discord.Embed(title=f'🔑 Here is the password `{get_pswd()}`', color=0xc1694f)
-            target_reply.set_footer(text=f'^votes/voters password')
-            await asyncio.sleep(86400)
-            await bot.send_message(target, embed=target_reply)
-            return pswd_data
+                response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
         else:
-            response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+            response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command in a DM', color=0xFFCC4d)
     await message.channel.send(embed=response)
