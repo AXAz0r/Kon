@@ -62,6 +62,7 @@ async def ex(args, message, bot, invoke):
                 response = discord.Embed(title='⛔ You already voted', color=0xBE1931)
         else:
             response = discord.Embed(title='⛔ You must register on the server to vote in a DM', color=0xBE1931)
+        await message.channel.send(embed=response)
     else:
         if server_check(message):
             try:
@@ -115,7 +116,7 @@ async def ex(args, message, bot, invoke):
                 response = discord.Embed(title='🔒 You can\'t use that command in this channel', color=0xFFCC4d)
         else:
             response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
-    del_response = await message.channel.send(embed=response)
-    await asyncio.sleep(4)
-    await del_response.delete()
+        del_response = await message.channel.send(embed=response)
+        await asyncio.sleep(4)
+        await del_response.delete()
 
