@@ -1,111 +1,57 @@
-import logging
-import os
 import json
 import discord
-import secrets
-from checks import ban_check, role_check
-from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
-from modules.moderative import purge, raidban, raidbans, reboot, unraidban
-from modules.other import command, dance, help, info, kon, modules, ping, roll, sleep
-from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
-from discord.ext import commands
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+# use creds to create a client to interact with the Google Drive API
+scope = ['https://spreadsheets.google.com/feeds']
+creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+client = gspread.authorize(creds)
+
+# Find a workbook by name and open the first sheet
+# Make sure you use the right name here.
+sheet = client.open("RD Clans Banned list").get_worksheet(0)
+
+# Extract and print all of the values
+sheet_list = sheet.col_values(1)
 
 
-logging.basicConfig(level=logging.INFO)
-
-
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
 with open('config.json') as json_data_file:
     cfg = json.load(json_data_file)
 
 
-bot = commands.Bot(command_prefix=cfg["Prefix"])
-bot.remove_command('help')
+def owner_check(message):
+    return message.author.id in cfg["OwnerID"]
 
 
-@bot.event
-async def on_ready():
-    print('Bot ready.')
+def server_check(message):
+    return message.guild.id in cfg["Servers"]
 
 
-async def on_message(message):
-    await bot.process_commands(message)
-    await bot.change_presence(game=discord.Game(name='^help for help'))
+def private_check(ctx):
+    return isinstance(ctx.channel, discord.abc.PrivateChannel)
 
 
-commands = {
-    "addmentor": addmentor,
-    "apply": apply,
-    "delline": delline,
-    "delmentor": delmentor,
-    "mentors": mentors,
-    "requests": requests,
-    "purge": purge,
-    "raidban": raidban,
-    "raidbans": raidbans,
-    "reboot": reboot,
-    "unraidban": unraidban,
-    "commands": command,
-    "dance": dance,
-    "help": help,
-    "info": info,
-    "kon": kon,
-    "modules": modules,
-    "ping": ping,
-    "roll": roll,
-    "sleep": sleep,
-    "clrperms": clrperms,
-    "clrvotes": clrvotes,
-    "permit": permit,
-    "perms": perms,
-    "register": register,
-    "setpassword": setpassword,
-    "unpermit": unpermit,
-    "vote": vote,
-    "voters": voters,
-    "votes": votes,
-}
+def ban_check(message):
+    sheet_lower = [x.lower() for x in sheet_list]
+    if message.mentions:
+        mention_name = message.mentions[0].name
+        mention_nick = message.mentions[0].display_name
+        if mention_name.lower() in sheet_lower:
+            return True
+        elif mention_nick.lower() in sheet_lower:
+            return True
+    name = message.content.partition(' ')[0]
+    return name.lower() in sheet_lower
 
 
-@bot.event
-async def on_message(message):
-    if not message.author.id == bot.user.id:
-        if message.content.startswith(cfg["Prefix"]):
-            invoke = message.content.lower()[len(cfg["Prefix"]):].split(" ")[0]
-            args = message.content.split(" ")[1:]
-            if invoke in commands:
-                await commands.get(invoke).ex(args, message, bot, invoke)
-        flipped_table = '(╯°□°）╯︵ ┻━┻'
-        if flipped_table in message.content:
-            table = ['┬─┬ ノ( ^_^ノ)',
-                     '┬─┬ ﾉ(° -°ﾉ)',
-                     '┬─┬ ノ(゜-゜ノ)',
-                     '┬─┬ ノ(ಠ\_ಠノ)',
-                     '┻━┻~~~~  ╯(°□° ╯)',
-                     '┻━┻====  ╯(°□° ╯)',
-                     ' ┬──┬﻿ ¯\_(ツ)',
-                     '(ヘ･_･)ヘ┳━┳',
-                     'ヘ(´° □°)ヘ┳━┳']
-            table_resp = secrets.choice(table)
-            await message.channel.send(table_resp)
-        if 'natsuki' in message.content.lower():
-            await message.add_reaction(emoji='🔪')
-        if 'sayori' in message.content.lower():
-            await message.add_reaction(emoji='🔪')
-        if 'yuri' in message.content.lower():
-            await message.add_reaction(emoji='🔪')
-        if message.content.lower() == 'f':
-            await message.add_reaction(emoji='🇫')
-        channels = [404728021216526348]
-        if message.channel.id in channels:
-            ban = ban_check(message)
-            if ban:
-                await message.add_reaction(emoji='⛔')
-        if role_check(message):
-            role = role_check(message)
-            target = message.mentions[0]
-            clan_role = discord.utils.get(message.guild.roles, name=f'{role}')
-            await target.add_roles(clan_role)
-
-
-bot.run(cfg["Token"], bot=True)
+def role_check(message):
+    triggers = ['reddit']
+    if message.mentions:
+        for trigger in triggers:
+            if trigger in message.content.lower():
+                if message.channel.id == xxxxxxxxxxxxxxxxxx:
+                    role = "Smore"
+                else:
+                    role = False
+                return role
