@@ -3,7 +3,7 @@ import os
 import json
 import discord
 import secrets
-from checks import ban_check
+from checks import ban_check, role_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.moderative import purge, raidban, raidbans, reboot, unraidban
 from modules.other import command, dance, help, info, kon, modules, ping, roll, sleep
@@ -88,20 +88,24 @@ async def on_message(message):
                      'ヘ(´° □°)ヘ┳━┳']
             table_resp = secrets.choice(table)
             await message.channel.send(table_resp)
-        elif 'natsuki' in message.content.lower():
+        if 'natsuki' in message.content.lower():
             await message.add_reaction(emoji='🔪')
-        elif 'sayori' in message.content.lower():
+        if 'sayori' in message.content.lower():
             await message.add_reaction(emoji='🔪')
-        elif 'yuri' in message.content.lower():
+        if 'yuri' in message.content.lower():
             await message.add_reaction(emoji='🔪')
-        elif message.content.lower() == 'f':
+        if message.content.lower() == 'f':
             await message.add_reaction(emoji='🇫')
-        channels = [260249108311179264, 342424884019855370, 335853572358930433, 340176761851478017,
-                    355270939837071362, 340176663117824000, 403429852029517844]
+        channels = [404728021216526348]
         if message.channel.id in channels:
             ban = ban_check(message)
             if ban:
                 await message.add_reaction(emoji='⛔')
+        if role_check(message):
+            role = role_check(message)
+            target = message.mentions[0]
+            clan_role = discord.utils.get(message.guild.roles, name=f'{role}')
+            await target.add_roles(clan_role)
 
 
 bot.run(cfg["Token"], bot=True)
