@@ -43,3 +43,15 @@ def ban_check(message):
             return True
     name = message.content.partition(' ')[0]
     return name.lower() in sheet_lower
+
+
+def role_check(message):
+    triggers = ['reddit', 'recruitment', '407998157717241866']
+    if message.mentions:
+        for trigger in triggers:
+            if trigger in message.content.lower():
+                if message.channel.id == 260249108311179264:
+                    role = "Smore"
+                else:
+                    role = False
+                return role
