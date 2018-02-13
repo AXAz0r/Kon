@@ -69,25 +69,25 @@ commands = {
 
 @bot.event
 async def on_message(message):
+    if message.author.id == 216437513709944832:
+        tables = ['┬─┬ ノ( ^_^ノ)',
+                 '┬─┬ ﾉ(° -°ﾉ)',
+                 '┬─┬ ノ(゜-゜ノ)',
+                 '┬─┬ ノ(ಠ\_ಠノ)',
+                 '┻━┻~~~~  ╯(°□° ╯)',
+                 '┻━┻====  ╯(°□° ╯)',
+                 '┬──┬﻿ ¯\_(ツ)',
+                 '(ヘ･_･)ヘ┳━┳',
+                 'ヘ(´° □°)ヘ┳━┳']
+        for table in tables:
+            if table in message.content:
+                await message.channel.send('(╯°□°）╯︵ ┻━┻')
     if not message.author.id == bot.user.id:
         if message.content.startswith(cfg["Prefix"]):
             invoke = message.content.lower()[len(cfg["Prefix"]):].split(" ")[0]
             args = message.content.split(" ")[1:]
             if invoke in commands:
                 await commands.get(invoke).ex(args, message, bot, invoke)
-        flipped_table = '(╯°□°）╯︵ ┻━┻'
-        if flipped_table in message.content:
-            table = ['┬─┬ ノ( ^_^ノ)',
-                     '┬─┬ ﾉ(° -°ﾉ)',
-                     '┬─┬ ノ(゜-゜ノ)',
-                     '┬─┬ ノ(ಠ\_ಠノ)',
-                     '┻━┻~~~~  ╯(°□° ╯)',
-                     '┻━┻====  ╯(°□° ╯)',
-                     ' ┬──┬﻿ ¯\_(ツ)',
-                     '(ヘ･_･)ヘ┳━┳',
-                     'ヘ(´° □°)ヘ┳━┳']
-            table_resp = secrets.choice(table)
-            await message.channel.send(table_resp)
         if 'natsuki' in message.content.lower():
             await message.add_reaction(emoji='🔪')
         if 'sayori' in message.content.lower():
