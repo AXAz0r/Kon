@@ -3,24 +3,29 @@ import discord
 
 async def ex(args, message, bot, invoke):
     try:
-        role = discord.utils.find(lambda x: x.name.lower() == 'head mentor', message.guild.roles)
-        if role.id in [y.id for y in message.author.roles]:
-            if message.mentions:
-                target = "%s" % message.mentions[0].id
-            else:
-                msg = ' '.join(args)
-                target = msg.lower()
-            fn = 'lists/requests.txt'
+        target = discord.utils.find(lambda x: x.name.lower() == 'head mentor', message.guild.roles)
+        if target.id in [y.id for y in message.author.roles]:
+            fn = 'lists/mentors.txt'
+            targetid = "%s" % message.mentions[0].id
+            target = message.mentions[0]
             a = open(fn)
             output = []
+            temp = 0
             for line in a:
-                if target not in line:
+                if targetid not in line:
                     output.append(line)
+                else:
+                    temp += 1
             a.close()
             a = open(fn, 'w')
             a.writelines(output)
             a.close()
-            response = discord.Embed(title="📝 Updated", color=0xA5FFF6)
+            mentor_role = discord.utils.get(message.guild.roles, name='Mentor')
+            await target.remove_roles(mentor_role)
+            if not temp == 0:
+                response = discord.Embed(title=f"✅ {target.display_name} is no longer a Mentor", color=0xA5FFF6)
+            else:
+                response = discord.Embed(title="❗ That user wasn\'t a Mentor", color=0xBE1931)
         else:
             response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
     except AttributeError:
