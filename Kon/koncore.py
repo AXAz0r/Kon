@@ -2,7 +2,6 @@ import logging
 import os
 import json
 import discord
-import secrets
 from checks import ban_check, role_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.moderative import purge, raidban, raidbans, reboot, unraidban
