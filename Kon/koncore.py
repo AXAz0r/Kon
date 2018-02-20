@@ -2,7 +2,7 @@ import logging
 import os
 import json
 import discord
-from checks import ban_check, role_check
+from checks import ban_check, member_check, role_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.moderative import purge, raidban, raidbans, reboot, unraidban
 from modules.other import command, dance, help, info, kon, modules, ping, roll, sleep
