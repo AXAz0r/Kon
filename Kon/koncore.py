@@ -101,12 +101,13 @@ async def on_message(message):
             if ban:
                 await message.add_reaction(emoji='⛔')
         if role_check(message):
-            role = role_check(message)
-            target = message.mentions[0]
-            clan_role = discord.utils.get(message.guild.roles, name=f'{role}')
-            recruit_role = discord.utils.get(message.guild.roles, name='Recruit')
-            await target.add_roles(clan_role)
-            await target.remove_roles(recruit_role)
+            if not member_check(message):
+                role = role_check(message)
+                target = message.mentions[0]
+                clan_role = discord.utils.get(message.guild.roles, name=f'{role}')
+                recruit_role = discord.utils.get(message.guild.roles, name='Recruit')
+                await target.add_roles(clan_role)
+                await target.remove_roles(recruit_role)
 
 
 bot.run(cfg["Token"], bot=True)
