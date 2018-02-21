@@ -20,6 +20,18 @@ def dump_vote(vote_data, vote_key, voter):
         json.dump(vote_data, vote_data_file)
 
 
+def role_check(message):
+    with open('permissions/roles.txt') as file:
+        a = file.read()
+    roles = [y.id for y in message.author.roles]
+    has_role = False
+    for role in a:
+        if role in roles:
+            has_role = True
+            break
+    return has_role
+
+
 async def ex(args, message, bot, invoke):
     if private_check(message):
         with open('permissions/registered.txt', 'r') as file:
@@ -83,15 +95,9 @@ async def ex(args, message, bot, invoke):
                 user = True
             else:
                 user = False
-            with open('permissions/roles.txt') as file:
-                a = file.read()
-            tmp = "%s" % [y.id for y in message.author.roles]
-            for line in tmp:
-                if line in a:
-                    role = True
             if channel:
                 try:
-                    if user or role:
+                    if user or role_check:
                         if os.path.exists('lists/vote_data.json'):
                             with open('lists/vote_data.json', encoding='utf-8') as vote_data_file:
                                 vote_data = json.loads(vote_data_file.read())
