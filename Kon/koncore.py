@@ -87,12 +87,10 @@ async def on_message(message):
             args = message.content.split(" ")[1:]
             if invoke in commands:
                 await commands.get(invoke).ex(args, message, bot, invoke)
-        if 'natsuki' in message.content.lower():
-            await message.add_reaction(emoji=':monika:375824498882117635')
-        if 'sayori' in message.content.lower():
-            await message.add_reaction(emoji=':monika:375824498882117635')
-        if 'yuri' in message.content.lower():
-            await message.add_reaction(emoji=':monika:375824498882117635')
+        chars = ['natsuki', 'sayori', 'yuri']
+        for char in chars:
+            if char in message.content.lower():
+                await message.add_reaction(emoji=':monika:375824498882117635')
         if message.content.lower() == 'f':
             await message.add_reaction(emoji='🇫')
         channels = [xxxxxxxxxxxxxxxxxx]
