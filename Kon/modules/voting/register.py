@@ -2,6 +2,18 @@ import discord
 from checks import server_check, private_check
 
 
+def role_check(message):
+    with open('permissions/roles.txt') as file:
+        a = file.read()
+    roles = [y.id for y in message.author.roles]
+    has_role = False
+    for role in a:
+        if role in roles:
+            has_role = True
+            break
+    return has_role
+
+
 async def ex(args, message, bot, invoke):
     if not private_check(message):
         if server_check(message):
@@ -12,14 +24,8 @@ async def ex(args, message, bot, invoke):
                 user = True
             else:
                 user = False
-            with open('permissions/roles.txt') as file:
-                a = file.read()
-            tmp = "%s" % [y.id for y in message.author.roles]
-            for line in tmp:
-                if line in a:
-                    role = True
             try:
-                if user or role:
+                if user or role_check:
                     with open('permissions/registered.txt', 'r') as file:
                         a = file.read()
                         target = "%s" % message.author.id
@@ -30,7 +36,7 @@ async def ex(args, message, bot, invoke):
                         if perm:
                             with open('permissions/registered.txt', 'a') as a:
                                 a.write('<@&%s>\n' % target)
-                            response = discord.Embed(title="✅ Registered", description=" DM me with '^vote yes/no' to vote",
+                            response = discord.Embed(title="✅ Registered", description=" DM me with ^vote yes/no to vote",
                                                      color=0xA5FFF6)
                         else:
                             response = discord.Embed(title="❗ You already resgistered", color=0xBE1931)
