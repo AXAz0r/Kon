@@ -59,7 +59,7 @@ def role_check(message):
            
 def member_check(message):
     clan_roles = [xxxxxxxxxxxxxxxxxx]
-    user_roles = [y.id for y in message.author.roles]
+    user_roles = [y.id for y in message.mentions[0].roles]
     has_role = False
     for role in clan_roles:
         if role in user_roles:
