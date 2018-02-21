@@ -81,7 +81,7 @@ async def on_message(message):
         for table in tables:
             if table in message.content:
                 await message.channel.send('(╯°□°）╯︵ ┻━┻')
-    if not message.author.id == bot.user.id:
+    if not message.author.bot:
         if message.content.startswith(cfg["Prefix"]):
             invoke = message.content.lower()[len(cfg["Prefix"]):].split(" ")[0]
             args = message.content.split(" ")[1:]
