@@ -69,7 +69,7 @@ async def ex(args, message, bot, invoke):
                     dump_vote(vote_data, 'no', message.author)
                     response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                 else:
-                    response = discord.Embed(title="❗ Vote must contain 'yes' or 'no'", color=0xBE1931)
+                    response = discord.Embed(title="❗ Vote must be 'yes' or 'no'", color=0xBE1931)
             else:
                 response = discord.Embed(title='⛔ You already voted', color=0xBE1931)
         else:
@@ -113,7 +113,7 @@ async def ex(args, message, bot, invoke):
                                 dump_vote(vote_data, 'no', message.author)
                                 response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
                             else:
-                                response = discord.Embed(title="❗ Vote must contain 'yes' or 'no'", color=0xBE1931)
+                                response = discord.Embed(title="❗ Vote must be 'yes' or 'no'", color=0xBE1931)
                         else:
                             response = discord.Embed(title='⛔ You already voted', color=0xBE1931)
                 except UnboundLocalError:
