@@ -15,7 +15,7 @@ async def ex(args, message, bot, invoke):
             output = []
             temp = 0
             for line in a:
-                if target not in line:
+                if target not in line.lower():
                     output.append(line)
                 else:
                     temp += 1
@@ -30,5 +30,5 @@ async def ex(args, message, bot, invoke):
         else:
             response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
     except AttributeError:
-        response = discord.Embed(title="❗ I couldn\'t find the role 'Head Mentor'")
+        response = discord.Embed(title="❗ I couldn\'t find the role 'Head Mentor'", color=0xBE1931)
     await message.channel.send(embed=response)
