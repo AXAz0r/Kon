@@ -33,6 +33,8 @@ async def ex(args, message, bot, invoke):
         "- modules - Shows the current command modules for Kon.\n"
         "- ping - Returns the bot latency for Kon.\n"
         "- help - View help for the Mentor commands.\n"
+        "- hyperlink - Generates a hyperlink where the url is the first argument "
+        "and the hyperlink text is all follow arguments\n"
         "- roll - Role a 6 sided dice and try to guess the outcome.\n"
         "- sleep - Tell Kon to go to sleep.```", color=0xA5FFF6)
     elif module == 'voting':
