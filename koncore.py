@@ -5,7 +5,7 @@ import discord
 from checks import ban_check, member_check, role_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.moderative import purge, raidban, raidbans, reboot, unraidban
-from modules.other import command, dance, help, info, kon, members, modules, ping, roll, sleep
+from modules.other import command, dance, help, hyperlink, info, kon, members, modules, ping, roll, sleep
 from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
@@ -47,6 +47,7 @@ commands = {
     "commands": command,
     "dance": dance,
     "help": help,
+    "hyperlink": hyperlink,
     "info": info,
     "kon": kon,
     "members": members,
