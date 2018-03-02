@@ -17,12 +17,7 @@ async def ex(args, message, bot, invoke):
         response = discord.Embed(title="Raid ban commands\n", description=
         "```md\n"
         "- purge - Delete a specified number of messages.\n"
-        "- raidban - Add the targeted user to the 'Raid Banned' list and\nassigns the"
-        " 'Raid Banned' role to them.\n"
-        "- raidbans - Returns the 'Raid Banned' list.\n"
-        "- reboot - Restarts the bot (Bot Owner only).\n"
-        "- unraidban - Remove the targeted user from the 'Raid Banned' list\n"
-        "and removes the 'Raid Banned' role from them.```", color=0xA5FFF6)
+        "- reboot - Restarts the bot (Bot Owner only).", color=0xA5FFF6)
     elif module == 'other':
         response = discord.Embed(title="Other commands\n", description=
         "```md\n"
