@@ -4,7 +4,7 @@ import json
 import discord
 from checks import ban_check, member_check, role_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
-from modules.moderative import purge, raidban, raidbans, reboot, unraidban
+from modules.moderative import purge, reboot
 from modules.other import command, dance, help, hyperlink, info, kon, members, modules, ping, roll, sleep
 from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
@@ -40,10 +40,7 @@ commands = {
     "mentors": mentors,
     "requests": requests,
     "purge": purge,
-    "raidban": raidban,
-    "raidbans": raidbans,
     "reboot": reboot,
-    "unraidban": unraidban,
     "commands": command,
     "dance": dance,
     "help": help,
