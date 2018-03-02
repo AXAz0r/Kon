@@ -11,7 +11,9 @@ async def ex(args, message, bot, invoke):
         link_name = '; '.join(all_qry.split('; ')[:-1])
         if link_name is not '':
             if "http" in url_string:
-                response = discord.Embed(description=f'🌐 [{link_name}]({url_string})', color=0x5DBCD2)
+                avatar = 'https://i.imgur.com/tUo5WrQ.png'
+                response = discord.Embed(description=f'[{link_name}]({url_string})', color=0x0f80a6)
+                response.set_author(name='Hyperlink', icon_url=avatar)
             else:
                 response = discord.Embed(title='❗ URL must include http/s', color=0xBE1931)
         else:
