@@ -31,7 +31,6 @@ async def ex(args, message, bot, invoke):
                         err += f'**Link #{curr_link}** `URL cannot contain spaces`\n'
                 else:
                     err += f'**Link #{curr_link}** `URL must include http/s`\n'
-
             else:
                 err += f'**Link #{curr_link}** `Format: Google Home; https://www.google.com`\n'
         if err is not '':
