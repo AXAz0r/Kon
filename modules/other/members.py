@@ -18,8 +18,8 @@ async def ex(args, message, bot, invoke):
         active_round = round(active_users, 2)
         other_status = dnd_users + idle_users
         members = f'\nMembers: **{user_count}**'
-        members += f'\nOffline: **{offline_users}**'
         members += f'\nOnline: **{online_users}**'
+        members += f'\nOffline: **{offline_users}**'
         members += f'\nOther: **{other_status}**'
         members += f'\nActive: **{active_round}%**'
         response = discord.Embed(color=0xA5FFF6)
