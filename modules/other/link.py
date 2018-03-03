@@ -37,7 +37,7 @@ async def ex(args, message, bot, invoke):
             else:
                 err += f"**Link #{curr_link}** `Separate the name from URL with '; '`"
         if err is not '':
-            err_header = f'**Error:**'
+            err_header = '**Error:**'
         else:
             err_header = ''
         response = discord.Embed(description=f'{desc} \n{err_header}\n{err}', color=0x0f80a6)
