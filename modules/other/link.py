@@ -21,8 +21,11 @@ async def ex(args, message, bot, invoke):
         for qry in hyp_qry:
             link_num += 1
             curr_link = link_num
-            link_name = ''.join(qry.split('; ')[0])
-            url_string = qry.split('; ')[1]
+            try:
+                link_name = ''.join(qry.split('; ')[0])
+                url_string = qry.split('; ')[1]
+            except IndexError:
+                link_name = ''
             if link_name is not '':
                 if "http" in url_string:
                     if ' ' not in url_string:
@@ -32,7 +35,7 @@ async def ex(args, message, bot, invoke):
                 else:
                     err += f'**Link #{curr_link}** `URL must include http/s`\n'
             else:
-                err += f'**Link #{curr_link}** `Format: Google Home; https://www.google.com`\n'
+                err += f"**Link #{curr_link}** `Separate the name from URL with '; '`"
         if err is not '':
             err_header = f'**Error:**'
         else:
