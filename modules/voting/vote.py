@@ -64,10 +64,10 @@ async def ex(args, message, bot, invoke):
                 msg = ' '.join(args).lower()
                 if msg == 'yes':
                     dump_vote(vote_data, 'yes', message.author)
-                    response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
+                    response = discord.Embed(title='🗳️ Voted!', color=0x9AAAB4)
                 elif msg == 'no':
                     dump_vote(vote_data, 'no', message.author)
-                    response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
+                    response = discord.Embed(title='🗳️ Voted!', color=0x9AAAB4)
                 else:
                     response = discord.Embed(title="❗ Vote must be 'yes' or 'no'", color=0xBE1931)
             else:
@@ -108,10 +108,10 @@ async def ex(args, message, bot, invoke):
                         if message.author.id not in voted:
                             if msg == 'yes':
                                 dump_vote(vote_data, 'yes', message.author)
-                                response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
+                                response = discord.Embed(title='🗳️ Voted!', color=0x9AAAB4)
                             elif msg == 'no':
                                 dump_vote(vote_data, 'no', message.author)
-                                response = discord.Embed(title='🗳️ Voted!', color=0xA5FFF6)
+                                response = discord.Embed(title='🗳️ Voted!', color=0x9AAAB4)
                             else:
                                 response = discord.Embed(title="❗ Vote must be 'yes' or 'no'", color=0xBE1931)
                         else:
