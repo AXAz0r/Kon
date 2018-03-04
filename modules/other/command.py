@@ -54,6 +54,7 @@ async def ex(args, message, bot, invoke):
         else:
             response = discord.Embed(title='❗ Module not found', color=0xBE1931)
     else:
-        response = discord.Embed(title='❗ Module name required', color=0xBE1931)
-        response.set_footer(text=f'^commands module_name')
+        response = discord.Embed(description='**There are 4 modules**\n'
+                                             '```yml\n- MENTORING\n- OTHER\n- OWNER\n- VOTING```', color=0xA5FFF6)
+        response.set_footer(text='^commands module_name')
     await message.channel.send(embed=response)
