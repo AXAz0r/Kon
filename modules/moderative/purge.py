@@ -82,7 +82,7 @@ async def ex(args, message, bot, invoke):
                 except Exception:
                     deleted = []
                     pass
-            response = discord.Embed(color=0x77B255, title=f'✅ Deleted {len(deleted)} Messages')
+            response = discord.Embed(title=f'✅ Deleted {len(deleted)} Messages', color=0x77B255)
             if message.guild.id == 138067606119645184:
                 all_channels = bot.get_all_channels()
                 log_embed = generate_log_embed(message, target, message.channel, deleted)
