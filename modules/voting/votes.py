@@ -47,7 +47,7 @@ async def ex(args, message, bot, invoke):
                         except ZeroDivisionError:
                             no_perc_base = 0
                         no_stat_line = f'[{no_points}] {no_bar} {int(no_perc_base * 100)}% - No'
-                        response = discord.Embed(title=f'📊 Poll Statistics', color=0xA5FFF6)
+                        response = discord.Embed(title=f'📊 Poll Statistics', color=0xD2DAE1)
                         output = f'{yes_stat_line}\n' \
                                  f'{no_stat_line}'
                         response.description = f'```{output}```'
