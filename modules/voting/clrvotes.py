@@ -8,7 +8,7 @@ async def ex(args, message, bot, invoke):
         if message.author.permissions_in(message.channel).administrator:
             if os.path.exists('lists/vote_data.json'):
                 os.remove('lists/vote_data.json')
-            response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
+            response = discord.Embed(title='🗑️ Cleared', color=0x67757F)
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
