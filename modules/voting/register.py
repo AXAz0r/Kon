@@ -37,7 +37,7 @@ async def ex(args, message, bot, invoke):
                             with open('permissions/registered.txt', 'a') as a:
                                 a.write('<@&%s>\n' % target)
                             response = discord.Embed(title="✅ Registered", description=" DM me with ^vote yes/no to vote",
-                                                     color=0xA5FFF6)
+                                                     color=0x77B255)
                         else:
                             response = discord.Embed(title="❗ You already resgistered", color=0xBE1931)
             except UnboundLocalError:
