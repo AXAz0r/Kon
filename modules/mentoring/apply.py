@@ -9,7 +9,7 @@ async def ex(args, message, bot, invoke):
                 time = args[2]
                 with open('lists/requests.txt', 'a') as a:
                     a.write(f'`{zone} {time}`: {user}' + '\n')
-                response = discord.Embed(title="✅ I put you on the 'Student Requests' list", color=0xA5FFF6)
+                response = discord.Embed(title="✅ I put you on the 'Student Requests' list", color=0x77B255)
             elif len(args) >= 2:
                 user = args[0]
                 zone = args[1]
