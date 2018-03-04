@@ -15,7 +15,7 @@ async def ex(args, message, bot, invoke):
                 a.close()
                 mentor_role = discord.utils.get(message.guild.roles, name='Mentor')
                 await target.add_roles(mentor_role)
-                response = discord.Embed(title=f"✅ {target.display_name} is now a Mentor", color=0xA5FFF6)
+                response = discord.Embed(title=f"✅ {target.display_name} is now a Mentor", color=0x77B255)
             else:
                 response = discord.Embed(title='❗ Not enough inputs', color=0xBE1931)
                 response.set_footer(text='@Username UTC #')
