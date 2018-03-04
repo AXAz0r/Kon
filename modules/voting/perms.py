@@ -41,7 +41,7 @@ async def ex(args, message, bot, invoke):
                     dmo = "Officers"
                 else:
                     dmo = ""
-            response = discord.Embed(title='📊 **Poll permissions:**\n',
+            response = discord.Embed(title='🔏 **Poll permissions:**\n',
                                      description='**Channels:**\n'
                                      '%s'
                                      '**Roles:**\n'
@@ -49,7 +49,7 @@ async def ex(args, message, bot, invoke):
                                      '**Users:**\n'
                                      '%s'
                                      '**DMs:**\n'
-                                     '%s\n%s\n%s' % (a, b, c, dmw, dmg, dmo), color=0xA5FFF6)
+                                     '%s\n%s\n%s' % (a, b, c, dmw, dmg, dmo), color=0xFFCC4D)
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
