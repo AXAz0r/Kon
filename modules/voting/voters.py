@@ -29,7 +29,7 @@ async def ex(args, message, bot, invoke):
                         for voter in voters:
                             line_list.append('<@' + voter + '>')
                         a = '\n'.join(line_list)
-                        response = discord.Embed(title="**Voters:**", color=0xA5FFF6)
+                        response = discord.Embed(title="👥 **Voters:**", color=0x292F33)
                         response.description = ('%s' % a)
                     else:
                         response = discord.Embed(title='🔒 Incorrect password', color=0xFFCC4d)
