@@ -27,6 +27,6 @@ async def ex(args, message, bot, invoke):
             color = 0xBE1931
     else:
         desc = f'🎲 **Dice**\n**You Rolled** `{die_value}`'
-        color = 0xA5FFF6
+        color = 0xEA596E
     response = discord.Embed(description=f'{desc}', color=color)
     await message.channel.send(embed=response)
