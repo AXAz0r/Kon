@@ -22,7 +22,7 @@ async def ex(args, message, bot, invoke):
         members += f'\nOffline: **{offline_users}**'
         members += f'\nOther: **{other_status}**'
         members += f'\nActive: **{active_round}%**'
-        response = discord.Embed(color=0xA5FFF6)
+        response = discord.Embed(color=0x292F33)
         response.add_field(name='👥 Member Status', value=members)
         response.set_footer(text='Active is users who are not offline')
     else:
