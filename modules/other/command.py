@@ -14,11 +14,6 @@ async def ex(args, message, bot, invoke):
             "- mentors - Returns the 'Mentors' list.\n"
             "- requests - Returns the 'Student Requests' list.```",
                                      color=0xA5FFF6)
-        elif module == 'moderative':
-            response = discord.Embed(title="Raid ban commands\n", description=
-            "```md\n"
-            "- purge - Delete a specified number of messages.\n"
-            "- reboot - Restarts the bot (Bot Owner only).", color=0xA5FFF6)
         elif module == 'other':
             response = discord.Embed(title="Other commands\n", description=
             "```md\n"
@@ -28,11 +23,18 @@ async def ex(args, message, bot, invoke):
             "- kon - Returns a random image from safebooru with the kitsunemimi tag.\n"
             "- modules - Shows the current command modules for Kon.\n"
             "- ping - Returns the bot latency for Kon.\n"
+            "- purge - Delete a specified number of messages.\n"
             "- help - View help for the Mentor commands.\n"
             "- link - Generates a hyperlink where text is the first argument and the url is the second argument. "
             "You can enter multiple links by separating them with > (space on both sides of it).\n"
             "- roll - Role a 6 sided dice and try to guess the outcome.\n"
             "- sleep - Tell Kon to go to sleep.```", color=0xA5FFF6)
+        elif module == 'owner':
+            response = discord.Embed(title="Raid ban commands\n", description=
+            "```md\n"
+            "- reboot - Restarts the bot (Bot Owner only).\n"
+            "- setavatar - Sets the avatar of the bot either to the linked or attached image.\n"
+            "- setstatus - Sets the playing status of the bot.", color=0xA5FFF6)
         elif module == 'voting':
             response = discord.Embed(title="Poll commands\n", description=
             "```md\n"
