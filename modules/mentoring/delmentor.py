@@ -23,7 +23,7 @@ async def ex(args, message, bot, invoke):
             mentor_role = discord.utils.get(message.guild.roles, name='Mentor')
             await target.remove_roles(mentor_role)
             if not temp == 0:
-                response = discord.Embed(title=f"✅ {target.display_name} is no longer a Mentor", color=0xA5FFF6)
+                response = discord.Embed(title=f"✅ {target.display_name} is no longer a Mentor", color=0x77B255)
             else:
                 response = discord.Embed(title="❗ That user wasn\'t a Mentor", color=0xBE1931)
         else:
