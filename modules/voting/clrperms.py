@@ -19,7 +19,7 @@ async def ex(args, message, bot, invoke):
                 a.write('')
             with open('permissions/users.txt', 'w') as a:
                 a.write('')
-            response = discord.Embed(title='🗑️ Cleared', color=0xA5FFF6)
+            response = discord.Embed(title='🗑️ Cleared', color=0x67757F)
         else:
             response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
     else:
