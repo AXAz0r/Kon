@@ -2,10 +2,11 @@ import logging
 import os
 import json
 import discord
+import secrets
 from checks import ban_check, member_check, role_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
-from modules.moderative import purge, reboot
-from modules.other import command, dance, help, info, kon, link, members, modules, ping, roll, sleep
+from modules.owner import reboot, setavatar, setstatus, setusername
+from modules.other import commands, dance, help, info, kon, link, members, modules, ping, purge, roll, sleep
 from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
@@ -28,36 +29,38 @@ async def on_ready():
 
 
 async def on_message(message):
-    await bot.process_commands(message)
-    await bot.change_presence(game=discord.Game(name='^help for help'))
+    await bot.process_commands(message
 
 
 commands = {
     "addmentor": addmentor,
     "apply": apply,
+    "clrperms": clrperms,
+    "clrvotes": clrvotes,
+    "dance": dance,
     "delline": delline,
     "delmentor": delmentor,
-    "mentors": mentors,
-    "requests": requests,
-    "purge": purge,
-    "reboot": reboot,
-    "commands": command,
-    "dance": dance,
+    "commands": commands,
     "help": help,
     "info": info,
     "kon": kon,
     "link": link,
+    "mentors": mentors,
     "members": members,
     "modules": modules,
     "ping": ping,
-    "roll": roll,
-    "sleep": sleep,
-    "clrperms": clrperms,
-    "clrvotes": clrvotes,
     "permit": permit,
     "perms": perms,
+    "purge": purge,
+    "reboot": reboot,
     "register": register,
+    "requests": requests,
+    "roll": roll,
+    "setavatar": setavatar,
+    "setstatus": setstatus,
+    "setusername": setusername,
     "setpassword": setpassword,
+    "sleep": sleep,
     "unpermit": unpermit,
     "vote": vote,
     "voters": voters,
