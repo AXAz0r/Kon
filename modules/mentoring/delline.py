@@ -24,7 +24,7 @@ async def ex(args, message, bot, invoke):
             a.writelines(output)
             a.close()
             if not temp == 0:
-                response = discord.Embed(title="📝 Updated", color=0xA5FFF6)
+                response = discord.Embed(title="📝 Updated", color=0xCCD6DD)
             else:
                 response = discord.Embed(title="❗ I couldn\'t find that line", color=0xBE1931)
         else:
