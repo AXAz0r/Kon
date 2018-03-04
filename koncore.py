@@ -88,7 +88,10 @@ async def on_message(message):
             invoke = message.content.lower()[len(cfg["Prefix"]):].split(" ")[0]
             args = message.content.split(" ")[1:]
             if invoke in commands:
-                await commands.get(invoke).ex(args, message, bot, invoke)
+                try:
+                    await commands.get(invoke).ex(args, message, bot, invoke)
+                except discord.Forbidden:
+                    await message.add_reaction(emoji='❗')
         chars = ['natsuki', 'sayori', 'yuri']
         for char in chars:
             if char in message.content.lower():
