@@ -17,11 +17,11 @@ async def ex(args, message, bot, invoke):
         elif module == 'other':
             response = discord.Embed(title="Other commands\n", description=
             "```md\n"
-            "- commands - View a list of the commands.\n"
+            "- commands - Returns the current command modules for Kon. If a module is specified, "
+            "it will return a list of the commands for that module.\n"
             "- dance - Makes the bot dance for one minute.\n"
             "- info - Returns various info regarding Kon.\n"
             "- kon - Returns a random image from safebooru with the kitsunemimi tag.\n"
-            "- modules - Shows the current command modules for Kon.\n"
             "- ping - Returns the bot latency for Kon.\n"
             "- purge - Delete a specified number of messages.\n"
             "- help - View help for the Mentor commands.\n"
