@@ -6,7 +6,7 @@ import secrets
 from checks import ban_check, member_check, role_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.owner import reboot, setavatar, setstatus, setusername
-from modules.other import commands, dance, help, info, kon, link, members, modules, ping, purge, roll, sleep
+from modules.other import commands, dance, help, info, kon, link, members, modules, ping, purge, random, roll, sleep
 from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
@@ -52,6 +52,7 @@ commands = {
     "permit": permit,
     "perms": perms,
     "purge": purge,
+    "random": random,
     "reboot": reboot,
     "register": register,
     "requests": requests,
