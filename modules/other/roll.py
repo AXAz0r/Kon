@@ -13,20 +13,25 @@ async def ex(args, message, bot, invoke):
                         sym = '✔'
                     else:
                         sym = '❌'
+                    title = '🎲 **Dice**'
                     tmp = f'\n**Your Guess** `{guess}`\n**Match:** `{sym}`'
-                    desc = f'🎲 **Dice**\n**You Rolled** `{die_value}`{tmp}'
-                    color = 0xA5FFF6
+                    desc = f'**You Rolled** `{die_value}`{tmp}'
+                    color = 0xEA596E
                 else:
-                    desc = '❗ Guess must be positive and not a zero'
+                    title = '❗ Guess must be positive and not a zero'
+                    desc = ''
                     color = 0xBE1931
             else:
-                desc = '❗ Guess cannot be greater than six'
+                title = '❗ Guess cannot be greater than six'
+                desc = ''
                 color = 0xBE1931
         except ValueError:
-            desc = '❗ Guess must be a number'
+            title = '❗ Guess must be a number'
+            desc = ''
             color = 0xBE1931
     else:
-        desc = f'🎲 **Dice**\n**You Rolled** `{die_value}`'
+        title = '🎲 **Dice**'
+        desc = f'**You Rolled** `{die_value}`'
         color = 0xEA596E
-    response = discord.Embed(description=f'{desc}', color=color)
+    response = discord.Embed(title=f'{title}', description=f'{desc}', color=color)
     await message.channel.send(embed=response)
