@@ -8,8 +8,8 @@ async def ex(args, message, bot, invoke):
             response = discord.Embed(title="Mentor commands", description=
             "```md\n"
             "- addmentor - Adds the targeted user to the 'Mentors' list.\n"
-            "- apply - Apply to the 'Students Requests' list.\n"
-            "- delline - Remove a line from the 'Student Requests' list.\n"
+            "- apply - Adds the targeted user to the 'Students Requests' list.\n"
+            "- delline - Removes a line from the 'Student Requests' list.\n"
             "- delmentor - Removes the targeted user from the 'Mentors' list.\n"
             "- mentors - Returns the 'Mentors' list.\n"
             "- requests - Returns the 'Student Requests' list.```",
@@ -22,11 +22,13 @@ async def ex(args, message, bot, invoke):
             "- dance - Makes the bot dance for one minute.\n"
             "- info - Returns various info regarding Kon.\n"
             "- kon - Returns a random image from safebooru with the kitsunemimi tag.\n"
+            "- match - Returns a member who is special picked just for you.\n"
+            "- members - Returns the total number of members as well as how many are online, offline, other and active.\n"
             "- ping - Returns the bot latency for Kon.\n"
             "- purge - Delete a specified number of messages.\n"
             "- help - View help for the Mentor commands.\n"
             "- link - Generates a hyperlink where text is the first argument and the url is the second argument. "
-            "You can enter multiple links by separating them with > (space on both sides of it).\n" 
+            "You can enter multiple links by separating them with > (space on both sides of it).\n"
             "- random - Returns a random number below 1000000. If a number is specified, the random number will be "
             "below it.\n"
             "- roll - Role a 6 sided dice and try to guess the outcome.\n"
@@ -54,7 +56,7 @@ async def ex(args, message, bot, invoke):
             "- unpermit c/dm/r/u - c: Unpermits the target to vote or be voted in. c: Channel, dm: "
             "Direct Messages, r: Role, u: User.```", color=0xA5FFF6)
         else:
-            response = discord.Embed(title='❗ Module not found', color=0xBE1931)
+            response = discord.Embed(title="❗ I couldn't find that module", color=0xBE1931)
     else:
         response = discord.Embed(description='**There are 4 modules**\n'
                                              '```yml\n- MENTORING\n- OTHER\n- OWNER\n- VOTING```', color=0xA5FFF6)
