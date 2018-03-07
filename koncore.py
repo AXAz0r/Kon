@@ -5,8 +5,8 @@ import discord
 import secrets
 from checks import ban_check, member_check, role_check
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
+from modules.other import commands_help, dance, help, info, kon, link, members, modules, ping, purge, random, roll, sleep
 from modules.owner import reboot, setavatar, setstatus, setusername
-from modules.other import commands, dance, help, info, kon, link, members, modules, ping, purge, random, roll, sleep
 from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
@@ -32,15 +32,15 @@ async def on_message(message):
     await bot.process_commands(message
 
 
-commands = {
+commands_list = {
     "addmentor": addmentor,
     "apply": apply,
+    "commands": commands_help,
     "clrperms": clrperms,
     "clrvotes": clrvotes,
     "dance": dance,
     "delline": delline,
     "delmentor": delmentor,
-    "commands": commands,
     "help": help,
     "info": info,
     "kon": kon,
@@ -88,9 +88,9 @@ async def on_message(message):
         if message.content.startswith(cfg["Prefix"]):
             invoke = message.content.lower()[len(cfg["Prefix"]):].split(" ")[0]
             args = message.content.split(" ")[1:]
-            if invoke in commands:
+            if invoke in commands_list:
                 try:
-                    await commands.get(invoke).ex(args, message, bot, invoke)
+                    await commands_list.get(invoke).ex(args, message, bot, invoke)
                 except discord.Forbidden:
                     await message.add_reaction(emoji='❗')
         chars = ['natsuki', 'sayori', 'yuri']
