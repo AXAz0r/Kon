@@ -24,7 +24,7 @@ def generate_log_embed(message, target, args):
     user = message.author
     avatar = user.avatar_url
     log_embed = discord.Embed(color=0x696969, timestamp=arrow.utcnow().datetime)
-    log_embed.set_author(name='A Member Has Been Muted', icon_url=avatar(target))
+    log_embed.set_author(name='A Member Has Been Muted', icon_url=avatar)
     log_embed.add_field(name='🔇 Muted User',
                         value=f'{target.mention}\n{target.name}#{target.discriminator}', inline=True)
     author = message.author
