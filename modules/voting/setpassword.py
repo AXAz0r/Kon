@@ -39,6 +39,7 @@ async def ex(args, message, bot, invoke):
                         pswd_data = json.loads(pswd_data_file.read())
                 else:
                     pswd_data = {}
+                if message.mentions:
                     target = message.mentions[0]
                     pronoun = 'them'
                 else:
@@ -47,7 +48,6 @@ async def ex(args, message, bot, invoke):
                 set_pswd(pswd_data, 'pswd', id_generator())
                 response = discord.Embed(title=f'🔐 Password reset. It will be DM\'d to {pronoun} in 24h', color=0xFFCC4d)
                 await message.channel.send(embed=response)
-                if message.mentions:
                 target_reply = discord.Embed(title=f'🔑 Here is the password `{get_pswd()}`', color=0xc1694f)
                 target_reply.set_footer(text=f'^votes/voters password')
                 await asyncio.sleep(86400)
