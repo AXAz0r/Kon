@@ -2,6 +2,16 @@ import discord
 from checks import server_check, private_check
 
 
+def user_auth(message):
+    with open('permissions/users.txt') as file:
+        a = file.read()
+    user = message.author.id
+    user_perm = False
+    if f'{user.id}' in a:
+        user_perm = True
+    return user_perm
+
+
 def role_check(message):
     with open('permissions/roles.txt') as file:
         a = file.read()
@@ -14,32 +24,30 @@ def role_check(message):
     return has_role
 
 
+def reg_auth(message):
+    with open('permissions/registered.txt') as file:
+        a = file.read()
+    target = message.author.id
+    if f'{target}' in a:
+        reg_perm = True
+    else:
+        reg_perm = False
+    return reg_perm
+
+
 async def ex(args, message, bot, invoke):
     if not private_check(message):
         if server_check(message):
-            with open('permissions/users.txt', 'r') as file:
-                a = file.read()
-            user = "%s" % message.author.id
-            if user in a:
-                user = True
-            else:
-                user = False
             try:
-                if user or role_check:
-                    with open('permissions/registered.txt', 'r') as file:
-                        a = file.read()
-                        target = "%s" % message.author.id
-                        if target not in a:
-                            perm = True
-                        else:
-                            perm = False
-                        if perm:
-                            with open('permissions/registered.txt', 'a') as a:
-                                a.write('<@&%s>\n' % target)
-                            response = discord.Embed(title="✅ Registered", description=" DM me with ^vote yes/no to vote",
-                                                     color=0x77B255)
-                        else:
-                            response = discord.Embed(title="❗ You already resgistered", color=0xBE1931)
+                if user_auth or role_check:
+                    target = message.author.id
+                    if reg_auth:
+                        with open('permissions/registered.txt', 'a') as a:
+                            a.write(f'<@&{target}>\n')
+                        response = discord.Embed(title="✅ Registered", description=" DM me with ^vote yes/no to vote",
+                                                 color=0x77b255)
+                    else:
+                        response = discord.Embed(title="❗ You already resgistered", color=0xBE1931)
             except UnboundLocalError:
                 response = discord.Embed(title='🔒 You do not have the required roles', color=0xFFCC4d)
         else:
