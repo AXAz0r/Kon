@@ -28,8 +28,8 @@ def server_check(message):
     return message.guild.id in cfg["Servers"]
 
 
-def private_check(ctx):
-    return isinstance(ctx.channel, discord.abc.PrivateChannel)
+def private_check(message):
+    return isinstance(message.channel, discord.abc.PrivateChannel)
 
 
 def ban_check(message):
