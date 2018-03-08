@@ -6,7 +6,7 @@ async def ex(args, message, bot, invoke):
         role = discord.utils.find(lambda x: x.name.lower() == 'head mentor', message.guild.roles)
         if role.id in [y.id for y in message.author.roles]:
             if message.mentions:
-                target = "%s" % message.mentions[0].id
+                target = message.mentions[0].id
             else:
                 msg = ' '.join(args)
                 target = msg.lower()
@@ -15,7 +15,7 @@ async def ex(args, message, bot, invoke):
             output = []
             temp = 0
             for line in a:
-                if target not in line.lower():
+                if f'{target}' not in line.lower():
                     output.append(line)
                 else:
                     temp += 1
@@ -24,11 +24,11 @@ async def ex(args, message, bot, invoke):
             a.writelines(output)
             a.close()
             if not temp == 0:
-                response = discord.Embed(title="📝 Updated", color=0xCCD6DD)
+                response = discord.Embed(title="📝 Updated", color=0xccd6dd)
             else:
-                response = discord.Embed(title="❗ I couldn\'t find that line", color=0xBE1931)
+                response = discord.Embed(title="❗ I couldn't find that line", color=0xBE1931)
         else:
             response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
     except AttributeError:
-        response = discord.Embed(title="❗ I couldn\'t find the role 'Head Mentor'", color=0xBE1931)
+        response = discord.Embed(title="❗ I couldn't find the role 'Head Mentor'", color=0xBE1931)
     await message.channel.send(embed=response)
