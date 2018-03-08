@@ -12,8 +12,7 @@ async def ex(args, message, bot, invoke):
             "- delline - Removes a line from the 'Student Requests' list.\n"
             "- delmentor - Removes the targeted user from the 'Mentors' list.\n"
             "- mentors - Returns the 'Mentors' list.\n"
-            "- requests - Returns the 'Student Requests' list.```",
-                                     color=0xA5FFF6)
+            "- requests - Returns the 'Student Requests' list.```", color=0xA5FFF6)
         elif module == 'other':
             response = discord.Embed(title="Other commands\n", description=
             "```md\n"
@@ -24,6 +23,8 @@ async def ex(args, message, bot, invoke):
             "- kon - Returns a random image from safebooru with the kitsunemimi tag.\n"
             "- match - Returns a member who is special picked just for you.\n"
             "- members - Returns the total number of members as well as how many are online, offline, other and active.\n"
+            "- mute - Marks the mentioned user as muted and deletes any messages by them. A reason can be stated after "
+            "the mention if desired.\n"
             "- ping - Returns the bot latency for Kon.\n"
             "- purge - Delete a specified number of messages.\n"
             "- help - View help for the Mentor commands.\n"
@@ -32,7 +33,9 @@ async def ex(args, message, bot, invoke):
             "- random - Returns a random number below 1000000. If a number is specified, the random number will be "
             "below it.\n"
             "- roll - Role a 6 sided dice and try to guess the outcome.\n"
-            "- sleep - Tell Kon to go to sleep.```", color=0xA5FFF6)
+            "- sleep - Tells Kon to go to sleep.\n"
+            "- unmute - Unmarks the mentioned user as muted and stops deleting their messages. A reason can be stated "
+            "after the mention if desired.```", color=0xA5FFF6)
         elif module == 'owner':
             response = discord.Embed(title="Raid ban commands\n", description=
             "```md\n"
