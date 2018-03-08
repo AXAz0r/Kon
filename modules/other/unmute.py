@@ -61,10 +61,10 @@ async def ex(args, message, bot, invoke):
                     mute_list.close()
                     if mute_check(message):
                         response = discord.Embed(title=f'✅ {target.display_name} has been unmuted.', color=0x77B255)
-                        if message.guild.id == 138067606119645184:
+                        if message.guild.id == xxxxxxxxxxxxxxxxxx:
                             all_channels = bot.get_all_channels()
                             log_embed = generate_log_embed(message, target, args)
-                            log_channel = discord.utils.find(lambda x: x.id == 302665883849850881, all_channels)
+                            log_channel = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, all_channels)
                             await log_channel.send(embed=log_embed)
                     else:
                         response = discord.Embed(title=f'❗ {target.display_name} is not text muted.',
