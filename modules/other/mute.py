@@ -57,10 +57,10 @@ async def ex(args, message, bot, invoke):
                     else:
                         if not mute_check(message):
                             response = discord.Embed(title=f'✅ {target.display_name} has been text muted.', color=0x77B255)
-                            if message.guild.id == 404719026309300225:
+                            if message.guild.id == xxxxxxxxxxxxxxxxxx:
                                 all_channels = bot.get_all_channels()
                                 log_embed = generate_log_embed(message, target, args)
-                                log_channel = discord.utils.find(lambda x: x.id == 404728021216526348, all_channels)
+                                log_channel = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, all_channels)
                                 await log_channel.send(embed=log_embed)
                             mute_list = open('lists/muted.txt', 'w')
                             mute_list.write(f'{target.id}\n')
