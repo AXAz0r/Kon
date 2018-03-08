@@ -2,69 +2,82 @@ import discord
 from checks import server_check
 
 
+def channel_auth(message):
+    with open('permissions/channels.txt') as file:
+        a = file.read()
+    if message.channel_mentions:
+        channel = message.channel_mentions[0]
+        channel_perm = False
+        if f'{channel.id}' in a:
+            channel_perm = True
+    else:
+        channel_perm = None
+    return channel_perm
+
+
+def user_auth(message):
+    with open('permissions/users.txt') as file:
+        a = file.read()
+    if message.mentions:
+        user = message.mentions[0]
+        user_perm = False
+        if f'{user.id}' in a:
+            user_perm = True
+    else:
+        user_perm = None
+    return user_perm
+
+
+def role_auth(args, message):
+    lookup = ' '.join(args[1:]).lower()
+    target = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
+    with open('permissions/roles.txt') as file:
+        a = file.read()
+    role_perm = False
+    if f'{target.id}' in a:
+        role_perm = True
+    return role_perm
+
+
 async def ex(args, message, bot, invoke):
     if server_check(message):
-        mode = ' '.join(args)
         if message.author.permissions_in(message.channel).administrator:
             if args:
                 if len(args) >= 2:
                     mode = args[0].lower()
                     if mode == 'c':
                         if message.channel_mentions:
-                            with open('permissions/channels.txt', 'r') as file:
-                                a = file.read()
-                                for line in message.channel_mentions:
-                                    trg = "%s" % line.id
-                                    if trg not in a:
-                                        perm = True
-                                    else:
-                                        perm = False
-                                    channel = message.channel_mentions[0]
-                                    if perm:
-                                        with open('permissions/channels.txt', 'a') as a:
-                                            a.write('<#%s>\n' % line.id)
-                                        response = discord.Embed(title=f"🔓 {channel} permitted", color=0xFFCC4d)
-                                    else:
-                                        response = discord.Embed(title=f"❗ {channel} already permitted", color=0xBE1931)
+                            channel = message.channel_mentions[0]
+                            if not channel_auth(message):
+                                with open('permissions/channels.txt', 'a') as a:
+                                    a.write(f'<#{channel.id}>\n')
+                                response = discord.Embed(title=f"🔓 Permitted {channel}", color=0xFFCC4d)
+                            else:
+                                response = discord.Embed(title=f"❗ {channel} is already permitted", color=0xBE1931)
                         else:
                             response = discord.Embed(title='❗ Input must be a channel', color=0xBE1931)
                     elif mode == 'u':
                         if message.mentions:
-                            with open('permissions/users.txt', 'r') as file:
-                                a = file.read()
-                                for line in message.mentions:
-                                    trg = "%s" % line.id
-                                    if trg not in a:
-                                        perm = True
-                                    else:
-                                        perm = False
-                                    if perm:
-                                        user = message.mentions[0]
-                                        with open('permissions/users.txt', 'a') as a:
-                                            a.write('<@%s>\n' % line.id)
-                                        response = discord.Embed(title=f"🔓 {user.display_name} permitted", color=0xFFCC4d)
-                                    else:
-                                        response = discord.Embed(title=f"❗ {user.display_name} already permitted",
-                                                                 color=0xBE1931)
+                            user = message.mentions[0]
+                            if not user_auth(message):
+                                with open('permissions/users.txt', 'a') as a:
+                                    a.write(f'<@{user.id}>\n')
+                                response = discord.Embed(title=f"🔓 Permitted {user.display_name}", color=0xFFCC4d)
+                            else:
+                                response = discord.Embed(title=f"❗ {user.display_name} is already permitted",
+                                                         color=0xBE1931)
                         else:
                             response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
                     elif mode == 'r':
                         lookup = ' '.join(args[1:]).lower()
                         target = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
                         if target is not None:
-                            with open('permissions/roles.txt', 'r') as file:
-                                a = file.read()
-                                trg = "%s" % target.id
-                                if trg not in a:
-                                    perm = True
-                                else:
-                                    perm = False
-                                if perm:
-                                    with open('permissions/roles.txt', 'a') as a:
-                                        a.write('<@&%s>\n' % target.id)
-                                    response = discord.Embed(title=f"🔓 {target} permitted", color=0xFFCC4d)
-                                else:
-                                    response = discord.Embed(title=f"❗ {target} already permitted", color=0xBE1931)
+                            if not user_auth(message):
+                                with open('permissions/roles.txt', 'a') as a:
+                                    a.write(f'<@&{target.id}>\n')
+                                response = discord.Embed(title=f"🔓 Permitted {target}", color=0xFFCC4d)
+                            else:
+                                response = discord.Embed(title=f"❗ {target} is already permitted", color=0xBE1931)
                         else:
                             response = discord.Embed(title=f'❗ I couldn\'t find {lookup} on this server', color=0xBE1931)
                     elif mode == 'dm':
