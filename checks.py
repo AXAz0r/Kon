@@ -21,11 +21,11 @@ with open('config.json') as json_data_file:
 
 
 def owner_check(message):
-    return message.author.id in cfg["OwnerID"]
+    return f'{message.author.id}' in cfg["OwnerID"]
 
 
 def server_check(message):
-    return message.guild.id in cfg["Servers"]
+    return f'{message.guild.id}' in cfg["Servers"]
 
 
 def private_check(message):
