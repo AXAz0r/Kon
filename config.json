@@ -1,6 +1,10 @@
+
 {
-        "Servers":[xxxxxxxxxxxxxxxxxx],
-        "OwnerID":[xxxxxxxxxxxxxxxxxx],
-        "Token":"token",
-        "Prefix":"^"
+    "OwnerID": "xxxxxxxxxxxxxxxxxx",
+    "Prefix": ";",
+    "Servers": [
+        "xxxxxxxxxxxxxxxxxx"
+    ],
+    "Status": "^help for help",
+    "Token": "token"
 }
