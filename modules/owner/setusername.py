@@ -12,7 +12,7 @@ async def ex(args, message, bot, invoke):
             except discord.Forbidden:
                 response = discord.Embed(color=0xBE1931, title=f'❗ I was unable to change my username.')
         else:
-            response = discord.Embed(itle='❗ Give me a username to change to, please.', color=0xBE1931)
+            response = discord.Embed(title='❗ Give me a username to change to, please.', color=0xBE1931)
     else:
         response = discord.Embed(title="⛔ You are not the owner", color=0xBE1931)
     await message.channel.send(embed=response)
