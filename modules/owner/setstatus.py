@@ -16,7 +16,7 @@ async def ex(args, message, bot, invoke):
             with open('config.json', 'w') as config_data:
                 json.dump(status_data, config_data, sort_keys=True, indent=4)
         else:
-            response = discord.Embed(itle='❗ Give me a status to change to, please.', color=0xBE1931)
+            response = discord.Embed(title='❗ Give me a status to change to, please.', color=0xBE1931)
     else:
         response = discord.Embed(title="⛔ You are not the owner", color=0xBE1931)
     await message.channel.send(embed=response)
