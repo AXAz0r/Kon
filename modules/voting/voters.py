@@ -27,7 +27,7 @@ async def ex(args, message, bot, invoke):
                         voters = votes_cfg.get('voters') or []
                         line_list = []
                         for voter in voters:
-                            line_list.append('<@' + voter + '>')
+                            line_list.append(f'<@{voter}>')
                         a = '\n'.join(line_list)
                         response = discord.Embed(title="👥 **Voters:**", color=0x292F33)
                         response.description = ('%s' % a)
