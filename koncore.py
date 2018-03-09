@@ -26,6 +26,8 @@ bot.remove_command('help')
 
 @bot.event
 async def on_ready():
+    activity = discord.Activity(type=discord.ActivityType.playing, name=cfg['Status'])
+    await bot.change_presence(activity=activity)
     print('Bot ready.')
 
 
