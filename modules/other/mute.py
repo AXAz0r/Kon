@@ -37,34 +37,37 @@ def generate_log_embed(message, target, args):
 
 
 async def ex(args, message, bot, invoke):
-    if not message.author.permissions_in(message.channel).manage_messages:
-        response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
+    if not message.guild:
+        response = discord.Embed(title='🔒 You can\'t use that command in a DM', color=0xFFCC4d)
     else:
-        if not message.mentions:
-            response = discord.Embed(title='❗ No user targeted.', color=0xBE1931)
+        if not message.author.permissions_in(message.channel).manage_messages:
+            response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
         else:
-            author = message.author
-            target = message.mentions[0]
-            if author.id == target.id:
-                response = discord.Embed(title='❗ Can\'t mute yourself.', color=0xBE1931)
+            if not message.mentions:
+                response = discord.Embed(title='❗ No user targeted.', color=0xBE1931)
             else:
-                if target == bot.user:
-                    response = discord.Embed(title='❗ Can\'t mute a bot.', color=0xBE1931)
+                author = message.author
+                target = message.mentions[0]
+                if author.id == target.id:
+                    response = discord.Embed(title='❗ Can\'t mute yourself.', color=0xBE1931)
                 else:
-                    above_hier = hierarchy_permit(author, target)
-                    if not above_hier:
-                        response = discord.Embed(title='⛔ Can\'t mute someone equal or above you.', color=0xBE1931)
+                    if target == bot.user:
+                        response = discord.Embed(title='❗ Can\'t mute a bot.', color=0xBE1931)
                     else:
-                        if not mute_check(message):
-                            response = discord.Embed(title=f'✅ {target.display_name} has been text muted.', color=0x77B255)
-                            if message.guild.id == xxxxxxxxxxxxxxxxxx:
-                                all_channels = bot.get_all_channels()
-                                log_embed = generate_log_embed(message, target, args)
-                                log_channel = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, all_channels)
-                                await log_channel.send(embed=log_embed)
-                            mute_list = open('lists/muted.txt', 'w')
-                            mute_list.write(f'{target.id}\n')
-                            mute_list.close()
+                        above_hier = hierarchy_permit(author, target)
+                        if not above_hier:
+                            response = discord.Embed(title='⛔ Can\'t mute someone equal or above you.', color=0xBE1931)
                         else:
-                            response = discord.Embed(title=f'❗ {target.display_name} is already text muted.', color=0xBE1931)
+                            if not mute_check(message):
+                                response = discord.Embed(title=f'✅ {target.display_name} has been text muted.', color=0x77B255)
+                                if message.guild.id == 138067606119645184:
+                                    all_channels = bot.get_all_channels()
+                                    log_embed = generate_log_embed(message, target, args)
+                                    log_channel = discord.utils.find(lambda x: x.id == 302665883849850881, all_channels)
+                                    await log_channel.send(embed=log_embed)
+                                mute_list = open('lists/muted.txt', 'w')
+                                mute_list.write(f'{target.id}\n')
+                                mute_list.close()
+                            else:
+                                response = discord.Embed(title=f'❗ {target.display_name} is already text muted.', color=0xBE1931)
     await message.channel.send(embed=response)
