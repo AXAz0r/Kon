@@ -1,5 +1,6 @@
 import discord
-from checks import private_check, server_check
+import json
+from checks import server_check, set_dm
 
 
 def channel_auth(message):
@@ -31,21 +32,24 @@ def user_auth(message):
 def role_auth(args, message):
     lookup = ' '.join(args[1:]).lower()
     target = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
-    with open('permissions/roles.txt') as file:
-        a = file.read()
+    with open('permissions/roles.json', encoding='utf-8') as vote_data_file:
+        vote_file = json.loads(vote_data_file.read())
+    rol_p = vote_file['roles']
     role_perm = False
-    if f'{target.id}' in a:
-        role_perm = True
+    for role in rol_p:
+        if role == target.id:
+            role_perm = True
+            break
     return role_perm
 
 
 async def ex(args, message, bot, invoke):
-    if not private_check(message):
+    if message.guild:
         if server_check(message):
             if message.author.permissions_in(message.channel).administrator:
                 if args:
+                    mode = args[0].lower()
                     if len(args) >= 2:
-                        mode = args[0].lower()
                         if mode == 'c':
                             if message.channel_mentions:
                                 channel = message.channel_mentions[0]
@@ -73,39 +77,31 @@ async def ex(args, message, bot, invoke):
                             lookup = ' '.join(args[1:]).lower()
                             target = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
                             if target is not None:
-                                if not user_auth(message):
-                                    with open('permissions/roles.txt', 'a') as a:
-                                        a.write(f'<@&{target.id}>\n')
+                                with open('permissions/roles.json', encoding='utf-8') as vote_data_file:
+                                    vote_file = json.loads(vote_data_file.read())
+                                rol_p = vote_file['roles']
+                                if not role_auth(args, message):
+                                    rol_p.append(target.id)
+                                    vote_file.update({'roles': rol_p})
+                                    with open('permissions/roles.json', 'w', encoding='utf-8') as vote_data_file:
+                                        json.dump(vote_file, vote_data_file)
                                     response = discord.Embed(title=f"🔓 Permitted {target}", color=0xFFCC4d)
                                 else:
                                     response = discord.Embed(title=f"❗ {target} is already permitted", color=0xBE1931)
                             else:
                                 response = discord.Embed(title=f'❗ I couldn\'t find {lookup} on this server', color=0xBE1931)
-                        elif mode == 'dm':
-                            lookup = ' '.join(args[1:]).lower()
-                            if lookup == 'warlords':
-                                with open('lists/warlords.txt', 'r') as file:
-                                    a = file.readlines()
-                                    with open('permissions/warlords.txt', 'w') as b:
-                                        for line in a:
-                                            b.write(line)
-                                    response = discord.Embed(title="🔓 Warlods permitted", color=0xFFCC4d)
-                            elif lookup == 'generals':
-                                with open('lists/generals.txt', 'r') as file:
-                                    a = file.readlines()
-                                    with open('permissions/generals.txt', 'w') as b:
-                                        for line in a:
-                                            b.write(line)
-                                    response = discord.Embed(title="🔓 Generals permitted", color=0xFFCC4d)
-                            elif lookup == 'officers':
-                                with open('lists/officers.txt', 'r') as file:
-                                    b = file.readlines()
-                                    with open('permissions/officers.txt', 'w') as a:
-                                        for line in b:
-                                            a.write(line)
-                                    response = discord.Embed(title="🔓 Officers permitted", color=0xFFCC4d)
+                        else:
+                            response = discord.Embed(title='❗ Invalid input', color=0xBE1931)
+                    elif len(args) == 1:
+                        if mode == 'dm':
+                            with open('permissions/roles.json', encoding='utf-8') as roles_file:
+                                roles_data = json.loads(roles_file.read())
+                            dm_p = roles_data['dm']
+                            if 'Yes' not in dm_p:
+                                set_dm(roles_data, 'Yes')
+                                response = discord.Embed(title="🔒 DMs permitted", color=0xFFCC4d)
                             else:
-                                response = discord.Embed(title="❗ Input must warlords, generals or officers", color=0xBE1931)
+                                response = discord.Embed(title="❗ DMs already permitted", color=0xBE1931)
                         else:
                             response = discord.Embed(title='❗ Invalid input', color=0xBE1931)
                     else:
