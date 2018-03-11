@@ -1,91 +1,125 @@
 import discord
-from checks import server_check
+import json
+from checks import server_check, set_dm
+
+
+def channel_auth(message):
+    with open('permissions/channels.txt') as file:
+        a = file.read()
+    if message.channel_mentions:
+        channel = message.channel_mentions[0]
+        channel_perm = False
+        if f'{channel.id}' in a:
+            channel_perm = True
+    else:
+        channel_perm = None
+    return channel_perm
+
+
+def user_auth(message):
+    with open('permissions/users.txt') as file:
+        a = file.read()
+    if message.mentions:
+        user = message.mentions[0]
+        user_perm = False
+        if f'{user.id}' in a:
+            user_perm = True
+    else:
+        user_perm = None
+    return user_perm
 
 
 async def ex(args, message, bot, invoke):
-    if server_check(message):
-        if message.author.permissions_in(message.channel).administrator:
-            if args:
-                if len(args) >= 2:
+    if message.guild:
+        if server_check(message):
+            if message.author.permissions_in(message.channel).administrator:
+                if args:
                     mode = args[0].lower()
-                    if mode == 'c':
-                        if message.channel_mentions:
-                            target = "%s" % message.channel_mentions[0].id
-                            fn = 'permissions/channels.txt'
-                            a = open(fn)
-                            output = []
-                            for line in a:
-                                if target not in line:
-                                    output.append(line)
-                            a.close()
-                            a = open(fn, 'w')
-                            a.writelines(output)
-                            a.close()
-                            channel = message.channel_mentions[0]
-                            response = discord.Embed(title=f"🔒 {channel} unpermitted", color=0xFFCC4d)
-                        else:
-                            response = discord.Embed(title='❗ Input must be a channel', color=0xBE1931)
-                    elif mode == 'u':
-                        if message.author.permissions_in(message.channel).administrator:
+                    if len(args) >= 2:
+                        if mode == 'c':
+                            if message.channel_mentions:
+                                channel = message.channel_mentions[0]
+                                if channel_auth(message):
+                                    fn = 'permissions/channels.txt'
+                                    a = open(fn)
+                                    output = []
+                                    for line in a:
+                                        if f'{channel.id}' not in line:
+                                            output.append(line)
+                                    a.close()
+                                    a = open(fn, 'w')
+                                    a.writelines(output)
+                                    a.close()
+                                    channel = message.channel_mentions[0]
+                                    response = discord.Embed(title=f"🔒 Unpermitted {channel}", color=0xFFCC4d)
+                                else:
+                                    response = discord.Embed(title=f"❗ {channel} wasn't permitted", color=0xBE1931)
+                            else:
+                                response = discord.Embed(title='❗ Input must be a channel', color=0xBE1931)
+                        elif mode == 'u':
+                            user = message.mentions[0]
                             if message.mentions:
-                                target = message.mentions[0].id
-                                fn = 'permissions/users.txt'
-                                a = open(fn)
-                                output = []
-                                for line in a:
-                                    if target not in line:
-                                        output.append(line)
-                                a.close()
-                                a = open(fn, 'w')
-                                a.writelines(output)
-                                a.close()
-                                user = message.mentions[0]
-                                response = discord.Embed(title=f"🔒 {user.display_name} unpermitted", color=0xFFCC4d)
+                                if user_auth(message):
+                                    fn = 'permissions/users.txt'
+                                    a = open(fn)
+                                    output = []
+                                    for line in a:
+                                        if f'{user.id}' not in line:
+                                            output.append(line)
+                                    a.close()
+                                    a = open(fn, 'w')
+                                    a.writelines(output)
+                                    a.close()
+                                    response = discord.Embed(title=f"🔒 Unpermitted {user.display_name}", color=0xFFCC4d)
+                                else:
+                                    response = discord.Embed(title=f"❗ {user.display_name} wasn't permitted", color=0xBE1931)
                             else:
                                 response = discord.Embed(title='❗ Input must be a user', color=0xBE1931)
-                    elif mode == 'r':
-                        lookup = ' '.join(args[1:]).lower()
-                        target = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
-                        if message.author.permissions_in(message.channel).administrator:
+                        elif mode == 'r':
+                            lookup = ' '.join(args[1:]).lower()
+                            target = discord.utils.find(lambda x: x.name.lower() == lookup, message.guild.roles)
                             if target is not None:
-                                fn = 'permissions/roles.txt'
-                                a = open(fn)
-                                output = []
-                                for line in a:
-                                    role = "%s" % target.id
-                                    if role not in line:
-                                        output.append(line)
-                                a.close()
-                                a = open(fn, 'w')
-                                a.writelines(output)
-                                a.close()
-                                response = discord.Embed(title=f"🔒 {target} unpermitted", color=0xFFCC4d)
+                                with open('permissions/roles.json', encoding='utf-8') as roles_file:
+                                    roles_data = json.loads(roles_file.read())
+                                rol_p = roles_data['roles']
+                                roles = []
+                                role_ex = False
+                                for role in rol_p:
+                                    if role == target.id:
+                                        role_ex = True
+                                    else:
+                                        roles.append(role)
+                                if role_ex:
+                                    roles_data.update({'roles': roles})
+                                    with open('permissions/roles.json', 'w', encoding='utf-8') as roles_file:
+                                        json.dump(roles_data, roles_file)
+                                    response = discord.Embed(title=f"🔒 Unpermitted {target}", color=0xFFCC4d)
+                                else:
+                                    response = discord.Embed(title=f"❗ {target} wasn't permitted", color=0xBE1931)
                             else:
-                                response = discord.Embed(title='❗ Input must be a role', color=0xBE1931)
-                    elif mode == 'dm':
-                        lookup = ' '.join(args[1:]).lower()
-                        if lookup == 'warlords':
-                            with open('permissions/warlords.txt', 'w') as a:
-                                a.write('')
-                            response = discord.Embed(title="🔒 Warlords unpermitted", color=0xFFCC4d)
-                        elif lookup == 'generals':
-                            with open('permissions/generals.txt', 'w') as a:
-                                a.write('')
-                            response = discord.Embed(title="🔒 Generals unpermitted", color=0xFFCC4d)
-                        elif lookup == 'officers':
-                            with open('permissions/officers.txt', 'w') as a:
-                                a.write('')
-                            response = discord.Embed(title="🔒 Officers unpermitted", color=0xFFCC4d)
+                                response = discord.Embed(title=f'❗ I couldn\'t find {lookup} on this server', color=0xBE1931)
                         else:
-                            response = discord.Embed(title="❗ Input must 'generals' or 'officers'", color=0xBE1931)
+                            response = discord.Embed(title='❗ Invalid input', color=0xBE1931)
+                    elif len(args) == 1:
+                        if mode == 'dm':
+                            with open('permissions/roles.json', encoding='utf-8') as roles_file:
+                                roles_data = json.loads(roles_file.read())
+                            dm_p = roles_data['dm']
+                            if 'No' not in dm_p:
+                                set_dm(roles_data, 'No')
+                                response = discord.Embed(title="🔒 Unpermitted DMs", color=0xFFCC4d)
+                            else:
+                                response = discord.Embed(title="❗ DMs wasn't permitted", color=0xBE1931)
+                        else:
+                            response = discord.Embed(title='❗ Invalid input', color=0xBE1931)
                     else:
-                        response = discord.Embed(title='❗ Invalid input', color=0xBE1931)
+                        response = discord.Embed(title='❗ Two inputs are required', color=0xBE1931)
                 else:
-                    response = discord.Embed(title='❗ Two inputs are required', color=0xBE1931)
+                    response = discord.Embed(title='❗ No input', color=0xBE1931)
             else:
-                response = discord.Embed(title='❗ No input', color=0xBE1931)
+                response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
         else:
-            response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+            response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command on this server or in a DM', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command in a DM', color=0xFFCC4d)
     await message.channel.send(embed=response)
