@@ -24,7 +24,9 @@ def generate_log_embed(message, target, channel, deleted):
 
 
 async def ex(args, message, bot, invoke):
-    if not message.author.permissions_in(message.channel).manage_messages:
+    if not message.guild:
+        response = discord.Embed(title='🔒 You can\'t use that command in a DM', color=0xFFCC4d)
+    elif not message.author.permissions_in(message.channel).manage_messages:
         response = discord.Embed(title='⛔ Access Denied. Manage Messages needed.', color=0xBE1931)
     else:
         valid_count = True
@@ -82,7 +84,7 @@ async def ex(args, message, bot, invoke):
                 except Exception:
                     deleted = []
                     pass
-            response = discord.Embed(title=f'✅ Deleted {len(deleted)} Messages', color=0x77B255)
+            response = discord.Embed(title=f'✅ Deleted {len(deleted)} Messages', color=0x77b255)
             if message.guild.id == 138067606119645184:
                 all_channels = bot.get_all_channels()
                 log_embed = generate_log_embed(message, target, message.channel, deleted)
