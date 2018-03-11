@@ -1,9 +1,8 @@
 import discord
-from checks import private_check
 
 
 async def ex(args, message, bot, invoke):
-    if not private_check(message):
+    if message.guild:
         gld = message.guild
         counts = [0, 0, 0, 0, 0, 0, 0]
         for user in gld.members:
@@ -34,5 +33,5 @@ async def ex(args, message, bot, invoke):
         response.add_field(name='👥 Member Status', value=members)
         response.set_footer(text='Active is users who are not offline')
     else:
-        response = discord.Embed(title='❗ This command is only available in servers', color=0xBE1931)
+        response = discord.Embed(title='🔒 You can\'t use that command in a DM', color=0xFFCC4d)
     await message.channel.send(embed=response)
