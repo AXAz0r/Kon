@@ -5,10 +5,7 @@ async def ex(args, message, bot, invoke):
     if message.guild:
         if args:
             if message.mentions:
-                if message.mentions[0].id == message.author.id:
-                    pronoun = 'you'
-                else:
-                    pronoun = 'them'
+                pronoun = 'you' if message.mentions[0].id == message.author.id else 'them'
                 if len(args) >= 3:
                     user = args[0]
                     zone = args[1]
