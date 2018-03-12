@@ -99,7 +99,7 @@ async def ex(args, message, bot, invoke):
                             dm_p = roles_data['dm']
                             if 'Yes' not in dm_p:
                                 set_dm(roles_data, 'Yes')
-                                response = discord.Embed(title="🔒 DMs permitted", color=0xFFCC4d)
+                                response = discord.Embed(title="🔓 Permitted DMs", color=0xFFCC4d)
                             else:
                                 response = discord.Embed(title="❗ DMs already permitted", color=0xBE1931)
                         else:
