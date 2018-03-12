@@ -32,22 +32,29 @@ def set_time(pass_data, time_auth: str):
 
 
 async def ex(args, message, bot, invoke):
+    with open('lists/password_data.json', encoding='utf-8') as pass_file:
+        pass_data = json.loads(pass_file.read())
+    pswd = pass_data.get('pswd')
+    msg = ' '.join(args)
+    available_stamp = pass_data['time']
+    current_stamp = arrow.utcnow().timestamp
+    time_diff = arrow.get(available_stamp + 5).humanize(arrow.utcnow())
     if message.guild:
         if server_check(message):
             if message.author.permissions_in(message.channel).manage_guild:
-                with open('lists/password_data.json', encoding='utf-8') as pswd_data_file:
-                    pswd_data = json.loads(pswd_data_file.read())
-                set_pswd(pswd_data, id_gen())
-                response = discord.Embed(title=f'🔐 Password reset. It will be available in 24h', color=0xFFCC4d)
-                with open('lists/password_data.json', encoding='utf-8') as pass_file:
-                    pass_data = json.loads(pass_file.read())
-                available_stamp = arrow.utcnow().timestamp + 86400
-                set_time(pass_data, available_stamp)
+                if current_stamp > available_stamp or msg in pswd:
+                    response = discord.Embed(title=f'🔏 Password reset. It will be available in 24h', color=0xFFCC4D)
+                    available_stamp = arrow.utcnow().timestamp + 86400
+                    set_time(pass_data, available_stamp)
+                    set_pswd(pass_data, id_gen())
+                else:
+                    response = discord.Embed(title='🔐 A password is already set', color=0xFFCC4D)
+                    response.set_footer(text=f'It will be available in {time_diff}')
             else:
                 response = discord.Embed(title='⛔ Access denied: Manage Server required', color=0xBE1931)
         else:
-            response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
+            response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4D)
     else:
-        response = discord.Embed(title='🔒 You can\'t use that command in a DM', color=0xFFCC4d)
+        response = discord.Embed(title='🔒 You can\'t use that command in a DM', color=0xFFCC4D)
     await message.channel.send(embed=response)
 
