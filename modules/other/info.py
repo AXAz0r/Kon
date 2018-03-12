@@ -8,7 +8,7 @@ async def ex(args, message, bot, invoke):
     response.set_author(name='Kon: Fox Bot', icon_url=avatar)
     response.add_field(name='Information',
                        value=f'Created on: **Nov 13, 2017**\nSource code: [Github]({github_url})\n'
-                             f'Owner: **Shifty9#0995**\nCommands: **29**\nLatency: **{int(bot.latency * 1000)}ms**\n'
+                             f'Owner: **Shifty9#0995**\nCommands: **35**\nLatency: **{int(bot.latency * 1000)}ms**\n'
                              f'ID: **{bot.user.id}**', inline=True)
     response.set_footer(text='Credit to AXAz0r#0001 for help')
     await message.channel.send(embed=response)
