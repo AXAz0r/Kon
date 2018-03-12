@@ -50,12 +50,15 @@ async def ex(args, message, bot, invoke):
             "- vote - Vote 'yes' or 'no' on the current poll.\n"
             "- votes - Returns the results of the current poll.\n"
             "- voters - Returns a list of users who voted on the current poll.\n"
+            "- password - Returns the password for voting data if it's available. Otherwise it displays how long until "
+            "it becomes available.\n"
             "- permit c/dm/r/u - Permits the target to vote or be voted in. c: Channel, dm: "
             "Direct Messages, r: Role, u: User.\n"
             "- perms - Returns the current permissions for the poll.\n"
             "- register - Registers the message author to vote on the poll in a "
             "DM with Kon. Author must be permitted to vote.\n"
-            "- setpassword - Resets the password fore votes/voters and DM's it to the command caller after 24h.\n"
+            "- setpassword - Resets the password for voting data and makes it available after 24h. The password cannot "
+            "be reset before it is made available unless the current password is provided as an argument.\n"
             "- unpermit c/dm/r/u - c: Unpermits the target to vote or be voted in. c: Channel, dm: "
             "Direct Messages, r: Role, u: User.```", color=0xA5FFF6)
         else:
