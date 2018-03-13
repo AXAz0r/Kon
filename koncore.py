@@ -3,12 +3,12 @@ import os
 import json
 import discord
 import secrets
-from checks import ban_check, member_check, private_check, role_check, server_check
+from checks import ban_check, server_check
+from modules.information import members, help, info, user, commands_help, ping
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
-from modules.other import commands_help, dance, help, info, kon, link, match, members, \
-     mute, ping, purge, random, roll, sleep, unmute
 from modules.owner import reboot, setavatar, setstatus, setusername
-from modules.voting import clrperms, clrvotes, permit, perms, register, setpassword, unpermit, vote, voters, votes
+from modules.utility import dance, kon, link, match, mute, purge, random, roll, sleep, unmute
+from modules.voting import clrperms, clrvotes, password, permit, perms, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
 
@@ -68,6 +68,7 @@ commands_list = {
     "sleep": sleep,
     "unmute": unmute,
     "unpermit": unpermit,
+    "user": user,
     "vote": vote,
     "voters": voters,
     "votes": votes,
