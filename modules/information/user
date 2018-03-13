@@ -1,0 +1,36 @@
+import discord
+import arrow
+
+
+def user_avatar(user: discord.Member, static: bool = False):
+    output = user.avatar_url if user.avatar_url else user.default_avatar_url
+    if user.avatar:
+        if user.avatar.startswith('a_') and not static:
+            output = f"{'.'.join(output.split('.')[:-1])}.gif"
+        else:
+            output = f"{'.'.join(output.split('.')[:-1])}.png?size=1024"
+    else:
+        output = user.default_avatar_url
+    return output
+
+
+async def ex(args, message, bot, invoke):
+    if message.mentions:
+        target = message.mentions[0]
+    else:
+        target = message.author
+    avatar = user_avatar(target)
+    member_join_time = arrow.get(target.joined_at).format('DD. MMMM YYYY')
+    creation_time = arrow.get(target.created_at).format('DD. MMMM YYYY')
+    member_text = f'Name: **{target.display_name}**'
+    member_text += f'\nUsername: **{target.name}**#{target.discriminator}'
+    member_text += f'\nID: **{target.id}**'
+    member_text += f'\nColor: **{str(target.color).upper()}**'
+    member_text += f'\nStatus: **{str(target.status).replace("dnd", "busy").title()}**'
+    member_text += f'\nAvatar: **[Source]({avatar})**'
+    member_text += f'\nJoined: **{member_join_time}**'
+    member_text += f'\nCreated: **{creation_time}**'
+    response = discord.Embed(description=member_text, color=0xA5FFF6)
+    response.set_author(name=f'{target.display_name}\'s Information', icon_url=user_avatar(target))
+    response.set_thumbnail(url=f'{avatar}')
+    await message.channel.send(embed=response)
