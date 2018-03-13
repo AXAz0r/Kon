@@ -30,7 +30,7 @@ async def ex(args, message, bot, invoke):
     member_text += f'\nAvatar: **[Source]({avatar})**'
     member_text += f'\nJoined: **{member_join_time}**'
     member_text += f'\nCreated: **{creation_time}**'
-    response = discord.Embed(description=member_text, color=0xA5FFF6)
+    response = discord.Embed(description=member_text, color=target.color)
     response.set_author(name=f'{target.display_name}\'s Information', icon_url=user_avatar(target))
     response.set_thumbnail(url=f'{avatar}')
     await message.channel.send(embed=response)
