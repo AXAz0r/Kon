@@ -97,8 +97,9 @@ async def on_message(message):
             if invoke in commands_list:
                 try:
                     await commands_list.get(invoke).ex(args, message, bot, invoke)
-                except discord.Forbidden:
+                except Exception as e:
                     await message.add_reaction(emoji='❗')
+                    print(e)
         chars = ['natsuki', 'sayori', 'yuri']
         for char in chars:
             if char in message.content.lower():
