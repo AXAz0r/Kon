@@ -12,6 +12,8 @@ async def ex(args, message, bot, invoke):
             "- info - Returns various info regarding Kon.\n"
             "- members - Returns the total number of members as well as how many are online, offline, other, and active.\n"
             "- ping - Returns the bot latency for Kon.\n"
+            "- rolepop - Returns the number of people on the server that possess both specified roles. Separate roles "
+            "with ; and a space.\n"
             "- user - Returns various information on the mentioned user, If no user is mentioned, it returns your own "
             "information.```")
         elif module == 'mentoring':
