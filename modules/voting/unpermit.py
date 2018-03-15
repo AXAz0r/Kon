@@ -97,7 +97,7 @@ async def ex(args, message, bot, invoke):
                                 else:
                                     response = discord.Embed(title=f"❗ {target} wasn't permitted", color=0xBE1931)
                             else:
-                                response = discord.Embed(title=f'❗ I couldn\'t find {lookup} on this server', color=0xBE1931)
+                                response = discord.Embed(title=f'🔍 I couldn\'t find {lookup} on this server', color=0x696969)
                         else:
                             response = discord.Embed(title='❗ Invalid input', color=0xBE1931)
                     elif len(args) == 1:
