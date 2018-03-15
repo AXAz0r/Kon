@@ -4,7 +4,7 @@ import json
 import discord
 import secrets
 from checks import ban_check, server_check
-from modules.information import members, help, info, user, commands_help, ping
+from modules.information import members, help, info, commands_help, ping, rolepop, user
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.owner import reboot, setavatar, setstatus, setusername
 from modules.utility import dance, kon, link, match, mute, purge, random, roll, sleep, unmute
@@ -60,6 +60,7 @@ commands_list = {
     "reboot": reboot,
     "register": register,
     "requests": requests,
+    "rolepop": rolepop,
     "roll": roll,
     "setavatar": setavatar,
     "setstatus": setstatus,
