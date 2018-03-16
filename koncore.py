@@ -99,8 +99,11 @@ async def on_message(message):
                 try:
                     await commands_list.get(invoke).ex(args, message, bot, invoke)
                 except Exception as e:
-                    await message.add_reaction(emoji='❗')
-                    print(e)
+                    if not message.content.lower().startswith(cfg['Prefix'] + 'reboot'):
+                        await message.add_reaction(emoji='❗')
+                        print(f'Exception: {e}')
+                    else:
+                        pass
         chars = ['natsuki', 'sayori', 'yuri']
         for char in chars:
             if char in message.content.lower():
