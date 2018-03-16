@@ -66,3 +66,14 @@ def member_check(message):
             has_role = True
             break
     return has_role
+
+
+def kon_auth(auth_data, cmd_auth: str):
+    auth_str = auth_data.get('auth')
+    if auth_str is None:
+        auth_str = []
+    auth_str.clear()
+    auth_data.update({'auth': [cmd_auth]})
+    with open('permissions/kon_auth.json', 'w', encoding='utf-8') as auth_file:
+        json.dump(auth_data, auth_file)
+
