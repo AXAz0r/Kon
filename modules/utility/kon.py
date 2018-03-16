@@ -1,7 +1,10 @@
 import secrets
 import aiohttp
 import discord
+import json
 from lxml import html
+from checks import kon_auth
+from checks import owner_check
 
 
 async def grab_post_list(tags):
@@ -43,15 +46,42 @@ embed_titles = ['Fluffy tails are supreme!', 'Touch fluffy tail~', '>:3',
 
 
 async def ex(args, message, bot, invoke):
-    global links
-    if not links:
-        filler_message = discord.Embed(color=0xff3300, title='🦊 One moment, filling Kon with foxes...')
-        fill_notify = await message.channel.send(embed=filler_message)
-        links = await grab_post_list('fox_tail')
-        filler_done = discord.Embed(color=0xff3300, title=f'🦊 We added {len(links)} foxes!')
-        await fill_notify.edit(embed=filler_done)
-    rand_pop = secrets.randbelow(len(links))
-    post_choice = links.pop(rand_pop)
-    icon = 'https://static.tvtropes.org/pmwiki/pub/images/Holo_Ears_7860.jpg'
-    response = generate_embed(post_choice, embed_titles, 0xff3300, icon=icon)
+    with open('permissions/kon_auth.json', encoding='utf-8') as auth_file:
+        auth_data = json.loads(auth_file.read())
+    if args:
+        if owner_check(message):
+            if args[0].lower() == 'enable':
+                kon_p = auth_data['auth']
+                if 'Enabled' not in kon_p:
+                    kon_auth(auth_data, 'Enabled')
+                    response = discord.Embed(title="🔓 Enabled Kon command", color=0xFFCC4d)
+                else:
+                    response = discord.Embed(title="❗ Kon command already enabled", color=0xBE1931)
+            elif args[0].lower() == 'disable':
+                kon_p = auth_data['auth']
+                if 'Disabled' not in kon_p:
+                    kon_auth(auth_data, 'Disabled')
+                    response = discord.Embed(title="🔒 Disabled Kon command", color=0xFFCC4d)
+                else:
+                    response = discord.Embed(title="❗ Kon command already disabled", color=0xBE1931)
+            else:
+                response = discord.Embed(title="❗ Invalid input", color=0xBE1931)
+        else:
+            response = discord.Embed(title="⛔ You are not the owner", color=0xBE1931)
+    else:
+        kon_p = auth_data['auth']
+        if 'Disabled' in kon_p:
+            response = discord.Embed(title="⛔ Sorry, that command is disabled", color=0xBE1931)
+        else:
+            global links
+            if not links:
+                filler_message = discord.Embed(color=0xff3300, title='🦊 One moment, filling Kon with foxes...')
+                fill_notify = await message.channel.send(embed=filler_message)
+                links = await grab_post_list('fox_tail')
+                filler_done = discord.Embed(color=0xff3300, title=f'🦊 We added {len(links)} foxes!')
+                await fill_notify.edit(embed=filler_done)
+            rand_pop = secrets.randbelow(len(links))
+            post_choice = links.pop(rand_pop)
+            icon = 'https://static.tvtropes.org/pmwiki/pub/images/Holo_Ears_7860.jpg'
+            response = generate_embed(post_choice, embed_titles, 0xff3300, icon=icon)
     await message.channel.send(None, embed=response)
