@@ -45,6 +45,19 @@ embed_titles = ['Fluffy tails are supreme!', 'Touch fluffy tail~', '>:3',
                 '乀^｀・´^／', '(ミ`ω´ミ)', '◝(´◝ω◜｀)◜']
 
 
+def auth_check(message):
+    with open('permissions/kon_auth.json', encoding='utf-8') as auth_file:
+        auth_data = json.loads(auth_file.read())
+    kon_p = auth_data['auth']
+    if 'Enabled' in kon_p:
+        auth = True
+    elif owner_check(message):
+        auth = True
+    else:
+        auth = False
+    return auth
+
+
 async def ex(args, message, bot, invoke):
     with open('permissions/kon_auth.json', encoding='utf-8') as auth_file:
         auth_data = json.loads(auth_file.read())
@@ -69,8 +82,7 @@ async def ex(args, message, bot, invoke):
         else:
             response = discord.Embed(title="⛔ You are not the owner", color=0xBE1931)
     else:
-        kon_p = auth_data['auth']
-        if 'Disabled' in kon_p:
+        if not auth_check(message):
             response = discord.Embed(title="⛔ Sorry, that command is disabled", color=0xBE1931)
         else:
             global links
