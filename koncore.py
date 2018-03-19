@@ -115,14 +115,25 @@ async def on_message(message):
             ban = ban_check(message)
             if ban:
                 await message.add_reaction(emoji='⛔')
-        if role_check(message):
-            if not member_check(message):
-                role = role_check(message)
-                target = message.mentions[0]
-                clan_role = discord.utils.get(message.guild.roles, name=f'{role}')
-                recruit_role = discord.utils.get(message.guild.roles, name='Recruit')
-                await target.add_roles(clan_role)
-                await target.remove_roles(recruit_role)
+                if role_check(message):
+            target = message.mentions[0]
+            if target.id != message.author.id:
+                if not member_check(message):
+                    role = role_check(message)
+                    rem_role = discord.utils.get(message.guild.roles, id=xxxxxxxxxxxxxxxxxxx)
+                    add_role = discord.utils.get(message.guild.roles, id=role)
+                    await target.remove_roles(rem_role)
+                    await target.add_roles(add_role)
+                else:
+                    if message.channel.id == xxxxxxxxxxxxxxxxxxx:
+                        clan_roles = [xxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxx]
+                        user_roles = [y.id for y in target.roles]
+                        for role in clan_roles:
+                            if role in user_roles:
+                                rem_role = discord.utils.get(message.guild.roles, id=role)
+                                await target.remove_roles(rem_role)
+                        add_role = discord.utils.get(message.guild.roles, id=xxxxxxxxxxxxxxxxxxx)
+                        await target.add_roles(add_role)
 
 
 bot.run(cfg["Token"], bot=True)
