@@ -46,15 +46,12 @@ def ban_check(message):
 
 
 def role_check(message):
-    triggers = ['reddit', 'recruitment', 'xxxxxxxxxxxxxxxxxx']
     if message.mentions:
-        for trigger in triggers:
-            if trigger in message.content.lower():
-                if message.channel.id == xxxxxxxxxxxxxxxxxx:
-                    role = "Smore"
-                else:
-                    role = False
-                return role
+        if message.channel.id == xxxxxxxxxxxxxxxxxx:
+            role = xxxxxxxxxxxxxxxxxxx
+        else:
+            role = False
+        return role
             
            
 def member_check(message):
