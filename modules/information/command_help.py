@@ -5,6 +5,13 @@ async def ex(args, message, bot, invoke):
     if args:
         module = args[0].lower()
         if module == 'information':
+            response = discord.Embed(title="Banking commands", description="```md\n"
+            "- bankers - Returns a list of the current bankers.\n"
+            "- market - Returns a list of the current items on the market,\n"
+            "- sell - Adds a listing to the market. The format is item; price; quantity.\n"
+            "- setqty - Updates the quantity of the specified listing. The format is listing_number:quantity.\n"
+            "- unlist - Removes the specified listing from the market. Listings are specified by number.")
+        elif module == 'information':
             response = discord.Embed(title="Infomration commands", description="```md\n"
             "- commands - Returns the current command modules for Kon. If a module is specified, "
             "it will return a list of the commands for that module.\n"
@@ -66,7 +73,7 @@ async def ex(args, message, bot, invoke):
         else:
             response = discord.Embed(title="❗ I couldn't find that module", color=0xBE1931)
     else:
-        response = discord.Embed(color=0xA5FFF6, description='**There are 5 modules**\n'
-                                 '```yml\n- INFORMATION\n- MENTORING\n- OWNER\n- UTILITY\n- VOTING```')
+        response = discord.Embed(color=0xA5FFF6, description='**There are 6 modules**\n'
+                                 '```yml\n- BANKING\n- INFORMATION\n- MENTORING\n- OWNER\n- UTILITY\n- VOTING```')
         response.set_footer(text='^commands module')
     await message.channel.send(embed=response)
