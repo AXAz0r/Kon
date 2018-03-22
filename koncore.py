@@ -3,7 +3,7 @@ import os
 import json
 import discord
 import secrets
-from checks import ban_check, server_check
+from checks import ban_check, member_check, role_check, server_check
 from modules.banking import bankers, market, sell, setqty, unlist
 from modules.information import members, help, info, commands_help, ping, rolepop, user
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
