@@ -27,7 +27,7 @@ async def ex(args, message, bot, invoke):
                     if member.id != message.author.id:
                         if value_one_two == value_two_two:
                             matches.append(f'{member.mention}')
-        response = discord.Embed(title=f'🔎 Searching for {pronouns[1]} match...', color=0xBDDDF4)
+        response = discord.Embed(title=f'🔍 Searching for {pronouns[1]} match...', color=0x696969)
         search_resp = await message.channel.send(embed=response)
         await asyncio.sleep(3)
         try:
