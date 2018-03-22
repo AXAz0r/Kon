@@ -5,9 +5,9 @@ async def ex(args, message, bot, invoke):
     if message.guild:
         if args:
             if message.mentions:
-                try:
-                    target = discord.utils.find(lambda x: x.name.lower() == 'head mentor', message.guild.roles)
-                    if target.id in [y.id for y in message.author.roles]:
+                role = discord.utils.find(lambda x: x.id == 376195917407191040, message.guild.roles)
+                if role:
+                    if role.id in [y.id for y in message.author.roles]:
                         if len(args) >= 3:
                             user = args[0]
                             zone = args[1]
@@ -24,7 +24,7 @@ async def ex(args, message, bot, invoke):
                             response.set_footer(text='@Username UTC #')
                     else:
                         response = discord.Embed(title="⛔ Access denied: Head Mentor required", color=0xBE1931)
-                except AttributeError:
+                else:
                     response = discord.Embed(title="❗ I couldn't find the role 'Head Mentor'", color=0xBE1931)
             else:
                 response = discord.Embed(title='❗ A user mention required', color=0xBE1931)
