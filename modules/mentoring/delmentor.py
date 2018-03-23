@@ -3,31 +3,21 @@ import discord
 
 async def ex(args, message, bot, invoke):
     if message.guild:
-        role = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, message.guild.roles)
+        role = discord.utils.find(lambda x: x.id == 376195917407191040, message.guild.roles)
         if role:
             if role.id in [y.id for y in message.author.roles]:
                 if args:
                     if message.mentions:
-                        fn = 'lists/mentors.txt'
-                        target = message.mentions[0]
-                        a = open(fn)
-                        output = []
-                        temp = 0
-                        for line in a:
-                            if f'{target.id}' not in line:
-                                output.append(line)
+                        mentor_role = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, message.guild.roles)
+                        if mentor_role:
+                            if mentor_role.id in [y.id for y in message.author.roles]:
+                                target = message.mentions[0]
+                                await target.remove_roles(mentor_role)
+                                response = discord.Embed(title=f"✅ {target.display_name} is no longer a Mentor", color=0x77b255)
                             else:
-                                temp += 1
-                        a.close()
-                        a = open(fn, 'w')
-                        a.writelines(output)
-                        a.close()
-                        mentor_role = discord.utils.get(message.guild.roles, name='Mentor')
-                        await target.remove_roles(mentor_role)
-                        if not temp == 0:
-                            response = discord.Embed(title=f"✅ {target.display_name} is no longer a Mentor", color=0x77b255)
+                                response = discord.Embed(title="❗ That user wasn't a Mentor", color=0xBE1931)
                         else:
-                            response = discord.Embed(title="❗ That user wasn't a Mentor", color=0xBE1931)
+                            response = discord.Embed(title=f'🔍 I couldn\'t find the Mentor role', color=0x696969)
                     else:
                         response = discord.Embed(title='❗ A user mention required', color=0xBE1931)
                 else:
