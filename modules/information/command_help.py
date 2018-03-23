@@ -25,10 +25,10 @@ async def ex(args, message, bot, invoke):
             "information.```")
         elif module == 'mentoring':
             response = discord.Embed(color=0xA5FFF6, title="Mentor commands", description="```md\n"
-            "- addmentor - Adds the targeted user to the 'Mentors' list.\n"
+            "- addmentor - Adds the Mentor role to the targeted user.\n"
             "- apply - Adds the targeted user to the 'Students Requests' list.\n"
             "- delline - Removes a line from the 'Student Requests' list.\n"
-            "- delmentor - Removes the targeted user from the 'Mentors' list.\n"
+            "- delmentor - Removes the Mentor role from the targeted user.\n"
             "- mentors - Returns the 'Mentors' list.\n"
             "- requests - Returns the 'Student Requests' list.```")
         elif module == 'owner':
