@@ -21,7 +21,6 @@ async def ex(args, message, bot, invoke):
                     response = discord.Embed(title=f"✅ I put {pronoun} on the 'Student Requests' list", color=0x77B255)
                 else:
                     response = discord.Embed(title='❗ Not enough inputs', color=0xBE1931)
-                    response.set_footer(text='@Username UTC #')
             else:
                 response = discord.Embed(title='❗ A user mention required', color=0xBE1931)
         else:
