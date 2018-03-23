@@ -12,5 +12,5 @@ async def ex(args, message, bot, invoke):
         response = discord.Embed(color=0xC16A4F)
         response.add_field(name='💰 Bankers', value=f'```md\n{bankers}\n```')
     else:
-        response = discord.Embed(title="❗ I couldn't find the role 'Banker'", color=0xBE1931)
+        response = discord.Embed(title=f'🔍 I couldn\'t find the Banker role', color=0x696969)
     await message.channel.send(embed=response)
