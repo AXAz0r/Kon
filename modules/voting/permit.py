@@ -55,7 +55,7 @@ async def ex(args, message, bot, invoke):
                                 channel = message.channel_mentions[0]
                                 if not channel_auth(message):
                                     with open('permissions/channels.txt', 'a') as a:
-                                        a.write(f'<#{channel.id}>\n')
+                                        a.write(f'{channel.mention}\n')
                                     response = discord.Embed(title=f"🔓 Permitted {channel}", color=0xFFCC4d)
                                 else:
                                     response = discord.Embed(title=f"❗ {channel} is already permitted", color=0xBE1931)
@@ -66,7 +66,7 @@ async def ex(args, message, bot, invoke):
                                 user = message.mentions[0]
                                 if not user_auth(message):
                                     with open('permissions/users.txt', 'a') as a:
-                                        a.write(f'<@{user.id}>\n')
+                                        a.write(f'{user.mention}\n')
                                     response = discord.Embed(title=f"🔓 Permitted {user.display_name}", color=0xFFCC4d)
                                 else:
                                     response = discord.Embed(title=f"❗ {user.display_name} is already permitted",
