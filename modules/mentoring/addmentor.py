@@ -8,19 +8,16 @@ async def ex(args, message, bot, invoke):
             if role.id in [y.id for y in message.author.roles]:
                 if args:
                     if message.mentions:
-                        if len(args) >= 3:
-                            user = args[0]
-                            zone = args[1]
-                            time = args[2]
-                            target = message.mentions[0]
-                            a = open('lists/mentors.txt', 'a')
-                            a.write(f'`{zone} {time}`: {user}' + '\n')
-                            a.close()
-                            mentor_role = discord.utils.get(message.guild.roles, name='Mentor')
-                            await target.add_roles(mentor_role)
-                            response = discord.Embed(title=f"✅ {target.display_name} is now a Mentor", color=0x77B255)
+                        mentor_role = discord.utils.find(lambda x: x.id == 376195755482021888, message.guild.roles)
+                        if mentor_role:
+                            if mentor_role.id not in [y.id for y in message.author.roles]:
+                                target = message.mentions[0]
+                                await target.add_roles(mentor_role)
+                                response = discord.Embed(title=f"✅ {target.display_name} is now a Mentor", color=0x77b255)
+                            else:
+                                response = discord.Embed(title="❗ That user was already a Mentor", color=0xBE1931)
                         else:
-                            response = discord.Embed(title='❗ Not enough inputs', color=0xBE1931)
+                            response = discord.Embed(title=f'🔍 I couldn\'t find the Mentor role', color=0x696969)
                     else:
                         response = discord.Embed(title='❗ A user mention required', color=0xBE1931)
                 else:
