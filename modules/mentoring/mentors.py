@@ -2,7 +2,7 @@ import discord
 
 
 async def ex(args, message, bot, invoke):
-    role_search = discord.utils.find(lambda x: x.id == 376195755482021888, message.guild.roles)
+    role_search = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, message.guild.roles)
     if role_search:
         mentors = ''
         for member in message.guild.members:
