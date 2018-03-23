@@ -2,8 +2,15 @@ import discord
 
 
 async def ex(args, message, bot, invoke):
-    with open('lists/mentors.txt', 'r+') as file:
-        a = file.read()
-    embed = discord.Embed(title="**Mentors:**", color=0xA5FFF6)
-    embed.description = ('%s' % a)
-    await message.channel.send(embed=embed)
+    role_search = discord.utils.find(lambda x: x.id == 376195755482021888, message.guild.roles)
+    if role_search:
+        mentors = ''
+        for member in message.guild.members:
+            member_role_search = discord.utils.find(lambda x: x.id == role_search.id, member.roles)
+            if member_role_search:
+                mentors += f'{member.mention}\n'
+        response = discord.Embed(color=role_search.color)
+        response.add_field(name='🎓 Mentors', value=f'{mentors}')
+    else:
+        response = discord.Embed(title=f'🔍 I couldn\'t find the Mentor role', color=0x696969)
+    await message.channel.send(embed=response)
