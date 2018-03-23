@@ -8,10 +8,19 @@ async def ex(args, message, bot, invoke):
             if role.id in [y.id for y in message.author.roles]:
                 if args:
                     if message.mentions:
-                        mentor_role = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, message.guild.roles)
+                        mentor_role = discord.utils.find(lambda x: x.id == 376195755482021888, message.guild.roles)
                         if mentor_role:
                             if mentor_role.id in [y.id for y in message.author.roles]:
                                 target = message.mentions[0]
+                                a = open('lists/mentors.txt')
+                                output = []
+                                for line in a:
+                                    if f'{target.id}' not in line.lower():
+                                        output.append(line)
+                                a.close()
+                                a = open('lists/mentors.txt', 'w')
+                                a.writelines(output)
+                                a.close()
                                 await target.remove_roles(mentor_role)
                                 response = discord.Embed(title=f"✅ {target.display_name} is no longer a Mentor", color=0x77b255)
                             else:
