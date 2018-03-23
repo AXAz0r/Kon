@@ -23,19 +23,22 @@ def un_lister(market_data, number):
 
 
 async def ex(args, message, bot, invoke):
-    if args:
-        if str.isdigit(args[0]):
-            role = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, message.guild.roles)
-            if role:
-                with open('lists/market.json', encoding='utf-8') as file:
-                    market_data = json.load(file)
-                number = int(args[0])
-                un_lister(market_data, number)
-                response = discord.Embed(title=f'✅ Your item has been unlisted', color=0x77B255)
+    role = discord.utils.find(lambda x: x.id == 404736328387919882, message.guild.roles)
+    if role:
+        if role.id in [y.id for y in message.author.roles]:
+            if args:
+                if str.isdigit(args[0]):
+                    with open('lists/market.json', encoding='utf-8') as file:
+                        market_data = json.load(file)
+                    number = int(args[0])
+                    un_lister(market_data, number)
+                    response = discord.Embed(title=f'✅ Listing removed', color=0x77B255)
+                else:
+                    response = discord.Embed(title='❗ Input must be a number', color=0xBE1931)
             else:
-                response = discord.Embed(title="⛔ Access denied: Banker required", color=0xBE1931)
+                response = discord.Embed(title='❗ No input', color=0xBE1931)
         else:
-            response = discord.Embed(title='❗ Input must be a number', color=0xBE1931)
+            response = discord.Embed(title="⛔ Access denied: Banker required", color=0xBE1931)
     else:
-        response = discord.Embed(title='❗ No input', color=0xBE1931)
+        response = discord.Embed(title=f'🔍 I couldn\'t find the Banker role', color=0x696969)
     await message.channel.send(embed=response)
