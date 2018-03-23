@@ -6,21 +6,14 @@ async def ex(args, message, bot, invoke):
         if args:
             if message.mentions:
                 pronoun = 'you' if message.mentions[0].id == message.author.id else 'them'
-                if len(args) >= 3:
+                if len(args) >= 2:
                     user = args[0]
-                    zone = args[1]
-                    time = args[2]
+                    zone = ' '.join(args[1:])
                     with open('lists/requests.txt', 'a') as a:
-                        a.write(f'`{zone} {time}`: {user}' + '\n')
-                    response = discord.Embed(title=f"✅ I put {pronoun} on the 'Student Requests' list", color=0x77B255)
-                elif len(args) >= 2:
-                    user = args[0]
-                    zone = args[1]
-                    with open('lists/requests.txt', 'a') as a:
-                        a.write(f'`{zone}`: {user}' + '\n')
+                        a.write(f'`{zone}`: {user}\n')
                     response = discord.Embed(title=f"✅ I put {pronoun} on the 'Student Requests' list", color=0x77B255)
                 else:
-                    response = discord.Embed(title='❗ Not enough inputs', color=0xBE1931)
+                    response = discord.Embed(title='❗ Not enough arguments', color=0xBE1931)
             else:
                 response = discord.Embed(title='❗ A user mention required', color=0xBE1931)
         else:
