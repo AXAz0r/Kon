@@ -6,11 +6,11 @@ async def ex(args, message, bot, invoke):
         module = args[0].lower()
         if module == 'banking':
             response = discord.Embed(title="Banking commands", description="```md\n"
+            "- additem - Adds a listing to the market. The format is item; price; quantity.\n"
             "- bankers - Returns a list of the current bankers.\n"
-            "- market - Returns a list of the current items on the market,\n"
-            "- sell - Adds a listing to the market. The format is item; price; quantity.\n"
-            "- setqty - Updates the quantity of the specified listing. The format is listing_number:quantity.\n"
-            "- unlist - Removes the specified listing from the market. Listings are specified by number.```")
+            "- delitem - Removes the specified listing from the market. Listings are specified by number.\n"
+            "- market - Returns a list of the current items on the market.\n"
+            "- setqty - Updates the quantity of the specified listing. The format is listing_number:quantity.```")
         elif module == 'information':
             response = discord.Embed(title="Infomration commands", description="```md\n"
             "- commands - Returns the current command modules for Kon. If a module is specified, "
