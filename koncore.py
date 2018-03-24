@@ -138,6 +138,14 @@ async def on_message(message):
                                 await target.remove_roles(rem_role, reason='Left Clan')
                         add_role = discord.utils.get(message.guild.roles, xxxxxxxxxxxxxxxxxxx
                         await target.add_roles(add_role, reason='Left Clan')
+        with open('lists/muted.txt', 'r') as file:
+            mute_list = file.readlines()
+        if message.guild:
+            if server_check(message):
+                for line in mute_list:
+                    target = message.author.id
+                    if f'{target}' in line.lower():
+                        await message.delete()
 
 
 bot.run(cfg["Token"], bot=True)
