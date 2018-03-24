@@ -4,7 +4,7 @@ import json
 import discord
 import secrets
 from checks import ban_check, member_check, role_check, server_check
-from modules.banking import bankers, market, sell, setqty, unlist
+from modules.banking import additem, bankers, delitem, market, setqty
 from modules.information import members, help, info, commands_help, ping, rolepop, user
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.owner import reboot, setavatar, setstatus, setusername
@@ -35,8 +35,9 @@ async def on_ready():
 async def on_message(message):
     await bot.process_commands(message
 
-
+                               
 commands_list = {
+    "additem": additem,
     "addmentor": addmentor,
     "apply": apply,
     "bankers": bankers,
@@ -44,6 +45,7 @@ commands_list = {
     "clrperms": clrperms,
     "clrvotes": clrvotes,
     "dance": dance,
+    "delitem": delitem,
     "delline": delline,
     "delmentor": delmentor,
     "help": help,
@@ -65,14 +67,12 @@ commands_list = {
     "requests": requests,
     "rolepop": rolepop,
     "roll": roll,
-    "sell": sell,
     "setavatar": setavatar,
     "setstatus": setstatus,
     "setusername": setusername,
     "setpassword": setpassword,
     "sleep": sleep,
     "setqty": setqty,
-    "unlist": unlist,
     "unmute": unmute,
     "unpermit": unpermit,
     "user": user,
