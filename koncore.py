@@ -126,17 +126,18 @@ async def on_message(message):
                     add_role = discord.utils.get(message.guild.roles, id=role)
                     await target.remove_roles(rem_role, reason='Joined Clan')
                     await target.add_roles(add_role, reason='Joined Clan')
-        if message.channel.id == 425334362314375179:
-            target = message.mentions[0]
-            clan_roles = [xxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxx]
-            user_roles = [y.id for y in target.roles]
-            if target.id != message.author.id:
-                for role in clan_roles:
-                    if role in user_roles:
-                        rem_role = discord.utils.get(message.guild.roles, id=role)
-                        await target.remove_roles(rem_role, reason='Left Clan')
-                add_role = discord.utils.get(message.guild.roles, id=xxxxxxxxxxxxxxxxxxx)
-                await target.add_roles(add_role, reason='Left Clan')
+        if message.channel.id == xxxxxxxxxxxxxxxxxxx:
+            if message.mentions:
+                for target in message.mentions:
+                    clan_roles = [xxxxxxxxxxxxxxxxxxx, xxxxxxxxxxxxxxxxxxx
+                    user_roles = [y.id for y in target.roles]
+                    if target.id != message.author.id:
+                        for role in clan_roles:
+                            if role in user_roles:
+                                rem_role = discord.utils.get(message.guild.roles, id=role)
+                                await target.remove_roles(rem_role, reason='Left Clan')
+                        add_role = discord.utils.get(message.guild.roles, xxxxxxxxxxxxxxxxxxx
+                        await target.add_roles(add_role, reason='Left Clan')
 
 
 bot.run(cfg["Token"], bot=True)
