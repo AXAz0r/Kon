@@ -10,8 +10,7 @@ async def ex(args, message, bot, invoke):
                     if message.mentions:
                         target = message.mentions[0].id
                     else:
-                        msg = ' '.join(args)
-                        target = msg.lower()
+                        target = ' '.join(args).lower()
                     fn = 'lists/requests.txt'
                     a = open(fn)
                     output = []
