@@ -141,7 +141,7 @@ async def on_message(message):
         with open('lists/muted.txt', 'r') as file:
             mute_list = file.readlines()
         if message.guild:
-            if server_check(message):
+            if server_check(message) and not owner_check(message):
                 for line in mute_list:
                     target = message.author.id
                     if f'{target}' in line.lower():
