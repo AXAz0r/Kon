@@ -55,7 +55,7 @@ async def ex(args, message, bot, invoke):
                         response = discord.Embed(title='❗ Can\'t mute a bot.', color=0xBE1931)
                     else:
                         above_hier = hierarchy_permit(author, target)
-                        if not above_hier and not owner_check(message):
+                        if not above_hier:
                             response = discord.Embed(title='⛔ Can\'t mute someone equal or above you.', color=0xBE1931)
                         else:
                             if not mute_check(message):
