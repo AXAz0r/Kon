@@ -51,7 +51,7 @@ async def ex(args, message, bot, invoke):
                 response = discord.Embed(title='❗ Can\'t unmute yourself.', color=0xBE1931)
             else:
                 above_hier = hierarchy_permit(author, target)
-                if not above_hier:
+                if not above_hier and not owner_check(message):
                     response = discord.Embed(title='⛔ Can\'t unmute someone equal or above you.', color=0xBE1931)
                 else:
                     fn = 'lists/muted.txt'
