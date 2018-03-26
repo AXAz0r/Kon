@@ -61,10 +61,13 @@ async def ex(args, message, bot, invoke):
                             if not mute_check(message):
                                 response = discord.Embed(title=f'✅ {target.display_name} has been text muted.', color=0x77B255)
                                 if message.guild.id == 138067606119645184:
-                                    all_channels = bot.get_all_channels()
-                                    log_embed = generate_log_embed(message, target, args)
-                                    log_channel = discord.utils.find(lambda x: x.id == 302665883849850881, all_channels)
-                                    await log_channel.send(embed=log_embed)
+                                    if len(args) > 1 and args[1].lower() == 'nolog':
+                                        pass
+                                    else:
+                                        all_channels = bot.get_all_channels()
+                                        log_embed = generate_log_embed(message, target, args)
+                                        log_channel = discord.utils.find(lambda x: x.id == 302665883849850881, all_channels)
+                                        await log_channel.send(embed=log_embed)
                                 mute_list = open('lists/muted.txt', 'w')
                                 mute_list.write(f'{target.id}\n')
                                 mute_list.close()
