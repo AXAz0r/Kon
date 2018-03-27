@@ -4,7 +4,7 @@ import discord
 async def ex(args: list, message: discord.Message, bot, invoke):
     if args:
         if len(args) >= 2:
-            if ':' in args[0]:
+            if ':' in args[0].lower():
                 mode, identifier = args[0].split(':')
                 identifier = int(identifier)
                 mode = mode.lower()
