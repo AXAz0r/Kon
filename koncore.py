@@ -141,12 +141,13 @@ async def on_message(message):
                         await target.add_roles(add_role, reason='Left Clan')
         with open('lists/muted.txt', 'r') as file:
             mute_list = file.readlines()
-        if message.guild:
-            if server_check(message) and not owner_check(message):
-                for line in mute_list:
-                    target = message.author.id
-                    if f'{target}' in line.lower():
-                        await message.delete()
+        if not message.author.permissions_in(message.channel).administrator:
+            if message.guild:
+                if server_check(message) and not owner_check(message):
+                    for line in mute_list:
+                        target = message.author.id
+                        if f'{target}' in line.lower():
+                            await message.delete()
 
 
 bot.run(cfg["Token"], bot=True)
