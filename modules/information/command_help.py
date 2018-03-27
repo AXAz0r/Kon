@@ -49,6 +49,8 @@ async def ex(args, message, bot, invoke):
             "- random - Returns a random number below 1000000. If a number is specified, the random number will be "
             "below it.\n"
             "- roll - Role a 6 sided dice and try to guess the outcome.\n"
+            "- send - Sends a message to the specified user or channel. The format is c:channel_id message or "
+            "u:user_id message.\n"
             "- sleep - Tells Kon to go to sleep.\n"
             "- unmute - Unmarks the mentioned user as muted and stops deleting their messages. A reason can be stated "
             "after the mention if desired.```")
