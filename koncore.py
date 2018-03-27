@@ -8,7 +8,7 @@ from modules.banking import additem, bankers, delitem, market, setqty
 from modules.information import members, help, info, commands_help, ping, rolepop, user
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.owner import reboot, setavatar, setstatus, setusername
-from modules.utility import dance, kon, link, match, mute, purge, random, roll, sleep, unmute
+from modules.utility import dance, kon, link, match, mute, purge, random, roll, send, sleep, unmute
 from modules.voting import clrperms, clrvotes, password, permit, perms, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
@@ -67,6 +67,7 @@ commands_list = {
     "requests": requests,
     "rolepop": rolepop,
     "roll": roll,
+    "send": send,
     "setavatar": setavatar,
     "setstatus": setstatus,
     "setusername": setusername,
