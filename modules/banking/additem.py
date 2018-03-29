@@ -2,12 +2,12 @@ import discord
 import json
 
 
-def dump_list(number, market_data, item, price, qty):
+def dump_list(number, market_data, item, price, qty, seller):
     market_list = market_data.get('market')
     num = 1
-    for listing in market_list:
+    for market_item in market_list:
         num += 1
-    data = {"number": number, "item": item, "price": price, "quantity": qty}
+    data = {"number": number, "item": item, "price": price, "quantity": qty, "seller": seller}
     market_list.append(data)
     market_data.update({'market': market_list})
     with open('lists/market.json', 'w', encoding='utf-8') as market_file:
@@ -24,6 +24,7 @@ async def ex(args, message, bot, invoke):
                     item = ''.join(all_qry.split('; ')[0]).title()
                     price = ''.join(all_qry.split('; ')[1])
                     qty = ''.join(all_qry.split('; ')[2])
+                    seller = message.author.id
                     if 'p' in price.lower():
                         price = price
                     else:
@@ -36,10 +37,10 @@ async def ex(args, message, bot, invoke):
                         with open('lists/market.json', encoding='utf-8') as file:
                             market_data = json.load(file)
                             i = 1
-                            for x in market_data['market']:
+                            for market_item in market_data['market']:
                                 i += 1
                             number = f'{i}'
-                        dump_list(number, market_data, item, price, qty)
+                        dump_list(number, market_data, item, price, qty, seller)
                         response = discord.Embed(title=f'✅ Listing added', color=0x77B255)
                     else:
                         response = discord.Embed(title='❗ Invalid arguments', color=0xBE1931)
