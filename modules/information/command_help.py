@@ -8,6 +8,7 @@ async def ex(args, message, bot, invoke):
             response = discord.Embed(title="Banking commands", description="```md\n"
             "- additem - Adds a listing to the market. The format is item; price; quantity.\n"
             "- bankers - Returns a list of the current bankers.\n"
+            "- buyitem - Sends a message to the seller with your request. Specify the listing you want by number.\n"
             "- delitem - Removes the specified listing from the market. Listings are specified by number.\n"
             "- market - Returns a list of the current items on the market.\n"
             "- setqty - Updates the quantity of the specified listing. The format is listing_number:quantity.```")
