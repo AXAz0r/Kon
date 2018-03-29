@@ -21,10 +21,10 @@ async def ex(args, message, bot, invoke):
                         with open('lists/market.json', encoding='utf-8') as file:
                             market_data = json.load(file)
                         market_list = market_data.get('market')
-                        x = 0
+                        y = 0
                         for market_item in market_list:
-                            x += 1
-                        if number <= x:
+                            y += 1
+                        if number <= y:
                             update_qty(market_data, number, quantity)
                             response = discord.Embed(title=f'✅ Quantity updated', color=0x77B255)
                         else:
