@@ -17,10 +17,6 @@ def set_pswd(pswd_data, password: str):
         json.dump(pswd_data, pswd_data_file)
 
 
-def id_gen(size=6, chars=string.ascii_lowercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
-
-
 def set_time(pass_data, time_auth: str):
     time_str = pass_data.get('time')
     if time_str is None:
@@ -46,7 +42,7 @@ async def ex(args, message, bot, invoke):
                     response = discord.Embed(title=f'🔏 Password reset. It will be available in 24h', color=0xFFCC4D)
                     available_stamp = arrow.utcnow().timestamp + 86400
                     set_time(pass_data, available_stamp)
-                    set_pswd(pass_data, id_gen())
+                    set_pswd(pass_data, secrets.token_hex(3)())
                 else:
                     response = discord.Embed(title='🔐 A password is already set', color=0xFFCC4D)
                     response.set_footer(text=f'It will be available in {time_diff}')
