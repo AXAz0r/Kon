@@ -4,32 +4,30 @@ from humanfriendly.tables import format_pretty_table as boop
 
 
 def sorter():
-    i = [0, 1, 0, 0]
+    i = [1, 0]
     with open('lists/market.json') as file:
         market_data = json.load(file)
     market_list = market_data.get('market')
     m_list = []
     for market_item in market_list:
-        to_data = list(market_list[i[0]].values())
+        to_data = list(market_item.values())
         m_list.append(to_data)
-        i[0] += 1
     m_sorted = sorted(m_list, key=lambda x: x[1])
     m_list = []
     for market_item in m_sorted:
-        market_item[0] = f'{i[1]}'
+        market_item[0] = f'{i[0]}'
         m_list.append(market_item)
-        i[1] += 1
+        i[0] += 1
     for market_item in market_list:
-        market_item['number'] = f'{m_list[i[2]][0]}'
-        market_item['item'] = f'{m_list[i[2]][1]}'
-        market_item['price'] = f'{m_list[i[2]][2]}'
-        market_item['quantity'] = f'{m_list[i[2]][3]}'
-        i[2] += 1
+        market_item['number'] = f'{m_list[i[1]][0]}'
+        market_item['item'] = f'{m_list[i[1]][1]}'
+        market_item['price'] = f'{m_list[i[1]][2]}'
+        market_item['quantity'] = f'{m_list[i[1]][3]}'
+        i[1] += 1
     m_out = []
     for market_item in market_list:
-        to_data = list(market_list[i[3]].values())
-        m_out.append(to_data)
-        i[3] += 1
+        to_data = list(market_item.values())
+        m_out.append(to_data[:-1])
     market_data.update({'market': market_list})
     with open('lists/market.json', 'w', encoding='utf-8') as market_file:
         json.dump(market_data, market_file, indent=1)
