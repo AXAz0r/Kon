@@ -3,16 +3,16 @@ import discord
 
 async def ex(args, message, bot, invoke):
     if message.guild:
-        role = discord.utils.find(lambda x: x.id == 376195917407191040, message.guild.roles)
+        role = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, message.guild.roles)
         if role:
             if role.id in [y.id for y in message.author.roles]:
                 if args:
                     if len(args) == 3:
                         if message.mentions:
-                            mentor_role = discord.utils.find(lambda x: x.id == 376195755482021888, message.guild.roles)
+                            target = message.mentions[0]
+                            mentor_role = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxxxx, message.guild.roles)
                             if mentor_role:
-                                if mentor_role.id not in [y.id for y in message.author.roles]:
-                                    target = message.mentions[0]
+                                if mentor_role.id not in [y.id for y in target.roles]:
                                     zone = ' '.join(args[1:])
                                     with open('lists/mentors.txt', 'a') as a:
                                         a.write(f'`{zone}`: {target.mention}\n')
