@@ -56,7 +56,7 @@ async def ex(args, message, bot, invoke):
         response = discord.Embed(color=0xC16A4F)
         response.add_field(name=f'📋 Items currently for sale | Page {page_number}',
                            value=f'```hs\n{output}\n```', inline=False)
-        response.set_footer(text='Contact a Banker to purchase something | ^bankers')
+        response.set_footer(text='Use the buyitem command to purchase something')
     else:
         response = discord.Embed(title='🔍 Just an empty page', color=0x696969)
     await message.channel.send(embed=response)
