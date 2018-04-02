@@ -19,7 +19,7 @@ async def ex(args, message, bot, invoke):
     if role:
         if role.id in [y.id for y in message.author.roles]:
             if args:
-                if len(args) == 3:
+                if len(args) >= 3:
                     all_qry = ' '.join(args)
                     item = ''.join(all_qry.split('; ')[0]).title()
                     price = ''.join(all_qry.split('; ')[1])
