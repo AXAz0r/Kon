@@ -27,7 +27,6 @@ async def ex(args, message, bot, invoke):
                         with open('lists/market.json', encoding='utf-8') as file:
                             market_data = json.load(file)
                         market_list = market_data.get('market')
-                        seller = message.author.id
                         y = 0
                         for market_item in market_list:
                             y += 1
