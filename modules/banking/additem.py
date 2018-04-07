@@ -7,7 +7,7 @@ def dump_list(number, market_data, item, price, qty, seller):
     num = 1
     for market_item in market_list:
         num += 1
-    data = {"number": number, "item": item, "price": price, "quantity": qty, "seller": seller}
+    data = {"number": number, "item": item, "price": price, "quantity": qty, "seller": [seller]}
     market_list.append(data)
     market_data.update({'market': market_list})
     with open('lists/market.json', 'w', encoding='utf-8') as market_file:
@@ -15,7 +15,7 @@ def dump_list(number, market_data, item, price, qty, seller):
 
 
 async def ex(args, message, bot, invoke):
-    role = discord.utils.find(lambda x: x.id == 426514392864260107, message.guild.roles)
+    role = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, message.guild.roles)
     if role:
         if role.id in [y.id for y in message.author.roles]:
             if args:
@@ -25,6 +25,15 @@ async def ex(args, message, bot, invoke):
                     price = ''.join(all_qry.split('; ')[1])
                     qty = ''.join(all_qry.split('; ')[2])
                     seller = message.author.id
+                    with open('lists/market.json') as file:
+                        market_data = json.load(file)
+                    market_list = market_data.get('market')
+                    for market_item in market_list:
+                        if item.lower() in market_item['item'].lower():
+                            response = discord.Embed(title='❗ That item is already listed', color=0xBE1931)
+                            response.set_footer(text='Use the setqty command instead')
+                            await message.channel.send(embed=response)
+                            return
                     if 'p' in price.lower():
                         price = price
                     else:
