@@ -41,7 +41,7 @@ async def ex(args, message, bot, invoke):
                         i += 1
                     response = discord.Embed(color=0x66757F)
                     response.add_field(name='🎨 Staff Colors', value=output)
-                    response.set_footer(text='^color 1 to assign')
+                    response.set_footer(text='^color 1 to assign a role')
             else:
                 response = discord.Embed(title="⛔ You are not a staff member", color=0xBE1931)
         else:
