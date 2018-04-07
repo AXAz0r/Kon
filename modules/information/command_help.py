@@ -40,6 +40,8 @@ async def ex(args, message, bot, invoke):
             "- setstatus - Sets the playing status of the bot.")
         elif module == 'utility':
             response = discord.Embed(color=0xA5FFF6, title="Other commands\n", description="```md\n"
+            "- color - Assigns the specified vanity role to you. If no role is specified, the list of roles will be "
+            "returned instead\n"
             "- dance - Makes the bot dance for one minute.\n"
             "- kon - Returns a random image from safebooru with the kitsunemimi tag.\n"
             "- match - Returns a member who is special picked just for you.\n"
