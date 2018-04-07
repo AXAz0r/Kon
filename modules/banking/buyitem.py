@@ -26,12 +26,13 @@ async def ex(args, message, bot, invoke):
                 if number <= y:
                     i = number - 1
                     listing = market_data['market'][i]
-                    target = discord.utils.find(lambda x: x.id == int(listing['seller']), bot.get_all_members())
-                    tar_response = discord.Embed(color=0xDD2E44, timestamp=arrow.utcnow().datetime)
-                    tar_response.add_field(name='🛍 Purchase Request', value=f"Buyer: {message.author.mention}\n"
-                                                                             f"Item: {listing['item']}\n"
-                                                                             f"Price: {listing['price']}")
-                    await target.send(embed=tar_response)
+                    for seller in listing['seller']:
+                        target = discord.utils.find(lambda x: x.id == int(seller), bot.get_all_members())
+                        tar_response = discord.Embed(color=0xDD2E44, timestamp=arrow.utcnow().datetime)
+                        tar_response.add_field(name='🛍 Purchase Request', value=f"Buyer: {message.author.mention}\n"
+                                                                                 f"Item: {listing['item']}\n"
+                                                                                 f"Price: {listing['price']}")
+                        await target.send(embed=tar_response)
                     response = discord.Embed(color=0x77B255, title='✅ A message has been sent to '
                                                                    'the seller with your request')
                 else:
