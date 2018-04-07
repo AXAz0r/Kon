@@ -2,8 +2,11 @@ import discord
 import json
 
 
-def update_qty(market_data, number: int, qty):
+def update_qty(market_data, number: int, qty, seller):
     i = number - 1
+    current = market_data['market'][i]['quantity']
+    if qty > current:
+        market_data['market'][i]['seller'].append(seller)
     market_data['market'][i]['quantity'] = f'{qty}x'
     with open('lists/market.json', 'w', encoding='utf-8') as market_file:
         json.dump(market_data, market_file, indent=1)
@@ -21,11 +24,12 @@ async def ex(args, message, bot, invoke):
                         with open('lists/market.json', encoding='utf-8') as file:
                             market_data = json.load(file)
                         market_list = market_data.get('market')
+                        seller = message.author.id
                         y = 0
                         for market_item in market_list:
                             y += 1
                         if number <= y:
-                            update_qty(market_data, number, quantity)
+                            update_qty(market_data, number, quantity, seller)
                             response = discord.Embed(title=f'✅ Quantity updated', color=0x77B255)
                         else:
                             response = discord.Embed(title=f'🔍 I couldn\'t find that listing', color=0x696969)
