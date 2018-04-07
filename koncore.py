@@ -4,7 +4,7 @@ import json
 import discord
 import secrets
 from checks import ban_check, member_check, role_check, server_check
-from modules.banking import additem, bankers, buyitem, delitem, market, setqty
+from modules.banking import additem, bankers, buyitem, delitem, delseller, market, setqty
 from modules.information import members, help, info, commands_help, ping, rolepop, user
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.owner import reboot, setavatar, setstatus, setusername
@@ -49,6 +49,7 @@ commands_list = {
     "delitem": delitem,
     "delline": delline,
     "delmentor": delmentor,
+    "delseller": delseller,
     "help": help,
     "info": info,
     "kon": kon,
