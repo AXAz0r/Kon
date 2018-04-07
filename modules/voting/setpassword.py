@@ -1,8 +1,7 @@
 import json
-import random
 import arrow
 import discord
-import string
+import secrets
 from checks import server_check
 
 
