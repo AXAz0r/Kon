@@ -6,7 +6,7 @@ from checks import server_check
 async def ex(args, message, bot, invoke):
     if message.guild:
         if server_check(message):
-            if message.author.permissions_in(message.channel).administrator:
+            if message.author.permissions_in(message.channel).manage_guild:
                 with open('permissions/channels.txt', 'r') as file:
                     a = file.read()
                     if '' == a:
@@ -42,7 +42,7 @@ async def ex(args, message, bot, invoke):
                                          f'**Roles:** {rol}'
                                          f'**Users:** {usr}', color=0xFFCC4d)
             else:
-                response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+                response = discord.Embed(title='⛔ Access denied: Manage Server required', color=0xBE1931)
         else:
             response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
     else:
