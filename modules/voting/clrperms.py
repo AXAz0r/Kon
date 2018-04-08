@@ -15,7 +15,7 @@ def clear_roles(roles_data):
 async def ex(args, message, bot, invoke):
     if message.guild:
         if server_check(message):
-            if message.author.permissions_in(message.channel).administrator:
+            if message.author.permissions_in(message.channel).manage_guild:
                 with open('permissions/roles.json', encoding='utf-8') as roles_file:
                     roles_data = json.loads(roles_file.read())
                 dm_p = roles_data['dm']
@@ -30,7 +30,7 @@ async def ex(args, message, bot, invoke):
                     a.write('')
                 response = discord.Embed(title='🗑️ Cleared', color=0x67757f)
             else:
-                response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+                response = discord.Embed(title='⛔ Access denied: Manage Server required', color=0xBE1931)
         else:
             response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
     else:
