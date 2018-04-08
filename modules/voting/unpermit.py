@@ -32,7 +32,7 @@ def user_auth(message):
 async def ex(args, message, bot, invoke):
     if message.guild:
         if server_check(message):
-            if message.author.permissions_in(message.channel).administrator:
+            if message.author.permissions_in(message.channel).manage_guild:
                 if args:
                     mode = args[0].lower()
                     if len(args) >= 2:
@@ -117,7 +117,7 @@ async def ex(args, message, bot, invoke):
                 else:
                     response = discord.Embed(title='❗ No input', color=0xBE1931)
             else:
-                response = discord.Embed(title='⛔ Access denied: Administrator required', color=0xBE1931)
+                response = discord.Embed(title='⛔ Access denied: Manage Server required', color=0xBE1931)
         else:
             response = discord.Embed(title='🔒 You can\'t use that command on this server', color=0xFFCC4d)
     else:
