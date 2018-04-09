@@ -43,6 +43,8 @@ async def ex(args, message, bot, invoke):
             "- color - Assigns the specified vanity role to you. If no role is specified, the list of roles will be "
             "returned instead\n"
             "- dance - Makes the bot dance for one minute.\n"
+            "- genban - Adds a channel override preventing the targeted user from sending messages or reacting in #general.\n"
+            "- genunban - Removes the channel overrides for the specified user put in place by the genban command.\n"
             "- kon - Returns a random image from safebooru with the kitsunemimi tag.\n"
             "- match - Returns a member who is special picked just for you.\n"
             "- mute - Marks the mentioned user as muted and deletes any messages by them. A reason can be stated after "
