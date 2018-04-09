@@ -7,7 +7,7 @@ from checks import ban_check, member_check, role_check, server_check
 from modules.banking import additem, bankers, buyitem, delitem, delseller, market, setqty
 from modules.information import members, help, info, commands_help, ping, rolepop, user
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
-from modules.owner import reboot, setavatar, setstatus, setusername
+from modules.owner import eval, reboot, setavatar, setstatus, setusername
 from modules.utility import color, dance, kon, link, match, mute, purge, random, roll, send, sleep, unmute
 from modules.voting import clrperms, clrvotes, password, permit, perms, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
@@ -51,6 +51,7 @@ commands_list = {
     "delline": delline,
     "delmentor": delmentor,
     "delseller": delseller,
+    "eval": eval,
     "help": help,
     "info": info,
     "kon": kon,
