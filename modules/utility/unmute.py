@@ -1,5 +1,6 @@
 import discord
 import arrow
+from checks import owner_check
 
 
 def hierarchy_permit(author, target):
@@ -50,8 +51,7 @@ async def ex(args, message, bot, invoke):
             if author.id == target.id:
                 response = discord.Embed(title='❗ Can\'t unmute yourself.', color=0xBE1931)
             else:
-                above_hier = hierarchy_permit(author, target)
-                if not above_hier:
+                if not hierarchy_permit(author, target):
                     response = discord.Embed(title='⛔ Can\'t unmute someone equal or above you.', color=0xBE1931)
                 else:
                     fn = 'lists/muted.txt'
@@ -63,13 +63,13 @@ async def ex(args, message, bot, invoke):
                     mute_list.close()
                     if mute_check(message):
                         response = discord.Embed(title=f'✅ {target.display_name} has been unmuted.', color=0x77B255)
-                        if message.guild.id == 138067606119645184:
+                        if message.guild.id == xxxxxxxxxxxxxxxxxx:
                             if len(args) > 1 and args[1].lower() == 'nolog':
                                 pass
                             else:
                                 all_channels = bot.get_all_channels()
                                 log_embed = generate_log_embed(message, target, args)
-                                log_channel = discord.utils.find(lambda x: x.id == 302665883849850881, all_channels)
+                                log_channel = discord.utils.find(lambda x: x.id == xxxxxxxxxxxxxxxxxx, all_channels)
                                 await log_channel.send(embed=log_embed)
                     else:
                         response = discord.Embed(title=f'❗ {target.display_name} is not text muted.',
