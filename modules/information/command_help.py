@@ -54,7 +54,7 @@ async def ex(args, message, bot, invoke):
             "You can enter multiple links by separating them with > (space on both sides of it).\n"
             "- random - Returns a random number below 1000000. If a number is specified, the random number will be "
             "below it.\n"
-            "- roll - Roll a 6 sided dice and try to guess the outcome.\n"
+            "- roll - Rolls a 6 sided die. You can guess the outcome if you desire.\n"
             "- send - Sends a message to the specified user or channel. The format is c:channel_id message or "
             "u:user_id message.\n"
             "- sleep - Tells Kon to go to sleep.\n"
