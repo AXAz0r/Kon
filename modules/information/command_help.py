@@ -10,9 +10,9 @@ async def ex(args, message, bot, invoke):
             "- bankers - Returns a list of the current bankers.\n"
             "- buyitem - Sends a message to the seller with your request. Specify the listing you want by number.\n"
             "- delitem - Removes the specified listing from the market. Listings are specified by number.\n"
-            "- delseller - Removes the specified seller from the specified listing. The format is listing_number:seller_id.\n"
+            "- delseller - Removes the specified seller from the specified listing. The format is listing_num:user_id.\n"
             "- market - Returns a list of the current items on the market.\n"
-            "- setqty - Updates the quantity of the specified listing. The format is listing_number:quantity.```")
+            "- setqty - Updates the quantity of the specified listing. The format is listing_num:quantity.```")
         elif module == 'information':
             response = discord.Embed(color=0xA5FFF6, title="Infomration commands", description="```md\n"
             "- commands - Returns the current command modules for Kon. If a module is specified, "
