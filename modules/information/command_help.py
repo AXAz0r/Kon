@@ -10,7 +10,7 @@ async def ex(args, message, bot, invoke):
             "- bankers - Returns a list of the current bankers.\n"
             "- buyitem - Sends a message to the seller with your request. Specify the listing you want by number.\n"
             "- delitem - Removes the specified listing from the market. Listings are specified by number.\n"
-            "- delseller - Removes the specified seller from the specified listing. The format is listing_num:user_id.\n"
+            "- delseller - Removes the specified seller from the specified listing. The format is listing_num:userid.\n"
             "- market - Returns a list of the current items on the market.\n"
             "- setqty - Updates the quantity of the specified listing. The format is listing_num:quantity.```")
         elif module == 'information':
