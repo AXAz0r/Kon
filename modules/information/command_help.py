@@ -5,7 +5,7 @@ async def ex(args, message, bot, invoke):
     if args:
         module = args[0].lower()
         if module == 'banking':
-            response = discord.Embed(title="Banking commands", description="```md\n"
+            response = discord.Embed(color=0xA5FFF6, title="Banking commands", description="```md\n"
             "- additem - Adds a listing to the market. The format is item; price; quantity.\n"
             "- bankers - Returns a list of the current bankers.\n"
             "- buyitem - Sends a message to the seller with your request. Specify the listing you want by number.\n"
@@ -14,7 +14,7 @@ async def ex(args, message, bot, invoke):
             "- market - Returns a list of the current items on the market.\n"
             "- setqty - Updates the quantity of the specified listing. The format is listing_number:quantity.```")
         elif module == 'information':
-            response = discord.Embed(title="Infomration commands", description="```md\n"
+            response = discord.Embed(color=0xA5FFF6, title="Infomration commands", description="```md\n"
             "- commands - Returns the current command modules for Kon. If a module is specified, "
             "it will return a list of the commands for that module.\n"
             "- help - View help for the Mentor commands.\n"
