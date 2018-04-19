@@ -8,7 +8,7 @@ from modules.banking import additem, bankers, buyitem, delitem, delseller, marke
 from modules.information import members, help, info, commands_help, ping, rolepop, user
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.owner import eval, reboot, setavatar, setstatus, setusername
-from modules.utility import color, dance, genban, genunban, id, kon, link, match, mute, purge, random, roll, send, sleep, unmute
+from modules.utility import color, dance, genban, genunban, id, kon, link, match, mention, mute, purge, random, roll, send, sleep, unmute
 from modules.voting import clrperms, clrvotes, password, permit, perms, setpassword, unpermit, vote, voters, votes
 from discord.ext import commands
 
@@ -62,6 +62,7 @@ commands_list = {
     "match": match,
     "market": market,
     "members": members,
+    "mention": mention,
     "mentors": mentors,
     "mute": mute,
     "password": password,
