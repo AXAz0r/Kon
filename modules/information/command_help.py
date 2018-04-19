@@ -48,6 +48,7 @@ async def ex(args, message, bot, invoke):
             "- genunban - Removes the channel overrides for the specified user put in place by the genban command.\n"
             "- kon - Returns a random image from safebooru with the kitsunemimi tag.\n"
             "- match - Returns a member who is specially picked just for you.\n"
+            "- mention - Makes the specified role mentionable, mentions it, then makes it un-mentionable.\n"
             "- mute - Marks the mentioned user as muted and deletes any messages by them. A reason can be stated after "
             "the mention if desired.\n"
             "- purge - Delete a specified number of messages.\n"
