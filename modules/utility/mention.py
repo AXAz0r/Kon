@@ -13,11 +13,11 @@ async def ex(args, message, bot, invoke):
                     await message.channel.send(role_search.mention)
                     await role_search.edit(mentionable=False)
                 else:
-                    message.add_reaction('🔍')
+                    await message.add_reaction('🔍')
             else:
-                message.add_reaction('❗')
+                await message.add_reaction('❗')
         else:
-            message.add_reaction('⛔')
+            await message.add_reaction('⛔')
     else:
         await message.channel.send(embed=discord.Embed(title='🔒 You can\'t use that command in a DM', color=0xFFCC4d))
         
