@@ -1,13 +1,11 @@
 import discord
 
 
-def mention_check(message):
-    chn_mention = False
+def mention_check(message, args):
     if message.channel_mentions:
-        slices = message.content.split()
-        if slices[0] == message.channel_mentions[0].mention:
-            chn_mention = True
-    return chn_mention, message.channel_mentions[0]
+        post_qry = (' '.join(args)).split(':: ')
+        slices = post_qry[1].split()
+        return slices[0] == message.channel_mentions[0].mention
 
 
 async def ex(args, message, bot, invoke):
@@ -15,13 +13,12 @@ async def ex(args, message, bot, invoke):
         if message.author.guild_permissions.manage_messages:
             if args:
                 if '::' in message.content:
-                    all_qry = ' '.join(args)
-                    post_qry = all_qry.split(':: ')
+                    post_qry = (' '.join(args)).split(':: ')
                     lookup = ''.join(post_qry[0]).lower()
-                    if mention_check(message):
+                    if mention_check(message, args):
                         chn = post_qry[1].split()
                         output = f"\n{' '.join(chn[1:])}"
-                        target = mention_check(message)[1]
+                        target = message.channel_mentions[0]
                         title_end = f'#{target.name}'
                         await message.channel.send(embed=discord.Embed(color=0x77B255,
                                                                        title=f'✅ Message sent to {title_end}'))
