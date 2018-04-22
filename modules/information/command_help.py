@@ -36,7 +36,8 @@ async def ex(args, message, bot, invoke):
             "- requests - Returns the 'Student Requests' list.```")
         elif module == 'owner':
             response = discord.Embed(color=0xA5FFF6, title="Owner commands\n", description="```md\n"
-            "- reboot - Restarts the bot (Bot Owner only).\n"
+            "- eval - Executes raw python code.\n"
+            "- reboot - Restarts the bot.\n"
             "- setavatar - Sets the avatar of the bot either to the linked or attached image.\n"
             "- setstatus - Sets the playing status of the bot to the inputted text.\n"
             "- setusername - Sets the name of the bot to the inputted text```")
