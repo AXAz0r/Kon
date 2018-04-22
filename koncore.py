@@ -115,8 +115,9 @@ async def on_message(message):
                     await commands_list.get(invoke).ex(args, message, bot, invoke)
                 except Exception as e:
                     if not message.content.lower().startswith(cfg['Prefix'] + 'reboot'):
-                        await message.add_reaction(emoji='❗')
-                        print(f'Exception: {e}')
+                        response = discord.Embed(color=0xBE1931, description=f'{e}')
+                        response.set_author(name='Error', icon_url='https://i.imgur.com/S7aUuLU.png')
+                        await message.channel.send(embed=response)
                     else:
                         pass
         chars = ['natsuki', 'sayori', 'yuri']
