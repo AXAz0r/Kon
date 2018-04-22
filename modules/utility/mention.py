@@ -9,7 +9,7 @@ async def ex(args, message, bot, invoke):
                     all_qry = ' '.join(args)
                     post_qry = all_qry.split(':: ')
                     lookup = ''.join(post_qry[0]).lower()
-                    output = f"\n {' '.join(post_qry[1:])}"
+                    output = f"\n{' '.join(post_qry[1:])}"
                 else:
                     lookup = ' '.join(args[0:]).lower()
                     output = ''
