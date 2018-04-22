@@ -35,10 +35,11 @@ async def ex(args, message, bot, invoke):
             "- mentors - Returns the 'Mentors' list.\n"
             "- requests - Returns the 'Student Requests' list.```")
         elif module == 'owner':
-            response = discord.Embed(color=0xA5FFF6, title="Raid ban commands\n", description="```md\n"
+            response = discord.Embed(color=0xA5FFF6, title="Owner commands\n", description="```md\n"
             "- reboot - Restarts the bot (Bot Owner only).\n"
             "- setavatar - Sets the avatar of the bot either to the linked or attached image.\n"
-            "- setstatus - Sets the playing status of the bot.")
+            "- setstatus - Sets the playing status of the bot to the inputted text.\n"
+            "- setusername - Sets the name of the bot to the inputted text```")
         elif module == 'utility':
             response = discord.Embed(color=0xA5FFF6, title="Other commands\n", description="```md\n"
             "- color - Assigns the specified vanity role to you. If no role is specified, the list of roles will be "
