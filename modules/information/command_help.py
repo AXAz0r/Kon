@@ -86,7 +86,7 @@ async def ex(args, message, bot, invoke):
             "- unpermit c/dm/r/u - c: Unpermits the target to vote or be voted in. c: Channel, dm: "
             "Direct Messages, r: Role, u: User.```")
         else:
-            response = discord.Embed(title="❗ I couldn't find that module", color=0xBE1931)
+            response = discord.Embed(title=f'🔍 I couldn\'t find that module', color=0x696969)
     else:
         response = discord.Embed(color=0xA5FFF6, description='**There are 6 modules**\n'
                                  '```yml\n- BANKING\n- INFORMATION\n- MENTORING\n- OWNER\n- UTILITY\n- VOTING```')
