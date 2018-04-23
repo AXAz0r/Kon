@@ -8,6 +8,8 @@ async def ex(args, message, bot, invoke):
             target = message.mentions[0].id
         elif message.channel_mentions:
             target = message.channel_mentions[0].id
+        elif lookup == 'server':
+            target = message.guild.id
         elif ':' in lookup:
             split_args = lookup.split(':')
             if len(split_args) > 2:
