@@ -28,7 +28,7 @@ async def ex(args, message, bot, invoke):
             "- user - Returns various information on the mentioned user, If no user is mentioned, it returns your own "
             "information.```")
         elif module == 'mentoring':
-            response = discord.Embed(color=0xA5FFF6, title="Mentor commands", description="```md\n"
+            response = discord.Embed(color=0xA5FFF6, title="Mentoring commands", description="```md\n"
             "- addmentor - Adds the Mentor role to the targeted user.\n"
             "- apply - Adds the targeted user to the 'Students Requests' list.\n"
             "- delline - Removes a line from the 'Student Requests' list.\n"
@@ -43,7 +43,7 @@ async def ex(args, message, bot, invoke):
             "- setstatus - Sets the playing status of the bot to the inputted text.\n"
             "- setusername - Sets the name of the bot to the inputted text```")
         elif module == 'utility':
-            response = discord.Embed(color=0xA5FFF6, title="Other commands\n", description="```md\n"
+            response = discord.Embed(color=0xA5FFF6, title="Utility commands\n", description="```md\n"
             "- color - Assigns the specified vanity role to you. If no role is specified, the list of roles will be "
             "returned instead\n"
             "- dance - Makes the bot dance for one minute.\n"
@@ -61,14 +61,14 @@ async def ex(args, message, bot, invoke):
             "You can enter multiple links by separating them with > (space on both sides of it).\n"
             "- random - Returns a random number below 1000000. If a number is specified, the random number will be "
             "below it.\n"
-            "- roll - Rolls a 6 sided die. You can guess the outcome if you desire.\n"
+            "- roll - Rolls a 6 sided dice. You can guess the outcome if you desire.\n"
             "- send - Sends a message to the specified user or channel. The format is c:channel_id message or "
             "u:user_id message.\n"
             "- sleep - Tells Kon to go to sleep.\n"
             "- unmute - Unmarks the mentioned user as muted and stops deleting their messages. A reason can be stated "
             "after the mention if desired.```")
         elif module == 'voting':
-            response = discord.Embed(color=0xA5FFF6, title="Poll commands\n", description="```md\n"
+            response = discord.Embed(color=0xA5FFF6, title="Voting commands\n", description="```md\n"
             "- clrperms - Deletes all the permissions data pertaining to the poll.\n"
             "- clrvotes - Deletes all voting data pertaining to the current poll.\n"
             "- vote - Vote 'yes' or 'no' on the current poll.\n"
