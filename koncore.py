@@ -5,7 +5,7 @@ import discord
 import secrets
 from checks import ban_check, member_check, role_check, server_check
 from modules.banking import additem, bankers, buyitem, delitem, delseller, market, setqty
-from modules.information import members, help, info, commands_help, ping, rolepop, user
+from modules.information import commands_help, help, info, members, search, ping, rolepop, user
 from modules.mentoring import addmentor, apply, delline, delmentor, mentors, requests
 from modules.owner import eval, reboot, setavatar, setstatus, setusername
 from modules.utility import color, dance, genban, genunban, id, kon, link, match, mention, mute, purge, random, roll, send, sleep, unmute
@@ -75,6 +75,7 @@ commands_list = {
     "requests": requests,
     "rolepop": rolepop,
     "roll": roll,
+    "search": search,
     "send": send,
     "setavatar": setavatar,
     "setstatus": setstatus,
