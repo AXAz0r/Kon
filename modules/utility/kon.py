@@ -71,7 +71,8 @@ async def ex(args, message, bot, invoke):
     else:
         kon_p = auth_data['auth']
         if not owner_check(message) or 'Enabled' in kon_p:
-            response = discord.Embed(title="⛔ Sorry, that command is disabled", color=0xBE1931)
+            await message.add_reaction(emoji='⛔')
+            return
         else:
             global links
             if not links:
