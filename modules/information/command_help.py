@@ -25,6 +25,7 @@ async def ex(args, message, bot, invoke):
             "- ping - Returns the bot latency for Kon.\n"
             "- rolepop - Returns the number of people on the server that possess both specified roles. Separate roles "
             "with ; and a space.\n"
+            "- search - Returns a hyperlink to a DuckDuckGo search for the inputted querry.\n"
             "- user - Returns various information on the mentioned user, If no user is mentioned, it returns your own "
             "information.```")
         elif module == 'mentoring':
