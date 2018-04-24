@@ -1,0 +1,52 @@
+name:             Help and Information
+
+category:         help
+
+enabled:          true
+
+commands:
+  - name:         help
+    alts:
+      - "h"
+    enabled:      true
+    permissions:
+      dmable:     true
+    usage:        "{pfx}{cmd} fish"
+    description:
+      Provides the link to Sigma's website and support server.
+      As well as show information about a command if something in inputted.
+
+  - name:         commands
+    alts:
+      - "modules"
+      - "cmds"
+      - "mdls"
+    enabled:      true
+    permissions:
+      dmable:     true
+    usage:        "{pfx}{cmd} minigames"
+    description:
+      If not module name is inputed, it will show the list of available modules.
+      To see the commands in a module category, input that modules name.
+
+  - name:         invite
+    alts:
+      - "inv"
+    enabled:      true
+    permissions:
+      dmable:     true
+    description:
+      Provides Sigma's invitation link to add her to your server.
+
+  - name:         donate
+    enabled:      true
+    permissions:
+      dmable:     true
+    description:
+      Shows donation information for Sigma.
+
+
+events:
+  - name:         dm_detection
+    type:         message
+    enabled:      true

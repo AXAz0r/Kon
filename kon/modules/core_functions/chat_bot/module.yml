@@ -1,0 +1,10 @@
+name:            Chatterbot Mechanics
+
+category:        development
+
+enabled:         false
+
+events:
+  - name:        chat_bot
+    type:        mention
+    enabled:     true
